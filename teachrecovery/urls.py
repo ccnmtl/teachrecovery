@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from teachrecovery.main import views
 import os.path
 admin.autodiscover()
+from teachrecovery.main import views
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
@@ -49,3 +49,8 @@ urlpatterns = patterns(
         hierarchy_name="main",
         hierarchy_base="/pages/")),
 )
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+                            url(r'^__debug__/', include(debug_toolbar.urls)),
+                            )

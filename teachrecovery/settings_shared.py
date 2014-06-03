@@ -2,6 +2,7 @@
 import os.path
 import sys
 
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
