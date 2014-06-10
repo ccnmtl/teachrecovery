@@ -77,6 +77,7 @@
               <b>{{ request.user.username }}</b>
             {% endif %}
 {% if request.user.is_superuser %}
+          <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
           <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
 {% endif %}
           <a href="/accounts/logout/" class="btn btn-default">logout</a>

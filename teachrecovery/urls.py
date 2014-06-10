@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
-from pagetree.generic.views import PageView, EditView, InstructorView
+from teachrecovery.main import views
 import os.path
 admin.autodiscover()
-from teachrecovery.main import views
+
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
@@ -37,18 +36,13 @@ urlpatterns = patterns(
      'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^pagetree/', include('pagetree.urls')),
     (r'^quizblock/', include('quizblock.urls')),
-    (r'^pages/edit/(?P<path>.*)$', login_required(EditView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
-     {}, 'edit-page'),
-    (r'^pages/instructor/(?P<path>.*)$',
-        login_required(InstructorView.as_view(
-            hierarchy_name="main",
-            hierarchy_base="/pages/"))),
-    (r'^pages/(?P<path>.*)$', PageView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
+    (r'^pages/edit/(?P<path>.*)$', views.EditPage.as_view(), {}, 'edit-page'),
+    (r'^pages/instructor/(?P<path>.*)$', views.InstructorPage.as_view(),
+        {}, 'edit-page'),
+    (r'^pages/(?P<path>.*)$', views.ViewPage.as_view()),
 )
+
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += patterns('',

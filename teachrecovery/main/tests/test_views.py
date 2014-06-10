@@ -33,7 +33,7 @@ class PagetreeViewTestsLoggedOut(TestCase):
 
     def test_page(self):
         r = self.c.get("/pages/section-1/")
-        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.status_code, 302)
 
     def test_edit_page(self):
         r = self.c.get("/pages/edit/section-1/")
@@ -56,7 +56,7 @@ class PagetreeViewTestsLoggedIn(TestCase):
                 'pageblocks': [],
                 'children': [],
             })
-        self.u = User.objects.create(username="testuser")
+        self.u = User.objects.create(username="testuser", is_superuser=True)
         self.u.set_password("test")
         self.u.save()
         self.c.login(username="testuser", password="test")
