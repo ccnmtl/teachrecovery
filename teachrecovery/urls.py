@@ -27,7 +27,7 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
-    (r'^$', views.IndexView.as_view()),
+    url(r'^$', views.index, name="index"),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

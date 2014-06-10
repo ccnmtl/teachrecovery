@@ -1,15 +1,10 @@
-from django.views.generic.base import TemplateView
-#from django.http import HttpResponseRedirect, HttpResponse
+#from django.views.generic.base import TemplateView
+from django.http import HttpResponseRedirect
 from pagetree.generic.views import PageView, EditView
 from django.contrib.auth.decorators import login_required, user_passes_test
 #from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 #from django import forms
-
-
-# add classes for view
-class IndexView(TemplateView):
-    template_name = "main/index.html"
 
 
 class LoggedInMixinSuperuser(object):
@@ -22,6 +17,11 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
+
+@login_required
+def index(request):
+    return HttpResponseRedirect('/pages/')
 
 
 class EditPage(LoggedInMixinSuperuser, EditView):
