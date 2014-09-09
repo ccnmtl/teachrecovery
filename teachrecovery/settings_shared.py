@@ -128,6 +128,7 @@ INSTALLED_APPS = [
     'quizblock',
     'gunicorn',
     'teachrecovery.main',
+    'quizblock_random'
 ]
 
 PAGEBLOCKS = ['pageblocks.TextBlock',
@@ -136,6 +137,7 @@ PAGEBLOCKS = ['pageblocks.TextBlock',
               'pageblocks.ImageBlock',
               'pageblocks.ImagePullQuoteBlock',
               'quizblock.Quiz',
+              'quizblock_random.QuizRandom',
               ]
 
 

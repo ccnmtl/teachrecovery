@@ -37,6 +37,7 @@ urlpatterns = patterns(
      'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^pagetree/', include('pagetree.urls')),
     (r'^quizblock/', include('quizblock.urls')),
+    (r'^quizblock_random/', include('quizblock_random.urls')),
     (r'^pages/edit/(?P<path>.*)$', login_required(EditView.as_view(
         hierarchy_name="main",
         hierarchy_base="/pages/")),
