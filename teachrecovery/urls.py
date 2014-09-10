@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
-from pagetree.generic.views import PageView, EditView, InstructorView
+from teachrecovery.main import views
 import os.path
 admin.autodiscover()
-from teachrecovery.main import views
+
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
@@ -28,7 +27,7 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
-    (r'^$', views.IndexView.as_view()),
+    url(r'^$', views.index, name="index"),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
@@ -50,6 +49,8 @@ urlpatterns = patterns(
         hierarchy_name="main",
         hierarchy_base="/pages/")),
 )
+
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += patterns('',
