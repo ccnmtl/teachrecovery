@@ -1,6 +1,11 @@
 #from django.views.generic.base import TemplateView
+from annoying.decorators import render_to
 from django.http import HttpResponseRedirect
 from pagetree.generic.views import PageView, EditView
+from pagetree.helpers import get_hierarchy
+from pagetree.generic.views import generic_view_page
+from pagetree.generic.views import generic_edit_page
+from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 #from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
@@ -19,25 +24,29 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-@login_required
+@render_to('main/index.html')
 def index(request):
-    return HttpResponseRedirect('/pages/')
+    return dict()
 
 
-class EditPage(LoggedInMixinSuperuser, EditView):
-    template_name = "main/edit_page.html"
-    hierarchy_name = "main"
-    hierarchy_base = "/pages/"
+def page(request, path):
+    # do auth on the request if you need the user to be logged in
+    # or only want some particular users to be able to get here
+    h = get_hierarchy("main", "/pages/")
+    return generic_view_page(request, path, hierarchy=h)
 
 
-class InstructorPage(LoggedInMixinSuperuser, EditView):
-    template_name = "main/instructor_page.html"
-    hierarchy_name = "main"
-    hierarchy_base = "/"
+@login_required
+def edit_page(request, path):
+    # do any additional auth here
+    h = get_hierarchy("main", "/pages/")
+    #import pdb
+    #pdb.set_trace()
+    return generic_edit_page(request, path, hierarchy=h)
 
 
-class ViewPage(LoggedInMixin, PageView):
-    template_name = "main/page.html"
-    hierarchy_name = "main"
-    hierarchy_base = "/pages/"
-    gated = False
+@login_required
+def instructor_page(request, path):
+    # do any additional auth here
+    h = get_hierarchy("main", "/pages/")
+    return generic_instructor_page(request, path, hierarchy=h)

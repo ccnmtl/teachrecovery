@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from teachrecovery.main import views
@@ -38,17 +37,11 @@ urlpatterns = patterns(
     (r'^pagetree/', include('pagetree.urls')),
     (r'^quizblock/', include('quizblock.urls')),
     (r'^quizblock_random/', include('quizblock_random.urls')),
-    (r'^pages/edit/(?P<path>.*)$', login_required(EditView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
+    (r'^pages/edit/(?P<path>.*)$', 'teachrecovery.main.views.edit_page',
      {}, 'edit-page'),
     (r'^pages/instructor/(?P<path>.*)$',
-        login_required(InstructorView.as_view(
-            hierarchy_name="main",
-            hierarchy_base="/pages/"))),
-    (r'^pages/(?P<path>.*)$', PageView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
+     'teachrecovery.main.views.instructor_page'),
+    (r'^pages/(?P<path>.*)$', 'teachrecovery.main.views.page'),
 )
 
 

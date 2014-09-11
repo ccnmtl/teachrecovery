@@ -1,4 +1,3 @@
-{% extends 'pagetree/base_pagetree.html' %}
 {% load render %}
 
 {% block js %}
@@ -23,7 +22,7 @@
 
 {% block moduletabs %}
 
-<ul class="nav navbar-nav">asdlkdsalkdsalkdsalk
+<ul class="nav navbar-nav">
   {% for section in modules %}
   <li{% ifequal section.id module.id %} class="active"{% endifequal %}><a href="{{section.get_absolute_url}}">{{section.label}}</a></li>
   {% endfor %}
@@ -89,18 +88,17 @@
 {% endblock %}
 
 {% block content-nav %}
-{% with previous=section.get_previous next_section=section.get_next %}
 <ul class="pager">
-{% if previous %}
+{% if section.get_previous %}
   <li class="previous">
-		<a href="{{previous.get_absolute_url}}">&larr; {{previous.label}}</a>
+		<a href="{{section.get_previous.get_absolute_url}}">&larr; {{section.get_previous.label}}</a>
   </li>
 {% endif %}
 
-{% if next_section %}
-<li class="next"><a href="{{next_section.get_absolute_url}}">{{next_section.label}} &rarr;</a></li>
-
+{% if section.get_next %}
+{% with section.get_next as next_section %}
+<li class="next"><a href="{{section.get_next.get_absolute_url}}">{{section.get_next.label}} &rarr;</a></li>
+{% endwith %}
 {% endif %}
 </ul>
-{% endwith %}
 {% endblock %}
