@@ -100,8 +100,6 @@ def edit_section(request, section_id, success_url=None):
     section.save()
     section.enforce_slug()
     section.save()
-    #import pdb
-    #pdb.set_trace()
     if success_url is None:
         success_url = section.get_edit_url()
     return HttpResponseRedirect(success_url)

@@ -175,9 +175,6 @@ class Section(MP_Node):
         self.save()
 
     def clear_caches(self):
-        print 'clear cache'
-        import pdb
-        pdb.set_trace()
         cache.delete("pagetree.%d.get_absolute_url" % self.id)
         cache.delete("pagetree.%d.is_last_child" % self.id)
         cache.delete("pagetree.%d.get_edit_url" % self.id)
@@ -293,7 +290,7 @@ class Section(MP_Node):
         return url
 
     def get_edit_url(self):
-        cache.delete("pagetree.%d.get_edit_url" % self.id)
+        self.clear_caches()
         key = "pagetree.%d.get_edit_url" % self.id
         v = cache.get(key)
         if v:

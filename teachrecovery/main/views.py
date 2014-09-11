@@ -40,8 +40,6 @@ def page(request, path):
 def edit_page(request, path):
     # do any additional auth here
     h = get_hierarchy("main", "/pages/")
-    #import pdb
-    #pdb.set_trace()
     return generic_edit_page(request, path, hierarchy=h)
 
 

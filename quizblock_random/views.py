@@ -8,8 +8,6 @@ from django.views.generic.edit import DeleteView
 
 
 class EditQuizRandomView(DetailView):
-    #import pdb
-    #pdb.set_trace()
     model = QuizRandom
 
 
@@ -60,8 +58,6 @@ class ReorderQuestionsView(ReorderItemsView):
 
 class AddQuestionToQuizView(View):
     def post(self, request, pk):
-        import pdb
-        pdb.set_trace()
         quiz = get_object_or_404(QuizRandom, pk=pk)
         form = quiz.add_question_form(request.POST)
         if form.is_valid():
