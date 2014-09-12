@@ -84,7 +84,7 @@ Answer {{ answer.display_number }}:
 
 {% if question.answerable %}
 <h3>Add Answer</h3>
-<form action="{% url 'add-answer-to-question' question.id %}" method="post" class="well form-horizontal">
+<form action="{% url 'add-answer-to-question-random' question.id %}" method="post" class="well form-horizontal">
 <table width="100%">
 {{ answer_form|bootstrap}}
 </table>

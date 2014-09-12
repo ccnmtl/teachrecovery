@@ -16,7 +16,7 @@ class DeleteQuestionView(DeleteView):
 
     def get_success_url(self):
         quiz = self.object.quiz
-        return reverse("edit-quiz", args=[quiz.id])
+        return reverse("edit-quiz-random", args=[quiz.id])
 
 
 class DeleteAnswerView(DeleteView):
@@ -24,7 +24,7 @@ class DeleteAnswerView(DeleteView):
 
     def get_success_url(self):
         question = self.object.question
-        return reverse("edit-question", args=[question.id])
+        return reverse("edit-question-random", args=[question.id])
 
 
 class ReorderItemsView(View):
@@ -64,7 +64,9 @@ class AddQuestionToQuizRandomView(View):
             question = form.save(commit=False)
             question.quiz = quiz
             question.save()
-        return HttpResponseRedirect(reverse("edit-quiz", args=[quiz.id]))
+        import pdb
+        pdb.set_trace()
+        return HttpResponseRedirect(reverse("edit-quiz-random", args=[quiz.id]))
 
 
 class EditQuestionRandomView(View):
@@ -83,7 +85,7 @@ class EditQuestionRandomView(View):
         form = question.edit_form(request.POST)
         question = form.save(commit=False)
         question.save()
-        return HttpResponseRedirect(reverse("edit-question",
+        return HttpResponseRedirect(reverse("edit-question-random",
                                             args=[question.id]))
 
 
@@ -107,7 +109,7 @@ class AddAnswerToQuestionRandomView(View):
             if answer.label == '':
                 answer.label = answer.value
             answer.save()
-            return HttpResponseRedirect(reverse("edit-question",
+            return HttpResponseRedirect(reverse("edit-question-random",
                                                 args=[question.id]))
         return render(
             request,
@@ -132,7 +134,7 @@ class EditAnswerRandomView(View):
         if form.is_valid():
             answer = form.save(commit=False)
             answer.save()
-            return HttpResponseRedirect(reverse("edit-answer",
+            return HttpResponseRedirect(reverse("edit-answer-random",
                                                 args=[answer.id]))
         return render(
             request,

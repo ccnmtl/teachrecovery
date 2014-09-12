@@ -39,7 +39,7 @@
 <ul id="questions" class="dragparent">
 {% for question in quizrandom.question_set.all %}
     <li class="draggable" id="question-{{question.id}}">
-    <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>[<a href="{% url 'delete-question' question.id %}">delete</a>] 
+    <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>[<a href="{% url 'delete-question-random' question.id %}">delete</a>] 
     Question {{ question.display_number }}: 
     <a href="{% url 'edit-question-random' question.id %}">{{question.text|truncatewords:5}}</a></li>
 {% endfor %}
