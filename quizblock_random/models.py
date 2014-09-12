@@ -9,6 +9,7 @@ from django.utils.encoding import smart_str
 from pagetree.models import PageBlock
 from pagetree.reports import ReportableInterface, ReportColumnInterface
 from quizblock.models import *
+from django.http import HttpResponse
 
 
 class QuizRandom(Quiz):
@@ -32,7 +33,7 @@ class QuizRandom(Quiz):
             allow_redo = forms.BooleanField(initial=self.allow_redo)
             show_submit_state = forms.BooleanField(
                 initial=self.show_submit_state)
-            alt_text = ("<a href=\"" + reverse("edit-quiz", args=[self.id])
+            alt_text = ("<a href=\"" + reverse("edit-quiz-random", args=[self.id])
                         + "\">manage questions/answers</a>")
         return EditForm()
 

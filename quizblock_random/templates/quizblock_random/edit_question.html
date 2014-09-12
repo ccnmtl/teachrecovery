@@ -53,10 +53,9 @@
 
 {% endblock %}
 {% block content %}
-
 <ul class="breadcrumb">
-<li><a href="{{questionrandom.quiz.pageblock.section.get_edit_url}}">{{questionrandom.quiz.pageblock.section.label}}</a></li>
-<li><a href="{% url 'edit-quiz' question.quiz.id %}">Edit Quiz Random</a></li>
+<li><a href="{{question.quizrandom.pageblock.section.get_edit_url}}">{{question.quizrandom.pageblock.section.label}}</a></li>
+<li><a href="{% url 'edit-quiz-random' question.quiz.id %}">Edit Quiz Random</a></li>
 <li>Edit Question</li>
 </ul>
 
@@ -76,7 +75,7 @@
 <li class="draggable" id="answer-{{answer.id}}">
 <span title="drag to reorder answers" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>[<a href="{% url 'delete-answer' answer.id %}">delete</a>] 
 Answer {{ answer.display_number }}: 
-<a href="{% url 'edit-answer' answer.id %}">{{answer.label}}</a>
+<a href="{% url 'edit-answer-random' answer.id %}">{{answer.label}}</a>
 {% if answer.correct %}<i class="icon-ok"></i>{% endif %}
 </li>
 {% endfor %}

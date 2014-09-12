@@ -87,8 +87,8 @@ class EditQuestionRandomView(View):
                                             args=[question.id]))
 
 
-class AddAnswerToQuestionView(View):
-    template_name = 'quizblock/edit_question.html'
+class AddAnswerToQuestionRandomView(View):
+    template_name = 'quizblock_random/edit_question.html'
 
     def get(self, request, pk):
         question = get_object_or_404(Question, pk=pk)
@@ -115,8 +115,8 @@ class AddAnswerToQuestionView(View):
             dict(question=question, answer_form=form))
 
 
-class EditAnswerView(View):
-    template_name = 'quizblock/edit_answer.html'
+class EditAnswerRandomView(View):
+    template_name = 'quizblock_random/edit_answer.html'
 
     def get(self, request, pk):
         answer = get_object_or_404(Answer, pk=pk)

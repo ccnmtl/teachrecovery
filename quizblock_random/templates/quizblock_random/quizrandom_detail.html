@@ -30,7 +30,7 @@
 	<li><a href="{{quizrandom.pageblock.section.get_edit_url}}">{{quizrandom.pageblock.section.label}}</a>
 		<span class="divider">/</span>
 	</li>
-	<li>Edit Quiz</li>
+	<li>Edit Quiz Random</li>
 </ul>
 
 
@@ -41,7 +41,7 @@
     <li class="draggable" id="question-{{question.id}}">
     <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>[<a href="{% url 'delete-question' question.id %}">delete</a>] 
     Question {{ question.display_number }}: 
-    <a href="{% url 'edit-question' question.id %}">{{question.text|truncatewords:5}}</a></li>
+    <a href="{% url 'edit-question-random' question.id %}">{{question.text|truncatewords:5}}</a></li>
 {% endfor %}
 </ul>
 
