@@ -11,7 +11,7 @@ class EditQuizRandomView(DetailView):
     model = QuizRandom
 
 
-class DeleteQuestionView(DeleteView):
+class DeleteQuestionRandomView(DeleteView):
     model = Question
 
     def get_success_url(self):
@@ -19,11 +19,12 @@ class DeleteQuestionView(DeleteView):
         return reverse("edit-quiz-random", args=[quiz.id])
 
 
-class DeleteAnswerView(DeleteView):
+class DeleteAnswerRandomView(DeleteView):
     model = Answer
-
+    
     def get_success_url(self):
         question = self.object.question
+        print 'dasdasdasadsadsadsads123'
         return reverse("edit-question-random", args=[question.id])
 
 
@@ -64,8 +65,6 @@ class AddQuestionToQuizRandomView(View):
             question = form.save(commit=False)
             question.quiz = quiz
             question.save()
-        import pdb
-        pdb.set_trace()
         return HttpResponseRedirect(reverse("edit-quiz-random", args=[quiz.id]))
 
 

@@ -10,7 +10,9 @@ from .views import (
     AddQuestionToQuizRandomView,
     EditQuestionRandomView,
     AddAnswerToQuestionRandomView,
-    EditAnswerRandomView
+    EditAnswerRandomView,
+    DeleteAnswerRandomView,
+    DeleteQuestionRandomView
 )
 urlpatterns = patterns(
     'quizblock_random.views',
@@ -21,10 +23,12 @@ urlpatterns = patterns(
      'edit-question-random'),
     (r'^edit_question/(?P<pk>\d+)/add_answer/$',
      AddAnswerToQuestionRandomView.as_view(), {}, 'add-answer-to-question-random'),
+    (r'^delete_question/(?P<pk>\d+)/$', DeleteQuestionRandomView.as_view(), {},
+     'delete-question-random'),
+    (r'^delete_answer/(?P<pk>\d+)/$', DeleteAnswerRandomView.as_view(),
+     {}, 'delete-answer-random'),
     (r'^edit_answer/(?P<pk>\d+)/$', EditAnswerRandomView.as_view(),
      {}, 'edit-answer-random'),
-    (r'^delete_question/(?P<pk>\d+)/$', DeleteQuestionView.as_view(), {},
-     'delete-question-random'),
 )
 
 '''
