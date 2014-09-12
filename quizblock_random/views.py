@@ -21,10 +21,9 @@ class DeleteQuestionRandomView(DeleteView):
 
 class DeleteAnswerRandomView(DeleteView):
     model = Answer
-    
+
     def get_success_url(self):
         question = self.object.question
-        print 'dasdasdasadsadsadsads123'
         return reverse("edit-question-random", args=[question.id])
 
 

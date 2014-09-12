@@ -41,7 +41,6 @@ class QuizRandom(Quiz):
 
     @classmethod
     def create(self, request):
-        Quiz.objects.create()
         return QuizRandom.objects.create(
-        quiz_name = request.POST.get('label', ''),
+        quiz_name = request.POST.get('label'),
     )
