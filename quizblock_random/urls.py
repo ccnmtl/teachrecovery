@@ -6,13 +6,17 @@ from quizblock.views import (
     AddAnswerToQuestionView, EditAnswerView
 )
 from .views import (
-    EditQuizRandomView
+    EditQuizRandomView,
+    AddQuestionToQuizRandomView,
+    EditQuestionRandomView
 )
 urlpatterns = patterns(
     'quizblock_random.views',
     (r'^edit_quiz/(?P<pk>\d+)/$', EditQuizRandomView.as_view(), {}, 'edit-quiz-random'),
-    (r'^edit_quiz/(?P<pk>\d+)/add_question/$', AddQuestionToQuizView.as_view(),
+    (r'^edit_quiz/(?P<pk>\d+)/add_question/$', AddQuestionToQuizRandomView.as_view(),
      {}, 'add-question-to-quiz'),
+    (r'^edit_question/(?P<pk>\d+)/$', EditQuestionRandomView.as_view(), {},
+     'edit-question'),
 )
 
 '''

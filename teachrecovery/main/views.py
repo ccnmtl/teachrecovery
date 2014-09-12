@@ -37,6 +37,17 @@ def page(request, path):
 
 
 @login_required
+def pages_save_edit(request, path):
+    # do auth on the request if you need the user to be logged in
+    # or only want some particular users to be able to get here
+    #import pdb
+    #pdb.set_trace()
+    path = request.GET['p']
+    h = get_hierarchy("main", "/pages/")
+    return generic_edit_page(request, path, hierarchy=h)
+
+
+@login_required
 def edit_page(request, path):
     # do any additional auth here
     h = get_hierarchy("main", "/pages/")

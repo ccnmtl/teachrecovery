@@ -12,22 +12,35 @@ from quizblock.models import *
 
 
 class QuizRandom(Quiz):
-	quiz = generic.GenericRelation(Quiz)
-	content_type = models.ForeignKey(
-        ContentType,
-        verbose_name=('Quiz Random'),
-        null=True,
-        blank=True,
-    )
-
-	object_id = models.PositiveIntegerField(
-    	verbose_name=('related object'),
-    	null=True,
-   	)
+    quiz = generic.GenericRelation(Quiz)
+    pageblock = generic.GenericRelation(PageBlock)
+    display_name = "Quiz Random"
+    template_file = "quizblock_random/quizblock_random.html"
+    quiz_name = models.CharField(max_length=50)
     
+    def pageblock(self):
+        return self.pageblocks.all()[0]
 
-	display_name = "Quiz Random"
-	template_file = "quizblock_random/quizblock_random.html"
-	quiz_name = models.CharField(max_length=50)
+    def quiz(self):
+        return self.quiz.all()[0]
 
-	content_object = generic.GenericForeignKey('content_type', 'object_id')
+    def edit_form(self):
+        class EditForm(forms.Form):
+            description = forms.CharField(widget=forms.widgets.Textarea(),
+                                          initial=self.description)
+            rhetorical = forms.BooleanField(initial=self.rhetorical)
+            allow_redo = forms.BooleanField(initial=self.allow_redo)
+            show_submit_state = forms.BooleanField(
+                initial=self.show_submit_state)
+            alt_text = ("<a href=\"" + reverse("edit-quiz", args=[self.id])
+                        + "\">manage questions/answers</a>")
+        return EditForm()
+
+
+
+    @classmethod
+    def create(self, request):
+        Quiz.objects.create()
+        return QuizRandom.objects.create(
+        quiz_name = request.POST.get('label', ''),
+    )

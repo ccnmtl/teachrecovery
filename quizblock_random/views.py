@@ -56,9 +56,9 @@ class ReorderQuestionsView(ReorderItemsView):
         parent.update_questions_order(items)
 
 
-class AddQuestionToQuizView(View):
+class AddQuestionToQuizRandomView(View):
     def post(self, request, pk):
-        quiz = get_object_or_404(QuizRandom, pk=pk)
+        quiz = get_object_or_404(Quiz, pk=pk)
         form = quiz.add_question_form(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
@@ -67,8 +67,9 @@ class AddQuestionToQuizView(View):
         return HttpResponseRedirect(reverse("edit-quiz", args=[quiz.id]))
 
 
-class EditQuestionView(View):
-    template_name = "quizblock/edit_question.html"
+class EditQuestionRandomView(View):
+
+    template_name = "quizblock_random/edit_question.html"
 
     def get(self, request, pk):
         question = get_object_or_404(Question, pk=pk)

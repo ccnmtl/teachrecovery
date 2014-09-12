@@ -27,17 +27,17 @@
 {% block content %}
 
 <ul class="breadcrumb">
-	<li><a href="{{quiz.pageblock.section.get_edit_url}}">{{quiz.pageblock.section.label}}</a>
+	<li><a href="{{quizrandom.pageblock.section.get_edit_url}}">{{quizrandom.pageblock.section.label}}</a>
 		<span class="divider">/</span>
 	</li>
 	<li>Edit Quiz</li>
 </ul>
 
 
-<h2>{{quiz.pageblock.label}}</h2>
+<h2>{{quizrandom.pageblock.label}}</h2>
 
 <ul id="questions" class="dragparent">
-{% for question in quiz.question_set.all %}
+{% for question in quizrandom.question_set.all %}
     <li class="draggable" id="question-{{question.id}}">
     <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>[<a href="{% url 'delete-question' question.id %}">delete</a>] 
     Question {{ question.display_number }}: 
@@ -48,7 +48,7 @@
 <form action="add_question/" method="post" class="well form-horizontal">
 <h2>Add Question</h2>
 <table width="100%">
-{{ quiz.add_question_form|bootstrap}}
+{{ quizrandom.add_question_form|bootstrap}}
 </table>
 <input type="submit" value="add question" class="btn btn-primary" />
 </form>

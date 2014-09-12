@@ -42,6 +42,8 @@ urlpatterns = patterns(
     (r'^pages/instructor/(?P<path>.*)$',
      'teachrecovery.main.views.instructor_page'),
     (r'^pages/(?P<path>.*)$', 'teachrecovery.main.views.page'),
+    (r'^pages_save_edit/(?P<path>.*)$', 'teachrecovery.main.views.pages_save_edit'),
+
 )
 
 
