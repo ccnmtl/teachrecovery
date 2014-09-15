@@ -13,8 +13,6 @@ from django.http import HttpResponse
 
 
 class QuizRandom(Quiz):
-    quiz = generic.GenericRelation(Quiz)
-    pageblock = generic.GenericRelation(PageBlock)
     display_name = "Quiz Random"
     template_file = "quizblock_random/quizblock_random.html"
     quiz_name = models.CharField(max_length=50)
@@ -37,10 +35,24 @@ class QuizRandom(Quiz):
                         + "\">manage questions/answers</a>")
         return EditForm()
 
-
-
     @classmethod
     def create(self, request):
         return QuizRandom.objects.create(
         quiz_name = request.POST.get('label'),
     )
+
+
+class QuestionUserLock(models.Model):
+    quiz = models.ForeignKey(QuizRandom)
+    question = models.ForeignKey(Question)
+    user = models.ForeignKey(User)
+    question_used = models.NullBooleanField(null=True)
+
+    def set_question_user_lock(self, question, user):
+        qul = QuestionUserLock.objects.filter() 
+        if 1 == 1:
+            return
+
+    @classmethod
+    def create(self, request):
+        return QuestionUserLock.objects.create()

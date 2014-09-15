@@ -1,5 +1,6 @@
 {% load markup %}
 {% load getresponse %}
+{% load getquestionuserlock %}
 
 {% getquestionresponse question as response %}
 
@@ -7,7 +8,7 @@
   {{question.intro_text|markdown}}
 
   <div class="casetitle"> Question {{question.display_number}}:</div>
-     
+    
   <div class="casecontent">
     <div class="casequestion">
       {{question.text|markdown}}
@@ -15,7 +16,17 @@
         {% if block.rhetorical %}<form id="form-{{question.id}}" method="post">{% endif %}
 
 	{% if question.is_single_choice %}
-  	  {% include 'quizblock/single_choice.html' %}
+      {% if page_status == 'complete' %}
+
+
+      {% random_question question request.user %}
+
+
+        {% include 'quizblock_random/single_choice_completed.html' %}
+      {% else %}
+        {% include 'quizblock_random/single_choice.html' %}
+      {% endif %}
+
 	{% endif %}
 
 	{% if question.is_single_choice_dropdown %}

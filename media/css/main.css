@@ -157,3 +157,6 @@ body > .container {
     -webkit-border-radius: 3px;
     line-height: 140%;
 }
+.correct{
+    color: #06A519;
+}
