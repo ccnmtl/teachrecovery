@@ -2,13 +2,23 @@
 {% load getresponse %}
 {{ block.description|markdown }}
 
+{% load getquestionuserlock %}
+
+
+
 {% if request.user.is_anonymous %}
   <p class="warning">You must be logged in to view this content</p>
 {% else %}
+	
+	
 
-{% for question in block.question_set.all %}
-  {% include 'quizblock_random/question.html' %}
-{% endfor %}
+	{% for question in block.question_set.all %}
+
+	  {% random_question block.question_set.all request.user as rq %}
+	  	{% if rq.id == question.id %}
+			{% include 'quizblock_random/question.html' %}
+		{% endif %}
+	{% endfor %}
 
 {% if block.rhetorical %}
   <script src="http://mt.ccnmtl.columbia.edu/pedialabs/js/quizshow.js" type="text/javascript" language="javascript"></script>

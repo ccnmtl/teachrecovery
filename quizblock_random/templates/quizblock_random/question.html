@@ -1,6 +1,5 @@
 {% load markup %}
 {% load getresponse %}
-{% load getquestionuserlock %}
 
 {% getquestionresponse question as response %}
 
@@ -18,8 +17,6 @@
 	{% if question.is_single_choice %}
       {% if page_status == 'complete' %}
 
-
-      {% random_question question request.user %}
 
 
         {% include 'quizblock_random/single_choice_completed.html' %}

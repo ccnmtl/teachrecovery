@@ -35,6 +35,9 @@ class QuizRandom(Quiz):
                         + "\">manage questions/answers</a>")
         return EditForm()
 
+    def get_question(self):
+        return 
+
     @classmethod
     def create(self, request):
         return QuizRandom.objects.create(
@@ -47,12 +50,20 @@ class QuestionUserLock(models.Model):
     question = models.ForeignKey(Question)
     user = models.ForeignKey(User)
     question_used = models.NullBooleanField(null=True)
+    question_current = models.NullBooleanField(null=True)
 
     def set_question_user_lock(self, question, user):
-        qul = QuestionUserLock.objects.filter() 
-        if 1 == 1:
-            return
+        try:
+            current_question = QuestionUserLock.objects.filter(quiz_id=question.quiz.id).get(question_current = True)
+            qid = current_question.question_id
+            question  = Question.objects.get(id=qid)
+            return question
+            
+        except QuestionUserLock.DoesNotExist:
+            rand_int = randint(0, set_len-1)
+            q = question_set[rand_int]
+            return q
 
     @classmethod
-    def create(self, request):
-        return QuestionUserLock.objects.create()
+    def create(self, question, user):
+        return QuestionUserLock.objects.create(quiz_id = question.quiz.id, question_id = question.id, user_id = user.id )
