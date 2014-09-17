@@ -37,7 +37,12 @@ def page(request, path):
     h = get_hierarchy("main", "/pages/")
     section = get_section_from_path(path, hierarchy=h)
     uv = section.get_uservisit(request.user)
-    ec = dict(page_status = uv.status)
+    import pdb
+    pdb.set_trace()
+    if uv:
+        ec = dict(page_status = uv.status)
+    else:
+        ec = ''
     return generic_view_page(request, path, hierarchy=h, extra_context = ec)
 
 

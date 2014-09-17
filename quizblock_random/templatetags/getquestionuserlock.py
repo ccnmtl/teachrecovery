@@ -7,6 +7,8 @@ register = template.Library()
 @register.assignment_tag
 def random_question(question_set, user):
     set_len = len(question_set)
+    import pdb
+    pdb.set_trace()
     for question in question_set:
         try:
             current_question = QuestionUserLock.objects.filter(quiz_id=question.quiz.id).get(question_current = True)
@@ -16,5 +18,5 @@ def random_question(question_set, user):
             
         except QuestionUserLock.DoesNotExist:
             rand_int = randint(0, set_len-1)
-            q = question_set[rand_int]
-            return q
+            question = question_set[rand_int]
+            return question

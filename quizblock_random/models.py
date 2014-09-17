@@ -6,7 +6,7 @@ from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import smart_str
-from pagetree.models import PageBlock
+from pagetree.models import PageBlock, Section
 from pagetree.reports import ReportableInterface, ReportColumnInterface
 from quizblock.models import *
 from django.http import HttpResponse
@@ -41,16 +41,32 @@ class QuizRandom(Quiz):
     @classmethod
     def create(self, request):
         return QuizRandom.objects.create(
-        quiz_name = request.POST.get('label'),
-    )
+            quiz_name = request.POST.get('label'),
+            )
+
+
+class RandomQuizSection(models.Model):
+    display_name = "Random Quiz"
+    section = models.ForeignKey(Section)
+    user = models.ForeignKey(User)
+    quiz_current = models.NullBooleanField(null=True)
+
+    @classmethod
+    def create(self, section, user):
+        return RandomQuizSection.objects.create(
+            section_id = section.id,
+            user_id = user.id
+        )
 
 
 class QuestionUserLock(models.Model):
     quiz = models.ForeignKey(QuizRandom)
     question = models.ForeignKey(Question)
     user = models.ForeignKey(User)
+    random_quiz = models.ForeignKey(RandomQuizSection, null=True, blank=True)
     question_used = models.NullBooleanField(null=True)
     question_current = models.NullBooleanField(null=True)
+
 
     def set_question_user_lock(self, question, user):
         try:
@@ -64,6 +80,12 @@ class QuestionUserLock(models.Model):
             q = question_set[rand_int]
             return q
 
+
     @classmethod
-    def create(self, question, user):
-        return QuestionUserLock.objects.create(quiz_id = question.quiz.id, question_id = question.id, user_id = user.id )
+    def create(self, question, user, rq):
+        return QuestionUserLock.objects.create(
+            quiz_id = question.quiz.id, 
+            question_id = question.id, 
+            user_id = user.id,
+            random_quiz_id = rq.id
+            )
