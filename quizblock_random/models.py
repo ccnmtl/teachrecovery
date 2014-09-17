@@ -45,25 +45,10 @@ class QuizRandom(Quiz):
             )
 
 
-class RandomQuizSection(models.Model):
-    display_name = "Random Quiz"
-    section = models.ForeignKey(Section)
-    user = models.ForeignKey(User)
-    quiz_current = models.NullBooleanField(null=True)
-
-    @classmethod
-    def create(self, section, user):
-        return RandomQuizSection.objects.create(
-            section_id = section.id,
-            user_id = user.id
-        )
-
-
 class QuestionUserLock(models.Model):
     quiz = models.ForeignKey(QuizRandom)
     question = models.ForeignKey(Question)
     user = models.ForeignKey(User)
-    random_quiz = models.ForeignKey(RandomQuizSection, null=True, blank=True)
     question_used = models.NullBooleanField(null=True)
     question_current = models.NullBooleanField(null=True)
 
@@ -82,10 +67,9 @@ class QuestionUserLock(models.Model):
 
 
     @classmethod
-    def create(self, question, user, rq):
+    def create(self, question, user):
         return QuestionUserLock.objects.create(
             quiz_id = question.quiz.id, 
             question_id = question.id, 
-            user_id = user.id,
-            random_quiz_id = rq.id
+            user_id = user.id
             )
