@@ -1,6 +1,5 @@
 {% extends 'pagetree/base_pagetree.html' %}
 {% load render %}
-
 {% block js %}
 {% for block in section.pageblock_set.all %}
 {% renderjs block %}
@@ -63,18 +62,30 @@
 </div>
 {% endfor %}
 
-
 {% if needs_submit %}
 {% if request.user.is_anonymous %}
 {% else %}
 
 {% if is_submitted %}
+{% for block in section.pageblock_set.all %}
+
+{% if block.block.display_name == "Quiz Random"%}
+{{block.block.display_name}}
+<script>
+// create a js file to capture how we want to display stuff after submission
+TR = {};
+TR.q = [];
+</script>
+{% endif %}
+{% endfor %}
+
 {% if allow_redo %}
 <form action="." method="post">
 <input type="hidden" name="action" value="reset" />
 <input type="submit" value="clear your answers and try again" class="btn" />
 </form>
 {% endif %}
+
 {% else %}
 <input type="submit" value="Submit" class="btn btn-primary" />
 

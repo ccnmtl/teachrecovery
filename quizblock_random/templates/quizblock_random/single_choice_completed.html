@@ -1,9 +1,22 @@
 {% load markup %}
-{% load getquestionuserlock %}
-
-
 
 this is the completed template
+<br/>
+{% if block %}
+block: {{block}}
+{% endif %}
+
+<br/>
+<script>
+jQuery(document).ready(function(){
+
+    TR.q.push("{{ question }}");
+  
+})
+
+</script>
+<br/>
+
 <ol type="A">
   {% for answer in question.answer_set.all %}
     {% if block.rhetorical %}
