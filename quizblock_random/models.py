@@ -9,6 +9,7 @@ from django.utils.encoding import smart_str
 from pagetree.models import PageBlock, Section
 from pagetree.reports import ReportableInterface, ReportColumnInterface
 from quizblock.models import *
+from random import randint
 from django.http import HttpResponse
 
 
@@ -16,12 +17,48 @@ class QuizRandom(Quiz):
     display_name = "Quiz Random"
     template_file = "quizblock_random/quizblock_random.html"
     quiz_name = models.CharField(max_length=50)
+
+
+    def get_random_question(self, user):
+        question_set = self.question_set.all()
+        set_len = len(question_set)
+        rand_int = randint(0, set_len-1)
+        for question in question_set:
+            try:
+                current_question = QuestionUserLock.objects.filter(
+                    quiz_id=question.quiz.id).get(question_current = True, user_id = user.id)
+                qid = current_question.question_id
+                question  = Question.objects.get(id=qid)
+                return question
+                
+            except QuestionUserLock.DoesNotExist:
+                question = question_set[rand_int]
+                self.set_question_userlock(question, user)
+                return question
     
+
+    def set_question_userlock(self, question, user):
+        qul = QuestionUserLock.create(question, user)
+        qul.question_current = True
+        qul.question_used = False
+        qul.save()
+
+
     def pageblock(self):
         return self.pageblocks.all()[0]
 
     def quiz(self):
         return self.quiz.all()[0]
+
+
+    def clear_user_submissions(self, user):
+        self.unset_question_userlock(user)
+        Submission.objects.filter(user=user, quiz=self).delete()
+
+
+    def unset_question_userlock(self, user):
+        QuestionUserLock.objects.filter(user=user, quiz=self).delete()
+
 
     def edit_form(self):
         class EditForm(forms.Form):

@@ -10,7 +10,7 @@
   <p class="warning">You must be logged in to view this content</p>
 {% else %}
 	
-	{% random_question block.question_set.all request.user as rq %}
+	{% get_random_question block request.user as rq %}
 	{% for question in block.question_set.all %}
 	  	{% if rq.id == question.id %}
 			{% include 'quizblock_random/question.html' %}
