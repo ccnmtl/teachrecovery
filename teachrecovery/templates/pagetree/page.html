@@ -71,11 +71,7 @@
 
 {% if block.block.display_name == "Quiz Random"%}
 {{block.block.display_name}}
-<script>
-// create a js file to capture how we want to display stuff after submission
-TR = {};
-TR.q = [];
-</script>
+<script src="{{STATIC_URL}}/js/quizblock_random.js"></script>
 {% endif %}
 {% endfor %}
 
