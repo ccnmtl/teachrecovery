@@ -4,12 +4,16 @@ this is the completed template
 
 
 
-<script src="{{STATIC_URL}}/js/quizblock_random.js"></script>
+
 <br/>
 
 <ol type="A">
-  {% for answer in question.answer_set.all %}
-  {% get_questions block question request.user as rq %}
+  {% get_questions section block question request.user as rq %}
+  {{ block.quiz_type }}
+
+
+{% comment %}
+  {% for question in block.question_set.all %}
     {% if block.rhetorical %}
       <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" /> {{answer.label}}</li>
     {% else %}
@@ -27,4 +31,7 @@ this is the completed template
       </li>
     {% endif %}
   {% endfor %}
+
+{% endcomment %}
 </ol>
+<script src="{{STATIC_URL}}/js/quizblock_random.js"></script>

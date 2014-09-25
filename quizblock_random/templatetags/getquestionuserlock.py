@@ -4,5 +4,5 @@ from quizblock_random.models import QuizRandom, QuestionUserLock
 register = template.Library()
 
 @register.assignment_tag
-def get_random_question(quiz_random, user):
-    return quiz_random.get_random_question(user)
+def get_random_question(section, quiz_random, user):
+    return quiz_random.get_random_question(section, quiz_random, user)

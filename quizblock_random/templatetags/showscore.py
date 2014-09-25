@@ -4,7 +4,7 @@ from quizblock_random.models import QuizRandom, QuestionUserLock
 register = template.Library()
 
 @register.assignment_tag
-def get_questions(block, question, user):
-	import pdb
-	pdb.set_trace()
+def get_questions(section, block, question, user):
+	block.get_random_question_set(section, block, user)
+	return
     #return quiz_random.get_random_question(user)

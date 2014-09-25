@@ -20,7 +20,7 @@ class QuizRandom(Quiz):
     quiz_type = models.TextField(blank=True)
 
 
-    def get_random_question(self, user):
+    def get_random_question(self, section, quiz, user):
         question_set = self.question_set.all()
         set_len = len(question_set)
         rand_int = randint(0, set_len-1)
@@ -34,15 +34,23 @@ class QuizRandom(Quiz):
                 
             except QuestionUserLock.DoesNotExist:
                 question = question_set[rand_int]
-                self.set_question_userlock(question, user)
+                self.set_question_userlock(section, question, user)
                 return question
     
 
-    def set_question_userlock(self, question, user):
-        qul = QuestionUserLock.create(question, user)
+    def set_question_userlock(self, section, question, user):
+        qul = QuestionUserLock.create(section, question, user)
         qul.question_current = True
         qul.question_used = False
         qul.save()
+
+
+    def get_random_question_set(self, section, question, user):
+        question_set = QuestionUserLock.objects.filter(section_id = section.id)
+        #import pdb
+        #pdb.set_trace()
+        return
+        
 
 
     def pageblock(self):
@@ -108,11 +116,13 @@ class QuizRandom(Quiz):
 
 
 class QuestionUserLock(models.Model):
+    section = models.ForeignKey(Section,)
     quiz = models.ForeignKey(QuizRandom)
     question = models.ForeignKey(Question)
     user = models.ForeignKey(User)
     question_used = models.NullBooleanField(null=True)
     question_current = models.NullBooleanField(null=True)
+
 
 
     def set_question_user_lock(self, question, user):
@@ -129,8 +139,9 @@ class QuestionUserLock(models.Model):
 
 
     @classmethod
-    def create(self, question, user):
+    def create(self, section, question, user):
         return QuestionUserLock.objects.create(
+            section_id = section.id,
             quiz_id = question.quiz.id, 
             question_id = question.id, 
             user_id = user.id

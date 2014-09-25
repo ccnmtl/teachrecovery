@@ -8,7 +8,7 @@
   <p class="warning">You must be logged in to view this content</p>
 {% else %}
 	
-	{% get_random_question block request.user as rq %}
+	{% get_random_question section block request.user as rq %}
 	{% for question in block.question_set.all %}
 	  	{% if rq.id == question.id %}
 			{% include 'quizblock_random/question.html' %}

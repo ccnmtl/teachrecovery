@@ -68,10 +68,6 @@
 
 {% if is_submitted %}
 {% for block in section.pageblock_set.all %}
-
-{% if block.block.display_name == "Quiz Random"%}
-{{block.block.display_name}}
-{% endif %}
 {% endfor %}
 
 {% if allow_redo %}
