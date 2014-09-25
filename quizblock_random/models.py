@@ -45,11 +45,9 @@ class QuizRandom(Quiz):
         qul.save()
 
 
-    def get_random_question_set(self, section, question, user):
+    def get_random_question_set(self, section, block, question, user):
         question_set = QuestionUserLock.objects.filter(section_id = section.id)
-        #import pdb
-        #pdb.set_trace()
-        return
+        return question_set
         
 
 

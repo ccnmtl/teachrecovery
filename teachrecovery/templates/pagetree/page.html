@@ -71,7 +71,7 @@
 {% if block.block.display_name == "Quiz Random"%}
   {% if forloop.last %}
   {% if page_status == 'complete' %}
-      script insert here
+      <script id="quizblock_randomjs" src="{{STATIC_URL}}/js/quizblock_random.js"></script>
     {% endif %}
   {% endif %}
 {% endif %}

@@ -1,15 +1,13 @@
 {% load markup %}
 {% load showscore %}
 
-
-
-
-<br/>
-
 <ol type="A">
   {% get_questions section block question request.user as rq %}
-  {{ block.quiz_type }}
+  {{ block.quiz_type }} of id: {{block.id}} <br/>
 
+  
+
+  is user correct: {{ rq }}
 
 {% comment %}
   {% for question in block.question_set.all %}
@@ -33,4 +31,4 @@
 
 {% endcomment %}
 </ol>
-<script src="{{STATIC_URL}}/js/quizblock_random.js"></script>
+

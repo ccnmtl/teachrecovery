@@ -3,5 +3,5 @@ TR = {};
 TR.q = [];
 
 jQuery(document).ready(function(){
-	//alert('this');
+	console.log('this');
 })
