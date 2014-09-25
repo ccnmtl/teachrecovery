@@ -1,7 +1,9 @@
 {% load markup %}
 {% load getresponse %}
+{% if page_status == 'complete' %}
+{% else %}
 {{ block.description|markdown }}
-
+{% endif %}
 {% load getquestionuserlock %}
 
 {% if request.user.is_anonymous %}

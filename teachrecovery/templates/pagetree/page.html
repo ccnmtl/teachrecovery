@@ -68,6 +68,14 @@
 
 {% if is_submitted %}
 {% for block in section.pageblock_set.all %}
+{% if block.block.display_name == "Quiz Random"%}
+  {% if forloop.last %}
+  {% if page_status == 'complete' %}
+      script insert here
+    {% endif %}
+  {% endif %}
+{% endif %}
+
 {% endfor %}
 
 {% if allow_redo %}
