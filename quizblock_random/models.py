@@ -17,6 +17,7 @@ class QuizRandom(Quiz):
     display_name = "Quiz Random"
     template_file = "quizblock_random/quizblock_random.html"
     quiz_name = models.CharField(max_length=50)
+    quiz_type = models.TextField(blank=True)
 
 
     def get_random_question(self, user):
@@ -60,8 +61,19 @@ class QuizRandom(Quiz):
         QuestionUserLock.objects.filter(user=user, quiz=self).delete()
 
 
+    def edit(self, vals, files):
+        self.quiz_type = vals.get('quiz_type', '')
+        self.description = vals.get('description', '')
+        self.rhetorical = vals.get('rhetorical', '')
+        self.allow_redo = vals.get('allow_redo', '')
+        self.show_submit_state = vals.get('show_submit_state', False)
+        self.save()
+
+
     def edit_form(self):
         class EditForm(forms.Form):
+            quiz_type = forms.CharField(widget=forms.widgets.Textarea(),
+                                          initial=self.quiz_type)
             description = forms.CharField(widget=forms.widgets.Textarea(),
                                           initial=self.description)
             rhetorical = forms.BooleanField(initial=self.rhetorical)
@@ -76,10 +88,23 @@ class QuizRandom(Quiz):
         return 
 
     @classmethod
+    def add_form(self):
+        class AddForm(forms.Form):
+            quiz_type = forms.CharField(widget=forms.widgets.Textarea())
+            description = forms.CharField(widget=forms.widgets.Textarea())
+            rhetorical = forms.BooleanField()
+            allow_redo = forms.BooleanField()
+            show_submit_state = forms.BooleanField(initial=True)
+        return AddForm()
+
+    @classmethod
     def create(self, request):
-        return QuizRandom.objects.create(
-            quiz_name = request.POST.get('label'),
-            )
+        return Quiz.objects.create(
+            quiz_type =request.POST.get('quiz_type', ''),
+            description=request.POST.get('description', ''),
+            rhetorical=request.POST.get('rhetorical', ''),
+            allow_redo=request.POST.get('allow_redo', ''),
+            show_submit_state=request.POST.get('show_submit_state', False))
 
 
 class QuestionUserLock(models.Model):
