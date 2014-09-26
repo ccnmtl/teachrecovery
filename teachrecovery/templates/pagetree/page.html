@@ -71,7 +71,7 @@
 {% if block.block.display_name == "Quiz Random"%}
   {% if forloop.last %}
   {% if page_status == 'complete' %}
-      <script id="quizblock_randomjs" src="{{STATIC_URL}}/js/quizblock_random.js"></script>
+    {% include "quizblock_random/complete_quiz_feedback.html" %}
     {% endif %}
   {% endif %}
 {% endif %}

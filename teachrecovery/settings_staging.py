@@ -8,7 +8,7 @@ TEMPLATE_DIRS = (
 MEDIA_ROOT = '/var/www/teachrecovery/uploads/'
 # put any static media here to override app served static media
 STATICMEDIA_MOUNTS = (
-    ('/sitemedia', '/var/www/teachrecovery/teachrecovery/sitemedia'),
+    ('/media', '/var/www/teachrecovery/teachrecovery/media'),
 )
 
 DATABASES = {
