@@ -3,7 +3,6 @@ from pagetree.helpers import get_hierarchy
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
-from pagetree.generic.views import UserPageVisitor
 from django.contrib.auth.decorators import login_required, user_passes_test
 #from django.contrib.auth.models import User
 from pagetree.helpers import get_section_from_path
@@ -36,10 +35,10 @@ def page(request, path):
     section = get_section_from_path(path, hierarchy=h)
     uv = section.get_uservisit(request.user)
     if uv:
-        ec = dict(page_status = uv.status)
+        ec = dict(page_status=uv.status)
     else:
         ec = ''
-    return generic_view_page(request, path, hierarchy=h, extra_context = ec)
+    return generic_view_page(request, path, hierarchy=h, extra_context=ec)
 
 
 @login_required
