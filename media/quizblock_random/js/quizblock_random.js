@@ -42,7 +42,7 @@ jQuery(document).ready(function(){
 			var weakness_elm = jQuery('#feedback .weakness');
 			weaknesses = this.get_subject_weakness();
 			jQuery(weaknesses).each(function(){
-				weakness_elm.append('<p>' + this + '</p>');
+				weakness_elm.append('<div class="subject"><p>' + this + '</p></div>');
 			})
 			weakness_elm.css({
 				display: 'block'
