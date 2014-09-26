@@ -61,11 +61,11 @@ jQuery(document).ready(function(){
 		},
 		this.show_score = function(){
 			score = this.calculate_score();
-			var pass = '';
-			if(score < 79){
+			var pass = 'fail';
+			if(score > 79){
 				pass = 'pass';
 			}
-			jQuery('#score').addClass(pass).append(score + '%');
+			jQuery('#score .percentage').addClass(pass).append(score + '%');
 		}
 	};
 
