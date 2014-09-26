@@ -1,0 +1,34 @@
+{% load markup %}
+{% load showscore %}
+
+<ol type="A">
+  {% get_questions section block question request.user as rq %}
+  {{ block.quiz_type }} of id: {{block.id}} <br/>
+
+  
+
+  is user correct: {{ rq }}
+
+{% comment %}
+  {% for question in block.question_set.all %}
+    {% if block.rhetorical %}
+      <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" /> {{answer.label}}</li>
+    {% else %}
+      <li>
+        {% if response %}
+          {% ifequal response.value answer.value %}
+            <span class="yours {% if response.is_correct %}correct{% else %}incorrect{% endif %}">{{answer.label}}</span>
+          {% else %}
+            {{answer.label}}
+          {% endifequal %}
+        {% else %}
+          <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
+	  value="{{answer.value}}" type="radio" /> {{answer.label}}
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+
+{% endcomment %}
+</ol>
+

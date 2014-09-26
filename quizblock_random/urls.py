@@ -6,13 +6,29 @@ from quizblock.views import (
     AddAnswerToQuestionView, EditAnswerView
 )
 from .views import (
-    EditQuizRandomView
+    EditQuizRandomView,
+    AddQuestionToQuizRandomView,
+    EditQuestionRandomView,
+    AddAnswerToQuestionRandomView,
+    EditAnswerRandomView,
+    DeleteAnswerRandomView,
+    DeleteQuestionRandomView
 )
 urlpatterns = patterns(
     'quizblock_random.views',
     (r'^edit_quiz/(?P<pk>\d+)/$', EditQuizRandomView.as_view(), {}, 'edit-quiz-random'),
-    (r'^edit_quiz/(?P<pk>\d+)/add_question/$', AddQuestionToQuizView.as_view(),
-     {}, 'add-question-to-quiz'),
+    (r'^edit_quiz/(?P<pk>\d+)/add_question/$', AddQuestionToQuizRandomView.as_view(),
+     {}, 'add-question-to-quiz-random'),
+    (r'^edit_question/(?P<pk>\d+)/$', EditQuestionRandomView.as_view(), {},
+     'edit-question-random'),
+    (r'^edit_question/(?P<pk>\d+)/add_answer/$',
+     AddAnswerToQuestionRandomView.as_view(), {}, 'add-answer-to-question-random'),
+    (r'^delete_question/(?P<pk>\d+)/$', DeleteQuestionRandomView.as_view(), {},
+     'delete-question-random'),
+    (r'^delete_answer/(?P<pk>\d+)/$', DeleteAnswerRandomView.as_view(),
+     {}, 'delete-answer-random'),
+    (r'^edit_answer/(?P<pk>\d+)/$', EditAnswerRandomView.as_view(),
+     {}, 'edit-answer-random'),
 )
 
 '''

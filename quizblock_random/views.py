@@ -11,20 +11,20 @@ class EditQuizRandomView(DetailView):
     model = QuizRandom
 
 
-class DeleteQuestionView(DeleteView):
+class DeleteQuestionRandomView(DeleteView):
     model = Question
 
     def get_success_url(self):
         quiz = self.object.quiz
-        return reverse("edit-quiz", args=[quiz.id])
+        return reverse("edit-quiz-random", args=[quiz.id])
 
 
-class DeleteAnswerView(DeleteView):
+class DeleteAnswerRandomView(DeleteView):
     model = Answer
 
     def get_success_url(self):
         question = self.object.question
-        return reverse("edit-question", args=[question.id])
+        return reverse("edit-question-random", args=[question.id])
 
 
 class ReorderItemsView(View):
@@ -56,19 +56,20 @@ class ReorderQuestionsView(ReorderItemsView):
         parent.update_questions_order(items)
 
 
-class AddQuestionToQuizView(View):
+class AddQuestionToQuizRandomView(View):
     def post(self, request, pk):
-        quiz = get_object_or_404(QuizRandom, pk=pk)
+        quiz = get_object_or_404(Quiz, pk=pk)
         form = quiz.add_question_form(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
             question.quiz = quiz
             question.save()
-        return HttpResponseRedirect(reverse("edit-quiz", args=[quiz.id]))
+        return HttpResponseRedirect(reverse("edit-quiz-random", args=[quiz.id]))
 
 
-class EditQuestionView(View):
-    template_name = "quizblock/edit_question.html"
+class EditQuestionRandomView(View):
+
+    template_name = "quizblock_random/edit_question.html"
 
     def get(self, request, pk):
         question = get_object_or_404(Question, pk=pk)
@@ -82,12 +83,12 @@ class EditQuestionView(View):
         form = question.edit_form(request.POST)
         question = form.save(commit=False)
         question.save()
-        return HttpResponseRedirect(reverse("edit-question",
+        return HttpResponseRedirect(reverse("edit-question-random",
                                             args=[question.id]))
 
 
-class AddAnswerToQuestionView(View):
-    template_name = 'quizblock/edit_question.html'
+class AddAnswerToQuestionRandomView(View):
+    template_name = 'quizblock_random/edit_question.html'
 
     def get(self, request, pk):
         question = get_object_or_404(Question, pk=pk)
@@ -106,7 +107,7 @@ class AddAnswerToQuestionView(View):
             if answer.label == '':
                 answer.label = answer.value
             answer.save()
-            return HttpResponseRedirect(reverse("edit-question",
+            return HttpResponseRedirect(reverse("edit-question-random",
                                                 args=[question.id]))
         return render(
             request,
@@ -114,8 +115,8 @@ class AddAnswerToQuestionView(View):
             dict(question=question, answer_form=form))
 
 
-class EditAnswerView(View):
-    template_name = 'quizblock/edit_answer.html'
+class EditAnswerRandomView(View):
+    template_name = 'quizblock_random/edit_answer.html'
 
     def get(self, request, pk):
         answer = get_object_or_404(Answer, pk=pk)
@@ -131,7 +132,7 @@ class EditAnswerView(View):
         if form.is_valid():
             answer = form.save(commit=False)
             answer.save()
-            return HttpResponseRedirect(reverse("edit-answer",
+            return HttpResponseRedirect(reverse("edit-answer-random",
                                                 args=[answer.id]))
         return render(
             request,
