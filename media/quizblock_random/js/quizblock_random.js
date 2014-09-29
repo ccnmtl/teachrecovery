@@ -24,11 +24,11 @@ jQuery(document).ready(function(){
 			})
 			return answer_vals;
 		},
-		this.show_feedback = function(){
+		this.show_feedback = function(tr){
 			if (this.calculate_score() > 80){
 				this.show_pass_feedback();
 			}else{
-				this.show_fail_feedback();
+				this.show_fail_feedback(tr);
 			}
 
 			this.show_score();
@@ -38,11 +38,11 @@ jQuery(document).ready(function(){
 				display: 'block'
 			})
 		},
-		this.show_fail_feedback = function(){
+		this.show_fail_feedback = function(tr){
 			var weakness_elm = jQuery('#feedback .weakness');
 			weaknesses = this.get_subject_weakness();
 			jQuery(weaknesses).each(function(){
-				weakness_elm.append('<div class="subject"><p>' + this + '</p></div>');
+				weakness_elm.append('<div class="subject"><p>' + tr.subject_ref[this] + '</p></div>');
 			})
 			weakness_elm.css({
 				display: 'block'
@@ -53,10 +53,15 @@ jQuery(document).ready(function(){
 		},
 		this.get_subject_weakness = function(){
 			var wrong_answers = jQuery('.is-correct.False');
+			var subject_ref = {};
 			var subjects = [];
 			wrong_answers.each(function(){
-				subjects.push(jQuery(this).parent().children('li.quiz-type').text());
+				var s = jQuery(this).parent().children('li.quiz-type').text();
+				var ref  = jQuery(this).parent().children('li.quiz-description').text()
+				subject_ref[s] = ref;
+				subjects.push(s);
 			})
+			this.subject_ref = subject_ref;
 			return jQuery.unique(subjects);
 		},
 		this.show_score = function(){
@@ -71,6 +76,6 @@ jQuery(document).ready(function(){
 
 
 	window.tr = new TR();
-	tr.show_feedback();
+	tr.show_feedback(tr);
 
 })
