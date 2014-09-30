@@ -49,6 +49,7 @@ class ViewPage(LoggedInMixin, PageView):
         previous_unlocked = True
         for section in self.root.get_descendants():
             unlocked = section.id in visit_ids
+
             item = {
                 'id': section.id,
                 'url': section.get_absolute_url(),
@@ -59,10 +60,13 @@ class ViewPage(LoggedInMixin, PageView):
             }
             if section.depth == 3 and section.get_children():
                 item['toggle'] = True
+            uv = section.get_uservisit(self.request.user)
+
             menu.append(item)
             previous_unlocked = unlocked
-
-        return {'menu': menu}
+            #import pdb
+            #pdb.set_trace()
+        return {'menu': menu, 'page_status': uv.status}
 
     def page(request, path):
         # do auth on the request if you need the user to be logged in

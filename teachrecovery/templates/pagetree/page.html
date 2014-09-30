@@ -70,8 +70,10 @@
 {% for block in section.pageblock_set.all %}
 {% if block.block.display_name == "Quiz Random"%}
   {% if forloop.last %}
-  {% if page_status == 'complete' %}
-    {% include "quizblock_random/complete_quiz_feedback.html" %}
+    {% if page_status == 'complete' %}
+      {% include "quizblock_random/complete_quiz_feedback.html" %}
+    {% else %}
+        {{page_status}}
     {% endif %}
   {% endif %}
 {% endif %}
