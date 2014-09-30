@@ -154,16 +154,21 @@
 {% endif %}
 {% endblock %}
 
-
-<div class="row">
-<div class="col-md-2">
-{% block sidenav %}{% endblock %}
-</div>
-<div class="col-md-10">
-{% block pagetitle %}{% endblock %}
-{% block content %}{% endblock %}
-</div>
-</div>
+  {% if not request.user.is_anonymous %}
+  <div class="row">
+    <div class="col-md-2">
+    {% block sidenav %}{% endblock %}
+    </div>
+    <div class="col-md-10">
+      {% block pagetitle %}{% endblock %}
+      {% block content %}{% endblock %}
+      <div id="content-nav" class="prev-next">
+        {% block content-nav %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
 </div>
 
 {% block footer %}

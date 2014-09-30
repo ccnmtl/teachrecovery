@@ -99,6 +99,11 @@
 {% endblock %}
 
 {% block content-nav %}
+
+{% for modsection in modules %}
+  {{modsection.label}} : {{ module.label }}<br/>
+{% endfor %}
+
 {% with previous=section.get_previous next_section=section.get_next %}
 <ul class="pager">
 {% if previous %}

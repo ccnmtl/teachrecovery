@@ -31,14 +31,14 @@ def index(request):
 def page(request, path):
     # do auth on the request if you need the user to be logged in
     # or only want some particular users to be able to get here
-    h = get_hierarchy("main", "/pages/")
-    section = get_section_from_path(path, hierarchy=h)
+    hier = teach_recovery_get_hierarchy(request, path)
+    section = get_section_from_path(path, hierarchy=hier)
     uv = section.get_uservisit(request.user)
     if uv:
         ec = dict(page_status=uv.status)
     else:
         ec = ''
-    return generic_view_page(request, path, hierarchy=h, extra_context=ec)
+    return generic_view_page(request, path, hierarchy=hier, extra_context=ec)
 
 
 @login_required
@@ -48,19 +48,25 @@ def pages_save_edit(request, path):
     #import pdb
     #pdb.set_trace()
     path = request.GET['p']
-    h = get_hierarchy("main", "/pages/")
+    h = teach_recovery_get_hierarchy(request, path)
     return generic_edit_page(request, path, hierarchy=h)
 
 
 @login_required
 def edit_page(request, path):
     # do any additional auth here
-    h = get_hierarchy("main", "/pages/")
+    h = teach_recovery_get_hierarchy(request, path)
     return generic_edit_page(request, path, hierarchy=h)
 
 
 @login_required
 def instructor_page(request, path):
     # do any additional auth here
-    h = get_hierarchy("main", "/pages/")
+    h = teach_recovery_get_hierarchy(request, path)
     return generic_instructor_page(request, path, hierarchy=h)
+
+
+@login_required
+def teach_recovery_get_hierarchy(request, path):
+    h = get_hierarchy("main", "/pages/")
+    return h
