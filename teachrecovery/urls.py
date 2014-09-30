@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic import TemplateView
 from teachrecovery.main import views
+from teachrecovery.main.views import ViewPage
 import os.path
 admin.autodiscover()
 
@@ -41,7 +42,7 @@ urlpatterns = patterns(
      {}, 'edit-page'),
     (r'^pages/instructor/(?P<path>.*)$',
      'teachrecovery.main.views.instructor_page'),
-    (r'^pages/(?P<path>.*)$', 'teachrecovery.main.views.page'),
+    (r'^pages/(?P<path>.*)$', ViewPage.as_view()),
     (r'^pages_save_edit/(?P<path>.*)$',
         'teachrecovery.main.views.pages_save_edit'),
 
