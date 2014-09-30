@@ -135,7 +135,7 @@ input[type=button] {width: auto; overflow: visible;}
 body > .container {
   background-color: #fff;
   min-height: 100%;
-  padding-top: 75px;
+  padding-top: 150px;
 }
 
 #content {
@@ -155,29 +155,50 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 	color: #333;
 }
 
+body {
+	background-color: #f0f0f0;
+}
+
 b, strong {
 	font-weight: 700;
 }
 
 h1 {
 	font-size: 1.625em /*26px*/;
+	margin: 0 0 1em 0;
 }
 
 h2 {
 	font-size: 1.5em /*24px*/;
+	margin: 0 0 1em 0;
 }
 
 h3 {
 	font-size: 1.375em /*22px*/;
+	margin: 0 0 1em 0;
 }
 
 h4 {
 	font-size: 1.25em /*20px*/;
+	margin: 0 0 1em 0;
 }
 
 h5 {
 	font-size: 1.125em /*18px*/;
+	margin: 0 0 1em 0;
 }
+
+.navbar-default {
+	background-color: #fade6e;
+	border: none;
+	color: #333;
+	font-size: .875em;
+}
+
+.brand {
+	width: 150px;
+}
+
 
 
 /* Login page
