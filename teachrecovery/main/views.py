@@ -1,12 +1,13 @@
 from annoying.decorators import render_to
 from pagetree.helpers import get_hierarchy
-from django.views.generic.base import View, TemplateView
+#from django.views.generic.base import View, TemplateView
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from pagetree.generic.views import PageView, EditView
-from pagetree.models import Section, Hierarchy, UserPageVisit
+from pagetree.models import UserPageVisit
+#from pagetree.models import Section, Hierarchy
 from pagetree.helpers import get_section_from_path
 from django.utils.decorators import method_decorator
 #from django import forms
@@ -62,14 +63,14 @@ class ViewPage(LoggedInMixin, PageView):
     def page(request, path):
         # do auth on the request if you need the user to be logged in
         # or only want some particular users to be able to get here
-        hier = teach_recovery_get_hierarchy(request, path)
-        section = get_section_from_path(path, hierarchy=hier)
+        h = teach_recovery_get_hierarchy(request, path)
+        section = get_section_from_path(path, hierarchy=h)
         uv = section.get_uservisit(request.user)
         if uv:
             ec = dict(page_status=uv.status)
         else:
             ec = ''
-        return generic_view_page(request, path, hierarchy=hier, extra_context=ec)
+        return generic_view_page(request, path, hierarchy=h, extra_context=ec)
 
 
 class EditPage(LoggedInMixinSuperuser, EditView):
