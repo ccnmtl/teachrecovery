@@ -1,10 +1,12 @@
 from annoying.decorators import render_to
 from pagetree.helpers import get_hierarchy
+from django.views.generic.base import View, TemplateView
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
-#from django.contrib.auth.models import User
+from pagetree.generic.views import PageView, EditView
+from pagetree.models import Section, Hierarchy, UserPageVisit
 from pagetree.helpers import get_section_from_path
 from django.utils.decorators import method_decorator
 #from django import forms
@@ -27,18 +29,47 @@ def index(request):
     return dict()
 
 
-@login_required
-def page(request, path):
-    # do auth on the request if you need the user to be logged in
-    # or only want some particular users to be able to get here
-    hier = teach_recovery_get_hierarchy(request, path)
-    section = get_section_from_path(path, hierarchy=hier)
-    uv = section.get_uservisit(request.user)
-    if uv:
-        ec = dict(page_status=uv.status)
-    else:
-        ec = ''
-    return generic_view_page(request, path, hierarchy=hier, extra_context=ec)
+class ViewPage(LoggedInMixin, PageView):
+    template_name = "pagetree/page.html"
+    hierarchy_name = "main"
+    hierarchy_base = "/pages/"
+    gated = True
+
+    def get_extra_context(self):
+        menu = []
+        visits = UserPageVisit.objects.filter(user=self.request.user,
+                                              status='complete')
+        visit_ids = visits.values_list('section__id', flat=True)
+
+        previous_unlocked = True
+        for section in self.root.get_descendants():
+            unlocked = section.id in visit_ids
+            item = {
+                'id': section.id,
+                'url': section.get_absolute_url(),
+                'label': section.label,
+                'depth': section.depth,
+                'slug': section.slug,
+                'disabled': not(previous_unlocked or section.id in visit_ids)
+            }
+            if section.depth == 3 and section.get_children():
+                item['toggle'] = True
+            menu.append(item)
+            previous_unlocked = unlocked
+
+        return {'menu': menu}
+
+    def page(request, path):
+        # do auth on the request if you need the user to be logged in
+        # or only want some particular users to be able to get here
+        hier = teach_recovery_get_hierarchy(request, path)
+        section = get_section_from_path(path, hierarchy=hier)
+        uv = section.get_uservisit(request.user)
+        if uv:
+            ec = dict(page_status=uv.status)
+        else:
+            ec = ''
+        return generic_view_page(request, path, hierarchy=hier, extra_context=ec)
 
 
 @login_required
