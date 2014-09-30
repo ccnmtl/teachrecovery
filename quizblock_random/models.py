@@ -23,19 +23,22 @@ class QuizRandom(Quiz):
     def get_random_question(self, section, quiz, user):
         question_set = self.question_set.all()
         set_len = len(question_set)
-        rand_int = randint(0, set_len-1)
-        for question in question_set:
-            try:
-                current_question = QuestionUserLock.objects.filter(
-                    quiz_id=question.quiz.id).get(question_current = True, user_id = user.id)
-                qid = current_question.question_id
-                question  = Question.objects.get(id=qid)
-                return question
-                
-            except QuestionUserLock.DoesNotExist:
-                question = question_set[rand_int]
-                self.set_question_userlock(section, question, user)
-                return question
+        if set_len > 0:
+            rand_int = randint(0, set_len-1)
+            for question in question_set:
+                try:
+                    current_question = QuestionUserLock.objects.filter(
+                        quiz_id=question.quiz.id).get(question_current = True, user_id = user.id)
+                    qid = current_question.question_id
+                    question  = Question.objects.get(id=qid)
+                    return question
+                    
+                except QuestionUserLock.DoesNotExist:
+                    question = question_set[rand_int]
+                    self.set_question_userlock(section, question, user)
+                    return question
+        else:
+            return
     
 
     def set_question_userlock(self, section, question, user):
