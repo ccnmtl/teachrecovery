@@ -137,16 +137,6 @@ input[type=button] {width: auto; overflow: visible;}
 .clearfix:after { clear: both; }  
 .clearfix { zoom: 1; }  
 
-.full-container > .container {
-  background-color: #fff;
-  min-height: 100%;
-  padding-top: 150px;
-}
-
-#content {
-  min-height: 100%;
-}
-
 
 /* Teach Recovery Styles
   ----------------------------------------- */
@@ -198,6 +188,20 @@ h5 {
 	position: relative;
 }
 
+.full-container > .container {
+  	background-color: #fff;
+  	min-height: 100%;
+  	margin-top: -20px;
+	padding: 1.5em;
+}
+
+#content {
+  min-height: 100%;
+}
+
+
+
+
 	/* Header
 	 ------------------------------------------- */
 
@@ -207,6 +211,7 @@ h5 {
 	border: none;
 	color: #333;
 	font-size: .875em;
+	position: relative;
 }
 
 .brand {
@@ -220,7 +225,7 @@ h5 {
 
 .footer {
 	height: 45px;
-	padding: 20px 0;
+	padding: 50px 0;
 	background-color:#499eff;
 	width: 100%;
 	position:absolute;
