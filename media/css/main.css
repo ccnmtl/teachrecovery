@@ -186,6 +186,7 @@ h5 {
 .full-container {
 	min-height: 100%;
 	position: relative;
+	margin-bottom: -175px;
 }
 
 .full-container > .container {
@@ -218,17 +219,20 @@ h5 {
 	width: 150px;
 }
 
-
+.clearfooter {
+	height: 175px;
+	clear: both;
+}
 
 	/* Footer
 	 ------------------------------------------- */
 
 .footer {
-	height: 45px;
+	height: 175px;
 	padding: 50px 0;
 	background-color:#499eff;
 	width: 100%;
-	position:absolute;
+	position: relative;
    	bottom:0;
 }
 
