@@ -72,6 +72,12 @@ class ViewPage(LoggedInMixin, PageView):
         return generic_view_page(request, path, hierarchy=hier, extra_context=ec)
 
 
+class EditPage(LoggedInMixinSuperuser, EditView):
+    template_name = "pagetree/edit_page.html"
+    hierarchy_name = "main"
+    hierarchy_base = "/pages/"
+
+
 @login_required
 def pages_save_edit(request, path):
     # do auth on the request if you need the user to be logged in
@@ -79,13 +85,6 @@ def pages_save_edit(request, path):
     #import pdb
     #pdb.set_trace()
     path = request.GET['p']
-    h = teach_recovery_get_hierarchy(request, path)
-    return generic_edit_page(request, path, hierarchy=h)
-
-
-@login_required
-def edit_page(request, path):
-    # do any additional auth here
     h = teach_recovery_get_hierarchy(request, path)
     return generic_edit_page(request, path, hierarchy=h)
 

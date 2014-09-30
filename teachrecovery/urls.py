@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic import TemplateView
 from teachrecovery.main import views
-from teachrecovery.main.views import ViewPage
+from teachrecovery.main.views import ViewPage, EditPage
 import os.path
 admin.autodiscover()
 
@@ -38,7 +38,7 @@ urlpatterns = patterns(
     (r'^pagetree/', include('pagetree.urls')),
     (r'^quizblock/', include('quizblock.urls')),
     (r'^quizblock_random/', include('quizblock_random.urls')),
-    (r'^pages/edit/(?P<path>.*)$', 'teachrecovery.main.views.edit_page',
+    (r'^pages/edit/(?P<path>.*)$', EditPage.as_view(),
      {}, 'edit-page'),
     (r'^pages/instructor/(?P<path>.*)$',
      'teachrecovery.main.views.instructor_page'),
