@@ -3,17 +3,9 @@
 {% block content %}
 {% if not request.user.is_anonymous %}
 <div class="jumbotron">
-<p>This project includes Pagetree by default.</p>
-
-<p>The first thing you'll want to do is go to
-	the <a href="/pages/edit/">Edit page</a> for the root node and add
-	some modules, child sections and content.</p>
-
-<p> If you don't want to use
-	Pagetree, you should remove it from your requirements.txt and
-	INSTALLED_APPS and clear the views out of your main/views.py</p>
-
-
+	<p> Welcome, please <a href="/pages/course-1/">go here</a> to go to the course page.</p>
+{% elif request.user.is_anonymous %}
+asda
 {% endif %}
 </div>
 {% endblock %}

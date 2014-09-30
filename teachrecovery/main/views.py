@@ -1,5 +1,6 @@
 from annoying.decorators import render_to
 from pagetree.helpers import get_hierarchy
+from django.http import HttpResponseRedirect
 #from django.views.generic.base import View, TemplateView
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
@@ -27,7 +28,10 @@ class LoggedInMixin(object):
 
 @render_to('main/index.html')
 def index(request):
-    return dict()
+    if request.user.is_anonymous():
+        return dict()
+    else:
+        return HttpResponseRedirect('/pages/course-1/')
 
 
 class ViewPage(LoggedInMixin, PageView):
