@@ -11,6 +11,11 @@
 
 /* Let's default this puppy out
 -------------------------------------------------------------------------------*/
+html, body
+{
+	height: 100%;
+}
+
 
 html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
 	margin: 0;
@@ -132,7 +137,7 @@ input[type=button] {width: auto; overflow: visible;}
 .clearfix:after { clear: both; }  
 .clearfix { zoom: 1; }  
 
-body > .container {
+.full-container > .container {
   background-color: #fff;
   min-height: 100%;
   padding-top: 150px;
@@ -188,6 +193,15 @@ h5 {
 	margin: 0 0 1em 0;
 }
 
+.full-container {
+	min-height: 100%;
+	position: relative;
+}
+
+	/* Header
+	 ------------------------------------------- */
+
+
 .navbar-default {
 	background-color: #fade6e;
 	border: none;
@@ -198,6 +212,21 @@ h5 {
 .brand {
 	width: 150px;
 }
+
+
+
+	/* Footer
+	 ------------------------------------------- */
+
+.footer {
+	height: 45px;
+	padding: 20px 0;
+	background-color:#499eff;
+	width: 100%;
+	position:absolute;
+   	bottom:0;
+}
+
 
 
 
