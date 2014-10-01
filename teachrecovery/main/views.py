@@ -62,9 +62,7 @@ class ViewPage(LoggedInMixin, PageView):
                 item['toggle'] = True
             menu.append(item)
             previous_unlocked = unlocked
-
             uv = self.section.get_uservisit(self.request.user)
-            
             try:
                 status = uv.status
             except AttributeError:
