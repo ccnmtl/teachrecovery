@@ -155,14 +155,21 @@
 
   {% if not request.user.is_anonymous %}
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
+        
     {% block sidenav %}{% endblock %}
+        
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9">
       {% block pagetitle %}{% endblock %}
       {% block content %}{% endblock %}
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
       <div id="content-nav" class="prev-next">
         {% block content-nav %}{% endblock %}
+        </div>
       </div>
     </div>
   </div>
