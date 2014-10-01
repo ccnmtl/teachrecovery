@@ -455,5 +455,11 @@ li.menu-4 {
 }
 
 ul.pager li.next a.disabled {
-color: #999;
-cursor: not-allowed;
+  color: #999;
+  cursor: not-allowed;
+}
+
+ul.side-navigation li a.disabled{
+  color: #999;
+  cursor: not-allowed;
+}
