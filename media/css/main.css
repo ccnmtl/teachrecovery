@@ -231,6 +231,144 @@ li.menu-4 {
 	display: none;
 }
 
+.cases {
+	width: 65%;
+	margin: 0 auto;
+}
+
+.errornote {
+    background: url("/media/img/icon_alert.png") no-repeat 5px 5px #FFEBE8;
+    border: 1px solid #c00 !important;
+    display: block;
+    font-size: 11px !important;
+    margin: 0 0 10px 0;
+    padding: 5px 5px 5px 10px !important;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    line-height: 140%;
+}
+
+.answer-options{
+    margin: 0 0 25px 0;
+    padding: 10px 20px 20px 20px;
+    border-radius: 0 0 10px 10px;
+    border-left: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    border-top: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.question-text{
+    padding: 10px;
+    border-radius: 10px 10px 0 0px;
+    border-left: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    border-top: solid 1px #ccc;
+}
+
+.casetitle{
+    display: none;
+}
+.incorrect{
+  color:#aaa;
+
+}
+.incorrect:after{
+  content: url('/media/img/incorrect.png');
+  position: relative;
+  top: 3px;
+}
+.correct:after{
+  content: url('/media/img/correct.png');
+  position: relative;
+  top: 3px;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("../bootstrap/img/glyphicons-halflings.png");
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+}
+.icon-ok {
+  background-position: -288px 0;
+}
+
+ul.pager li.next a.disabled {
+color: #999;
+cursor: not-allowed;
+}
+
+	/* Side Menu
+	 ------------------------------------------- */
+	
+	.side-menu {
+		background-color: #f9f9f9;
+		padding: 1em;
+	}
+	
+	.side-menu h3 {
+		margin: 0 0 .5em 10px;
+		text-transform: uppercase;
+		font-size: 1.25em;
+		font-weight: 400;
+		color: #555;
+	}
+	
+	.side-menu ul li {
+		font-size: .875em;
+		color: #333;
+		background: #fff;
+		padding: 10px 15px;
+		border-bottom: dotted 1px #ccc;
+	}
+
+	.side-menu ul li:first-child {
+		border-top: dotted 1px #ccc;
+	}
+	
+	.side-menu ul li a {
+		color: #499eff;
+	}
+	
+	li.menu-3 b {
+		color: #555;
+	}
+
+
+	/* Pager
+	 ------------------------------------------- */
+
+	ul.pager {
+		margin-top: 75px;
+	}
+
+	.pager li>a, .pager li>span {
+		display: inline-block;
+		padding: 5px 14px;
+		background-color: #fade6e;
+		border:none;
+		border-radius: 3px;
+		font-size: .875em;
+		color: #333;
+	}
+
+	.pager li>a:hover, .pager li>span:hover {
+		background-color: #faebae;
+	}
+	
+	.pager li>a:active, .pager li>span:active {
+		box-shadow: inset 0 3px 5px #ccc;
+	}
 
 
 	/* Footer
@@ -245,7 +383,16 @@ li.menu-4 {
    	bottom:0;
 }
 
+.footer ul li {
+	display: inline;
+	list-style-type: none;
+	padding: 0 1em 0 0;
+	color: #fff;
+}
 
+.footer ul li a {
+	color: #fff;
+}
 
 
 /* Login page
@@ -379,6 +526,7 @@ li.menu-4 {
     font-size: 11px;
 }
 
+<<<<<<< HEAD
 .errornote {
     background: url("/media/img/icon_alert.png") no-repeat 5px 5px #FFEBE8;
     border: 1px solid #c00 !important;
