@@ -329,6 +329,7 @@ h5 {
 	.side-menu {
 		background-color: #f9f9f9;
 		padding: 1em;
+		float: left;
 	}
 	
 	.side-menu h3 {
@@ -422,6 +423,20 @@ h5 {
 	color: #fff;
 }
 
+.footer-right ul {
+	float :right;
+	margin-right: -40px;
+}
+
+
+.footer-right ul li {
+	padding: 0 0 0 50px;
+}
+
+
+.footer-right ul li img {
+	width: 150px;
+}
 
 /* Login page
  ------------------------------------------- */
