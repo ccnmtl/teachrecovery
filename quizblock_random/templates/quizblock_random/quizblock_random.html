@@ -1,8 +1,11 @@
+<div class="quizblock-random-wrapper">
 {% load markup %}
 {% load getresponse %}
 {% if page_status == 'complete' %}
 {% else %}
-{{ block.description|markdown }}
+<div class="quizblock-description">
+	{{ block.description|markdown }}
+</div>
 {% endif %}
 {% load getquestionuserlock %}
 
@@ -22,3 +25,4 @@
 {% endif %}
 
 {% endif %}
+</div>
