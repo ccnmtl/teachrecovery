@@ -1,6 +1,8 @@
 {% load markup %}
 {% load getresponse %}
-{{ block.description|markdown }}
+<div class="quizblock-description">
+	{{ block.description|markdown }}
+</div>
 
 {% if request.user.is_anonymous %}
   <p class="warning">You must be logged in to view this content</p>
