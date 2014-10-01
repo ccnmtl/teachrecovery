@@ -33,4 +33,3 @@ def submitted(parser, token):
     else:
         nodelist_false = None
     return SubmittedNode(section, nodelist_true, nodelist_false)
-
