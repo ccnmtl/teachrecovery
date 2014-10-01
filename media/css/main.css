@@ -390,6 +390,16 @@ li.menu-4 {
     -webkit-border-radius: 3px;
     line-height: 140%;
 }
+.quizblock-description{
+    padding: 10px;
+    background: #E9E9E9;
+    border: solid 1px #ccc;
+    margin: 0 0 15px 0;
+}
+.casecontent{
+    width: 95%;
+    margin: 0 auto;
+}
 .answer-options{
     margin: 0 0 25px 0;
     padding: 10px 20px 20px 20px;
@@ -443,3 +453,7 @@ li.menu-4 {
 .icon-ok {
   background-position: -288px 0;
 }
+
+ul.pager li.next a.disabled {
+color: #999;
+cursor: not-allowed;
