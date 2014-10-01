@@ -4,8 +4,7 @@
 {% if not request.user.is_anonymous %}
 <div class="jumbotron">
 	<p> Welcome, please <a href="/pages/course-1/">go here</a> to go to the course page.</p>
-{% elif request.user.is_anonymous %}
-asda
 {% endif %}
+
 </div>
 {% endblock %}

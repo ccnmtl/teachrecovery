@@ -60,13 +60,18 @@ class ViewPage(LoggedInMixin, PageView):
             }
             if section.depth == 3 and section.get_children():
                 item['toggle'] = True
-            uv = section.get_uservisit(self.request.user)
-
             menu.append(item)
             previous_unlocked = unlocked
-            #import pdb
-            #pdb.set_trace()
-        return {'menu': menu, 'page_status': uv.status}
+
+            uv = self.section.get_uservisit(self.request.user)
+            
+            try:
+                status = uv.status
+            except AttributeError:
+                status = 'incomplete'
+        #import pdb
+        #pdb.set_trace()
+        return {'menu': menu, 'page_status': status}
 
     def page(request, path):
         # do auth on the request if you need the user to be logged in
