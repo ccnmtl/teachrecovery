@@ -444,3 +444,7 @@ h5 {
 .icon-ok {
   background-position: -288px 0;
 }
+
+ul.pager li.next a.disabled {
+color: #999;
+cursor: not-allowed;
