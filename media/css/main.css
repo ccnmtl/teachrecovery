@@ -381,8 +381,19 @@ h5 {
     -webkit-border-radius: 3px;
     line-height: 140%;
 }
-.correct{
-    color: #06A519;
+.incorrect{
+  color:#aaa;
+
+}
+.incorrect:after{
+  content: url('/media/img/incorrect.png');
+  position: relative;
+  top: 3px;
+}
+.correct:after{
+  content: url('/media/img/correct.png');
+  position: relative;
+  top: 3px;
 }
 [class^="icon-"],
 [class*=" icon-"] {
