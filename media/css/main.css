@@ -236,7 +236,10 @@ h5 {
 	/* Quiz content
 	 ------------------------------------------- */
 
-
+	.quizblock-description, .quiz-description {
+		display: none;
+	}
+	
 	.cases {
 		width: 65%;
 		margin: 0 auto 3em auto;
