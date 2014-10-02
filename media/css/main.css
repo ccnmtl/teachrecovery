@@ -250,14 +250,21 @@ h5 {
 	.cases {
 		width: 65%;
 		margin: 0 auto 3em auto;
-		background-color: #f9f9f9;
-		padding: 15px;
 		text-align: left;
 	}
 	
 	.casecontent {
-		background-color: #fff;
+		background-color: #f9f9f9;
 		padding: 15px 25px 25px 25px;
+	}
+	
+	.casequestion {
+		background: #fff;
+		padding: 10px;
+	}
+	
+	.casecontent p {
+		margin: 10px 0 0 0;
 	}
 	
 	.question-text {
@@ -335,6 +342,9 @@ h5 {
 	p.explanation {
 		background-color: #f9f9f9;	
 	}
+
+
+
 
 
 	/* Side Menu
@@ -582,3 +592,9 @@ h5 {
 {
     font-size: 11px;
 }
+
+
+/* Speciality Styles
+ ------------------------------------------- */
+
+
