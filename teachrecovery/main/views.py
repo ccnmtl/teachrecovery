@@ -34,7 +34,7 @@ def index(request):
     if request.user.is_anonymous():
         return dict()
     else:
-        return HttpResponseRedirect('/pages/course-1/')
+        return HttpResponseRedirect('/pages/')
 
 def has_responses(section):
     quizzes = [p.block() for p in section.pageblock_set.all()
@@ -42,31 +42,38 @@ def has_responses(section):
                and p.block().needs_submit()]
     return quizzes != []
 
-class ViewPage(LoggedInMixin, PageView):
+class ViewPage(LoggedInMixin, PageViewExtend):
     template_name = "pagetree/page.html"
-    hierarchy_name = "main2"
+    hierarchy_name = "main"
     hierarchy_base = "/pages/"
     gated = True
-
+    
     def get(self, request, path, hierarchy):
-        allow_redo = False
-        needs_submit = self.section.needs_submit()
-        if needs_submit:
-            allow_redo = self.section.allow_redo()
-        self.upv.visit()
-        instructor_link = has_responses(self.section)
-        context = dict(
-            section=self.section,
-            module=self.module,
-            needs_submit=needs_submit,
-            allow_redo=allow_redo,
-            is_submitted=self.section.submitted(request.user),
-            modules=self.root.get_children(),
-            root=self.section.hierarchy.get_root(),
-            instructor_link=instructor_link,
-        )
         import pdb
         pdb.set_trace()
+        section = get_section_from_path(path, hierarchy=hierarchy)
+
+        module = section.get_module()
+        root = section.hierarchy.get_root()
+
+        allow_redo = False
+        needs_submit = section.needs_submit()
+        if needs_submit:
+            allow_redo = section.allow_redo()
+        self.upv.visit()
+        instructor_link = has_responses(section)
+        
+
+        context = dict(
+            section=section,
+            module=module,
+            needs_submit=needs_submit,
+            allow_redo=allow_redo,
+            is_submitted=section.submitted(request.user),
+            modules=root.get_children(),
+            root=section.hierarchy.get_root(),
+            instructor_link=instructor_link,
+        )
         context.update(self.get_extra_context())
         return render(request, self.template_name, context)
 
