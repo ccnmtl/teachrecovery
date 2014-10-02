@@ -324,6 +324,10 @@ h5 {
 	background-color: #499eff;
 	border-color: #3e86d9;
 }
+	
+	p.explanation {
+		background-color: #f9f9f9;	
+	}
 
 
 	/* Side Menu
