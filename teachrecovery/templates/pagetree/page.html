@@ -96,11 +96,12 @@
 <script>
 jQuery(document).ready(function(){
 var btn = jQuery('#submit');
+var form, uls, is_ready_to_submit, questions_ready;
 btn.click(function(){
-  window.form = jQuery(this).parent();
-  window.uls = form.find('.answer-options ul');
-  window.is_ready_to_submit = false;
-  window.questions_ready =[];
+  form = jQuery(this).parent();
+  uls = form.find('.answer-options ul');
+  is_ready_to_submit = false;
+  questions_ready =[];
   jQuery(uls).each(function(){
     inputs = jQuery(this).find('input');
     inputs.each(function(){

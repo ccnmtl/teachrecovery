@@ -1,6 +1,7 @@
 from annoying.decorators import render_to
 from pagetree.helpers import get_hierarchy
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 #from django.views.generic.base import View, TemplateView
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
@@ -8,9 +9,11 @@ from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from pagetree.generic.views import PageView, EditView
 from pagetree.models import UserPageVisit
-#from pagetree.models import Section, Hierarchy
+from pagetree.models import Section, Hierarchy
 from pagetree.helpers import get_section_from_path
 from django.utils.decorators import method_decorator
+from teachrecovery.main.models import PageViewExtend
+
 #from django import forms
 
 
@@ -33,23 +36,48 @@ def index(request):
     else:
         return HttpResponseRedirect('/pages/course-1/')
 
+def has_responses(section):
+    quizzes = [p.block() for p in section.pageblock_set.all()
+               if hasattr(p.block(), 'needs_submit')
+               and p.block().needs_submit()]
+    return quizzes != []
 
 class ViewPage(LoggedInMixin, PageView):
     template_name = "pagetree/page.html"
-    hierarchy_name = "main"
+    hierarchy_name = "main2"
     hierarchy_base = "/pages/"
     gated = True
+
+    def get(self, request, path, hierarchy):
+        allow_redo = False
+        needs_submit = self.section.needs_submit()
+        if needs_submit:
+            allow_redo = self.section.allow_redo()
+        self.upv.visit()
+        instructor_link = has_responses(self.section)
+        context = dict(
+            section=self.section,
+            module=self.module,
+            needs_submit=needs_submit,
+            allow_redo=allow_redo,
+            is_submitted=self.section.submitted(request.user),
+            modules=self.root.get_children(),
+            root=self.section.hierarchy.get_root(),
+            instructor_link=instructor_link,
+        )
+        import pdb
+        pdb.set_trace()
+        context.update(self.get_extra_context())
+        return render(request, self.template_name, context)
 
     def get_extra_context(self):
         menu = []
         visits = UserPageVisit.objects.filter(user=self.request.user,
                                               status='complete')
         visit_ids = visits.values_list('section__id', flat=True)
-
         previous_unlocked = True
         for section in self.root.get_descendants():
             unlocked = section.id in visit_ids
-
             item = {
                 'id': section.id,
                 'url': section.get_absolute_url(),
@@ -67,26 +95,13 @@ class ViewPage(LoggedInMixin, PageView):
                 status = uv.status
             except AttributeError:
                 status = 'incomplete'
-        #import pdb
-        #pdb.set_trace()
+        
         return {'menu': menu, 'page_status': status}
-
-    def page(request, path):
-        # do auth on the request if you need the user to be logged in
-        # or only want some particular users to be able to get here
-        h = teach_recovery_get_hierarchy(request, path)
-        section = get_section_from_path(path, hierarchy=h)
-        uv = section.get_uservisit(request.user)
-        if uv:
-            ec = dict(page_status=uv.status)
-        else:
-            ec = ''
-        return generic_view_page(request, path, hierarchy=h, extra_context=ec)
 
 
 class EditPage(LoggedInMixinSuperuser, EditView):
     template_name = "pagetree/edit_page.html"
-    hierarchy_name = "main"
+    hierarchy_name = "main2"
     hierarchy_base = "/pages/"
 
 
