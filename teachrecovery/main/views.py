@@ -8,7 +8,7 @@ from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from pagetree.generic.views import PageView, EditView
-from pagetree.models import UserPageVisit
+from pagetree.models import UserPageVisit, Section
 from django.utils.decorators import method_decorator
 from teachrecovery.main.models import UserModule
 
@@ -47,6 +47,48 @@ class ViewPage(LoggedInMixin, PageView):
     hierarchy_name = "main"
     hierarchy_base = "/pages/"
     gated = True
+    
+    def dispatch(self, request, *args, **kwargs):
+        # allow user access to view module home page even though 
+        # we really control access via UserModule.is_allowed
+        path = kwargs['path']
+        user = request.user
+        section = self.get_section(path)
+        root = section.get_root()
+        module = section.get_module()
+        
+        if not module == None:
+            try:
+                upv = UserPageVisit.objects.get_or_create(section_id=module.id, user_id=user.id)
+                upv[0].status = "complete"
+                upv[0].save()
+                
+            except (ValueError, ObjectDoesNotExist):
+                pass
+
+        rv = self.perform_checks(request, path)
+        if rv is not None:
+            return rv
+        return super(PageView, self).dispatch(request, *args, **kwargs)
+
+    def gate_check(self, user):
+        
+        path = self.request.path
+        user = self.request.user
+        section = self.section
+        root = self.section.get_root()
+        module = self.section.get_module()
+        if section.id == module.id:
+            return None
+        
+        if not self.get_gated():
+            return None
+        # we need to check that they have visited all previous pages
+        # first
+        allow, first = self.section.gate_check(user)
+        if not allow:
+            # redirect to the first one that they need to visit
+            return HttpResponseRedirect(first.get_absolute_url())
 
     def get(self, request, path):
         allow_redo = False
@@ -65,8 +107,10 @@ class ViewPage(LoggedInMixin, PageView):
             root=self.section.hierarchy.get_root(),
             instructor_link=instructor_link,
         )
+        
         context.update(self.get_extra_context())
         try:
+            
             um = UserModule.objects.get(section_id=self.module.id)
             if um.is_allowed:
                 return render(request, self.template_name, context)
@@ -76,8 +120,6 @@ class ViewPage(LoggedInMixin, PageView):
                 return HttpResponse("you don't have permission")
 
     def get_extra_context(self, **kwargs):
-        #import pdb
-        #pdb.set_trace()
         menu = []
         visits = UserPageVisit.objects.filter(user=self.request.user,
                                               status='complete')
