@@ -34,13 +34,23 @@ def submitted(parser, token):
         nodelist_false = None
     return SubmittedNode(section, nodelist_true, nodelist_false)
 
+
 @register.assignment_tag
 def is_module(section):
-
-    import pdb
-    pdb.set_trace()
+    is_mod = False
     root = section.get_root()
-    modules = section.get_children()
+    modules = root.get_children()
     for sections in modules:
         if sections.id == section.id:
-            return true
+            is_mod = True
+    return is_mod
+
+
+@register.assignment_tag
+def is_from_another_module(section_one, section_two):
+    mod_one = section_one.get_module()
+    mod_two = section_two.get_module()
+    if mod_one.id == mod_two.id:
+        return False
+    else:
+        return True

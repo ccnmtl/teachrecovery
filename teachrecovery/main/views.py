@@ -4,14 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 #from django.views.generic.base import View, TemplateView
-from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from pagetree.generic.views import PageView, EditView
 from pagetree.models import UserPageVisit
-from pagetree.models import Section, Hierarchy
-from pagetree.helpers import get_section_from_path
 from django.utils.decorators import method_decorator
 from teachrecovery.main.models import UserModule
 
@@ -37,18 +34,19 @@ def index(request):
     else:
         return HttpResponseRedirect('/pages/')
 
+
 def has_responses(section):
     quizzes = [p.block() for p in section.pageblock_set.all()
                if hasattr(p.block(), 'needs_submit')
                and p.block().needs_submit()]
     return quizzes != []
 
+
 class ViewPage(LoggedInMixin, PageView):
     template_name = "pagetree/page.html"
     hierarchy_name = "main"
     hierarchy_base = "/pages/"
     gated = True
-    
 
     def get(self, request, path):
         allow_redo = False
@@ -69,14 +67,13 @@ class ViewPage(LoggedInMixin, PageView):
         )
         context.update(self.get_extra_context())
         try:
-            um = UserModule.objects.get(section_id = self.module.id)
+            um = UserModule.objects.get(section_id=self.module.id)
             if um.is_allowed:
                 return render(request, self.template_name, context)
             else:
                 return HttpResponse("you don't have permission")
         except (ValueError, ObjectDoesNotExist):
-                return HttpResponse("you don't have permission")            
-
+                return HttpResponse("you don't have permission")
 
     def get_extra_context(self, **kwargs):
         #import pdb
@@ -88,10 +85,13 @@ class ViewPage(LoggedInMixin, PageView):
         previous_unlocked = True
         for section in self.root.get_descendants():
             unlocked = section.id in visit_ids
+            section_module = section.get_module()
+
             item = {
                 'id': section.id,
                 'url': section.get_absolute_url(),
                 'label': section.label,
+                'section_module': section_module,
                 'depth': section.depth,
                 'slug': section.slug,
                 'disabled': not(previous_unlocked or section.id in visit_ids)
@@ -105,7 +105,6 @@ class ViewPage(LoggedInMixin, PageView):
                 status = uv.status
             except AttributeError:
                 status = 'incomplete'
-        
         return {'menu': menu, 'page_status': status}
 
 
@@ -119,8 +118,6 @@ class EditPage(LoggedInMixinSuperuser, EditView):
 def pages_save_edit(request, path):
     # do auth on the request if you need the user to be logged in
     # or only want some particular users to be able to get here
-    #import pdb
-    #pdb.set_trace()
     path = request.GET['p']
     h = teach_recovery_get_hierarchy(request, path)
     return generic_edit_page(request, path, hierarchy=h)
@@ -136,6 +133,4 @@ def instructor_page(request, path):
 @login_required
 def teach_recovery_get_hierarchy(request, path):
     h = get_hierarchy("main", "/pages/")
-    import pdb
-    pdb.set_trace()
     return h
