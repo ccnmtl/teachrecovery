@@ -139,7 +139,7 @@ btn.click(function(){
 {% endif %}
 
 {% if next_section %}
-
+{% is_module section as is_mod %}
 <li class="next"><a class="{% ifsubmitted section %}{% else %}disabled{%endifsubmitted%}" href="{{next_section.get_absolute_url}}">{{next_section.label}} &rarr;</a></li>
 
 {% endif %}
