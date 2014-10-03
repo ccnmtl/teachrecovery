@@ -117,7 +117,7 @@ class QuizRandom(Quiz):
 
 
 class QuestionUserLock(models.Model):
-    section = models.ForeignKey(Section,)
+    section = models.ForeignKey(Section)
     quiz = models.ForeignKey(QuizRandom)
     question = models.ForeignKey(Question)
     user = models.ForeignKey(User)

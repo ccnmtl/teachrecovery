@@ -1,7 +1,8 @@
 from annoying.decorators import render_to
 from pagetree.helpers import get_hierarchy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 #from django.views.generic.base import View, TemplateView
 from pagetree.generic.views import generic_view_page
 from pagetree.generic.views import generic_edit_page
@@ -12,7 +13,7 @@ from pagetree.models import UserPageVisit
 from pagetree.models import Section, Hierarchy
 from pagetree.helpers import get_section_from_path
 from django.utils.decorators import method_decorator
-from teachrecovery.main.models import PageViewExtend
+from teachrecovery.main.models import UserModule
 
 #from django import forms
 
@@ -42,42 +43,44 @@ def has_responses(section):
                and p.block().needs_submit()]
     return quizzes != []
 
-class ViewPage(LoggedInMixin, PageViewExtend):
+class ViewPage(LoggedInMixin, PageView):
     template_name = "pagetree/page.html"
     hierarchy_name = "main"
     hierarchy_base = "/pages/"
     gated = True
     
-    def get(self, request, path, hierarchy):
-        import pdb
-        pdb.set_trace()
-        section = get_section_from_path(path, hierarchy=hierarchy)
 
-        module = section.get_module()
-        root = section.hierarchy.get_root()
-
+    def get(self, request, path):
         allow_redo = False
-        needs_submit = section.needs_submit()
+        needs_submit = self.section.needs_submit()
         if needs_submit:
-            allow_redo = section.allow_redo()
+            allow_redo = self.section.allow_redo()
         self.upv.visit()
-        instructor_link = has_responses(section)
-        
-
+        instructor_link = has_responses(self.section)
         context = dict(
-            section=section,
-            module=module,
+            section=self.section,
+            module=self.module,
             needs_submit=needs_submit,
             allow_redo=allow_redo,
-            is_submitted=section.submitted(request.user),
-            modules=root.get_children(),
-            root=section.hierarchy.get_root(),
+            is_submitted=self.section.submitted(request.user),
+            modules=self.root.get_children(),
+            root=self.section.hierarchy.get_root(),
             instructor_link=instructor_link,
         )
         context.update(self.get_extra_context())
-        return render(request, self.template_name, context)
+        try:
+            um = UserModule.objects.get(section_id = self.module.id)
+            if um.is_allowed:
+                return render(request, self.template_name, context)
+            else:
+                return HttpResponse("you don't have permission")
+        except (ValueError, ObjectDoesNotExist):
+                return HttpResponse("you don't have permission")            
 
-    def get_extra_context(self):
+
+    def get_extra_context(self, **kwargs):
+        #import pdb
+        #pdb.set_trace()
         menu = []
         visits = UserPageVisit.objects.filter(user=self.request.user,
                                               status='complete')
@@ -108,7 +111,7 @@ class ViewPage(LoggedInMixin, PageViewExtend):
 
 class EditPage(LoggedInMixinSuperuser, EditView):
     template_name = "pagetree/edit_page.html"
-    hierarchy_name = "main2"
+    hierarchy_name = "main"
     hierarchy_base = "/pages/"
 
 
@@ -133,4 +136,6 @@ def instructor_page(request, path):
 @login_required
 def teach_recovery_get_hierarchy(request, path):
     h = get_hierarchy("main", "/pages/")
+    import pdb
+    pdb.set_trace()
     return h

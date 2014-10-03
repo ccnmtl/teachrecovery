@@ -43,7 +43,7 @@ urlpatterns = patterns(
      {}, 'edit-page'),
     (r'^pages/instructor/(?P<path>.*)$',
      'teachrecovery.main.views.instructor_page'),
-    (r'^(?P<hierarchy>.*)/pages/(?P<path>.*)$', ViewPage.as_view()),
+    (r'^pages/(?P<path>.*)$', ViewPage.as_view()),
     (r'^pages_save_edit/(?P<path>.*)$',
         'teachrecovery.main.views.pages_save_edit'),
 

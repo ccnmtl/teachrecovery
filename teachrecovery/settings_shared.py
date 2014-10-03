@@ -13,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'teachrecovery',
+        'NAME': 'teachrecovery00',
         'HOST': '',
         'PORT': 5432,
         'USER': '',
