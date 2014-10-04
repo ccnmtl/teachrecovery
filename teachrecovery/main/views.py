@@ -8,7 +8,7 @@ from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from pagetree.generic.views import PageView, EditView
-from pagetree.models import UserPageVisit, Section
+from pagetree.models import UserPageVisit
 from django.utils.decorators import method_decorator
 from teachrecovery.main.models import UserModule
 
@@ -47,22 +47,23 @@ class ViewPage(LoggedInMixin, PageView):
     hierarchy_name = "main"
     hierarchy_base = "/pages/"
     gated = True
-    
+
     def dispatch(self, request, *args, **kwargs):
-        # allow user access to view module home page even though 
+        # allow user access to view module home page even though
         # we really control access via UserModule.is_allowed
         path = kwargs['path']
         user = request.user
         section = self.get_section(path)
-        root = section.get_root()
         module = section.get_module()
-        
-        if not module == None:
+
+        if module is not None:
             try:
-                upv = UserPageVisit.objects.get_or_create(section_id=module.id, user_id=user.id)
+                upv = UserPageVisit.objects.get_or_create(
+                    section_id=module.id,
+                    user_id=user.id)
                 upv[0].status = "complete"
                 upv[0].save()
-                
+
             except (ValueError, ObjectDoesNotExist):
                 pass
 
@@ -72,23 +73,56 @@ class ViewPage(LoggedInMixin, PageView):
         return super(PageView, self).dispatch(request, *args, **kwargs)
 
     def gate_check(self, user):
-        
-        path = self.request.path
         user = self.request.user
         section = self.section
-        root = self.section.get_root()
         module = self.section.get_module()
         if section.id == module.id:
             return None
-        
+
         if not self.get_gated():
             return None
         # we need to check that they have visited all previous pages
         # first
-        allow, first = self.section.gate_check(user)
+        allow, first = self.gate_check_module(user, self.section)
+        #import pdb
+        #pdb.set_trace()
         if not allow:
             # redirect to the first one that they need to visit
             return HttpResponseRedirect(first.get_absolute_url())
+
+    def gate_check_module(self, user, section):
+            """ return bool, section tuple for whether the user
+            has visited every section previous to this one and
+            which is the first that they need to visit if that's
+            not the case """
+            if not user:
+                # no user: the important thing is just that we deny access
+                return False, self
+
+            # otherwise, let's start at the beginning and check each
+            depth_first_traversal = section.get_annotated_list(
+                parent=section.get_module())
+
+            # prep a list of all the visits for this user
+            upvs = [upv.section.id
+                    for upv in list(UserPageVisit.objects.filter(user=user))
+                    if upv.status == 'complete']
+            for (i, (s, ai)) in enumerate(depth_first_traversal):
+                # skip the root
+                if s.is_root():
+                    continue
+                if s.id == section.id:
+                    # we've reached the current section. That
+                    # means they're good to go.
+                    return True, None
+                else:
+                    if s.id not in upvs:
+                        # uh oh. found a page that they haven't visited
+                        # need to send them there first
+                        return False, s
+            # went through the entire list of sections without finding
+            # the current section?!
+            assert False, "current section not found in traversal"
 
     def get(self, request, path):
         allow_redo = False
@@ -107,11 +141,12 @@ class ViewPage(LoggedInMixin, PageView):
             root=self.section.hierarchy.get_root(),
             instructor_link=instructor_link,
         )
-        
+
         context.update(self.get_extra_context())
         try:
-            
-            um = UserModule.objects.get(section_id=self.module.id)
+            um = UserModule.objects.get(
+                section_id=self.module.id,
+                user_id=self.request.user.id)
             if um.is_allowed:
                 return render(request, self.template_name, context)
             else:
