@@ -48,29 +48,6 @@ class ViewPage(LoggedInMixin, PageView):
     hierarchy_base = "/pages/"
     gated = True
 
-    def dispatch(self, request, *args, **kwargs):
-        # allow user access to view module home page even though
-        # we really control access via UserModule.is_allowed
-        path = kwargs['path']
-        user = request.user
-        section = self.get_section(path)
-        module = section.get_module()
-
-        if module is not None:
-            try:
-                upv = UserPageVisit.objects.get_or_create(
-                    section_id=module.id,
-                    user_id=user.id)
-                upv[0].status = "complete"
-                upv[0].save()
-
-            except (ValueError, ObjectDoesNotExist):
-                pass
-
-        rv = self.perform_checks(request, path)
-        if rv is not None:
-            return rv
-        return super(PageView, self).dispatch(request, *args, **kwargs)
 
     def gate_check(self, user):
         user = self.request.user
