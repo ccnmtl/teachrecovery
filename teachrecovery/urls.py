@@ -1,10 +1,15 @@
+import os.path
+
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.conf import settings
 from django.views.generic import TemplateView
+
 from teachrecovery.main import views
-from teachrecovery.main.views import ViewPage, EditPage
-import os.path
+from teachrecovery.main.views import TeachRecoveryPageView, \
+    TeachRecoveryEditView
+
+
 admin.autodiscover()
 
 
@@ -38,13 +43,22 @@ urlpatterns = patterns(
     (r'^pagetree/', include('pagetree.urls')),
     (r'^quizblock/', include('quizblock.urls')),
     (r'^quizblock_random/', include('quizblock_random.urls')),
-    (r'^pages/edit/(?P<path>.*)$', EditPage.as_view(),
-     {}, 'edit-page'),
-    (r'^pages/instructor/(?P<path>.*)$',
-     'teachrecovery.main.views.instructor_page'),
-    (r'^pages/(?P<path>.*)$', ViewPage.as_view()),
-    (r'^pages_save_edit/(?P<path>.*)$',
+
+    (r'^pages_save_edit/(?P<hierarchy_name>[-\w]+)/(?P<path>.*)$',
         'teachrecovery.main.views.pages_save_edit'),
+
+    # (r'^pages/edit/(?P<path>.*)$', EditPage.as_view(),
+    #  {}, 'edit-page'),
+    # (r'^pages/instructor/(?P<path>.*)$',
+    #  'teachrecovery.main.views.instructor_page'),
+    # (r'^pages/(?P<path>.*)$', ViewPage.as_view()),
+
+    (r'^pages/(?P<hierarchy_name>[-\w]+)/edit/(?P<path>.*)$',
+     TeachRecoveryEditView.as_view()),
+    (r'^pages/(?P<hierarchy_name>[-\w]+)/instructor/(?P<path>.*)$',
+     'teachrecovery.main.views.instructor_page'),
+    (r'^pages/(?P<hierarchy_name>[-\w]+)/(?P<path>.*)$',
+     TeachRecoveryPageView.as_view()),
 )
 
 

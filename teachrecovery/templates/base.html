@@ -75,8 +75,15 @@
             {% else %}
               <b>{{ request.user.username }}</b>
             {% endif %}
+
+           {% if instructor_link %}
+               <a href="{{section.get_instructor_url}}" class="btn btn-default">Responses</a></li>
+           {% endif %}
+
 {% if request.user.is_superuser %}
-          <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
+          {% block edit-or-view-page %}   
+            <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
+          {% endblock %}
           <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
 {% endif %}
           <a href="/accounts/logout/" class="btn btn-default">logout</a>
@@ -153,18 +160,18 @@
 {% endif %}
 {% endblock %}
 
-  {% if not request.user.is_anonymous %}
-  <div class="row">
-    <div class="col-md-3">
-        
-    {% block sidenav %}{% endblock %}
-        
+{% if not request.user.is_anonymous %}
+    {% block content-container %}
+    <div class="row">
+        <div class="col-md-3">
+            {% block sidenav %}{% endblock %}
+        </div>
+        <div class="col-md-9">
+            {% block pagetitle %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
-    <div class="col-md-9">
-      {% block pagetitle %}{% endblock %}
-      {% block content %}{% endblock %}
-    </div>
-    </div>
+    {% endblock %}
     <div class="row">
         <div class="col-md-12">
       <div id="content-nav" class="prev-next">
