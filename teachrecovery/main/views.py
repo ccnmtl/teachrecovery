@@ -1,6 +1,6 @@
 from annoying.decorators import render_to
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from pagetree.generic.views import PageView, EditView
 from pagetree.generic.views import generic_edit_page
@@ -24,11 +24,8 @@ class LoggedInMixin(object):
 
 
 @render_to('main/index.html')
-def index(request):
-    if request.user.is_anonymous():
-        return dict()
-    else:
-        return HttpResponseRedirect('/pages/course-one/')
+def index(request, *args, **kwargs):
+    return dict()
 
 
 def has_responses(section):
