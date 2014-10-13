@@ -113,6 +113,8 @@ btn.click(function(){
   if(questions_ready.length == uls.length){
     jQuery('#form').append('<input class="hidden" id="submit-ready" type="submit">');
     jQuery('#submit-ready').trigger('click');
+  }else{
+    alert('Please complete all questions.')
   }
 })//end .click
 
