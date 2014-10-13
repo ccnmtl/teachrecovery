@@ -48,8 +48,8 @@ def is_module(section):
 
 @register.assignment_tag
 def is_from_another_module(section_one, section_two):
-    mod_one = section_one.get_module()
-    mod_two = section_two.get_module()
+    mod_one = section_one.get_root()
+    mod_two = section_two.get_root()
     if mod_one.id == mod_two.id:
         return False
     else:
