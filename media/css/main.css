@@ -452,6 +452,11 @@ padding: 30px;
 		box-shadow: inset 0 3px 5px #ccc;
 	}
 
+	ul.side-navigation li a.disabled {
+		color: #999;
+		cursor: not-allowed;
+	}
+
 	ul.pager li.next a.disabled {
 		color: #999;
 		cursor: not-allowed;

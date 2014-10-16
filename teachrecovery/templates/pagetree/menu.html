@@ -4,15 +4,9 @@
         <div class="pull-left primary-toc">
             <ul class="side-navigation">
             {% for s in menu %}
-            {% ifequal s.section_module.id section.get_module.id%}
-                {% ifequal s.id module.id %}
-                <li>
-                  {% else %}
                   <li class="menu-{{s.depth}}">
                   <a href="{{s.url}}" data-id="{{s.id}}"
                      class="primary-menu-{{s.depth}}{% ifequal s.id section.id %} current{% endifequal %}{% if s.disabled %} disabled{% endif %}">{{s.label}}</a></li>
-                {% endifequal %}
-            {% endifequal %}
             {% endfor %}
             </ul>
         </div>

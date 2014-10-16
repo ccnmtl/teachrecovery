@@ -66,8 +66,6 @@ class TeachRecoveryPageView(LoggedInMixin,
     gated = True
 
     def get_extra_context(self, **kwargs):
-        # import pdb
-        # pdb.set_trace()
         menu = []
         visits = UserPageVisit.objects.filter(user=self.request.user,
                                               status='complete')
@@ -75,13 +73,10 @@ class TeachRecoveryPageView(LoggedInMixin,
         previous_unlocked = True
         for section in self.root.get_descendants():
             unlocked = section.id in visit_ids
-            section_module = section.get_module()
-
             item = {
                 'id': section.id,
                 'url': section.get_absolute_url(),
                 'label': section.label,
-                'section_module': section_module,
                 'depth': section.depth,
                 'slug': section.slug,
                 'disabled': not(previous_unlocked or section.id in visit_ids)
