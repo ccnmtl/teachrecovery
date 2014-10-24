@@ -231,8 +231,10 @@ TR = {
 		};
 		this.calculateRound = function(){
 			var change = this.calculateChange(), answer = this.roundAnswer[this.round];
-			if(change === answer || this.round === 2){
+			if(change === answer){
 				this.status = "complete";
+			}else if(this.round === 2){
+				this.status = "default";
 			}else{
 				this.round = 2;
 			}
@@ -252,26 +254,38 @@ TR = {
 			var boxTemplate, boxBtn, status;
 			status = TR.gameInstance.status;
 
-			boxTemplate = $('<div id="alert-box"></div>');
+			boxTemplate = $('<div id="alert-box" class="'+status+'"></div>');
+			boxText = {
+				'incomplete': $('<p>Sorry</p><p>Try again!</p>'), 
+				'complete': $('<p>Correct!</p><p>Nice work! Let\'s move on.</p>'),
+				'default': $('<p>Sorry, still incorect.</p><p>Let\'s move on anyway.</p>')
+			}
 			boxBtn = {
 				'incomplete': $('<button type="button">Try Again</button/>'),
-				'complete': $('<button type="button">Continue</button/>')
+				'complete': $('<button type="button">Continue</button/>'),
+				'default': $('<button type="button">Continue</button/>')
 			}
 			boxBtn.incomplete.click(function(){
 				var g = TR.gameInstance;
 				g.updateRound();
 				boxTemplate.remove();
+				$('#calc-box').show();
 			})
 			boxBtn.complete.click(function(){
 				var g = TR.gameInstance;
 				alert('need to rig up section.complete');
 				boxTemplate.remove();
 			})
-			window.b= boxBtn;
-			console.log(boxBtn);
+			boxBtn.default.click(function(){
+				var g = TR.gameInstance;
+				alert('need to rig up section.complete');
+				boxTemplate.remove();
+			})
+			$('#calc-box').hide();
+			boxTemplate.append(boxText[status])
 			boxTemplate.append(boxBtn[status]);
 			$('body').append(boxTemplate);
-		}
+		};
 
 		this.init = function(){
 			this.gameBoard.setBoard('body');
