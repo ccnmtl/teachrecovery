@@ -1,93 +1,93 @@
-
+var TR;
 TR = {
-	Coin: function(coinType, index){
+    Coin: function (coinType, index){
 		this.coinType = coinType;
 		this.index = index;
 		this.status = 'inactive';
 		this.values = {
-			quarter: .25,
-			dime: .10,
-			nickel: .05,
-			penny: .01
-		},
+			quarter: 0.25,
+			dime: 0.10,
+			nickel: 0.05,
+			penny: 0.01
+		};
+
 		this.selector = coinType + '-' + index;
 		this.coinTemplate  = {
 				quarter: '<div id="'+ this.selector +'" class="coin quarter"><div class="val">25&cent;</div></div>',
 				dime: '<div id="'+ this.selector +'" class="coin dime"><div class="val">10&cent;</div></div>',
 				nickel: '<div id="'+ this.selector +'" class="coin nickel"><div class="val">5&cent;</div></div>',
-				penny: '<div id="'+ this.selector +'" class="coin penny"><div class="val">1&cent;</div></div>',
-		},
+				penny: '<div id="'+ this.selector +'" class="coin penny"><div class="val">1&cent;</div></div>'
+		};
 
 		this.setValue = function(coinType){
 			this.value = this.values[coinType];
-		}
+		};
 		this.setHtml = function(coinType){
 			this.html = this.coinTemplate[coinType];
 			this.appendToBox(this.html);
-		}
+		};
 		this.appendToBox = function(html){
 			$('#'+this.coinType + '-box').append(html);
 			$('#'+this.selector).css({
 				marginLeft: (this.index * 5) + 'px'
-			})
+			});
 			$('#'+this.selector).click(function(){
-				var coin = $(this).clone();
+				var c = TR.gameInstance.get_coin_instance($(this));
 				$(this).remove();
-				c = TR.gameInstance.get_coin_instance($(this));
-				c.appendToGameBoard(c.html, c.selector)
+				c.appendToGameBoard(c.html, c.selector);
 				c.status = 'active';
-			})
-		}
+			});
+		};
 		
 		this.appendToGameBoard = function(html, selector){
 			$('.board-row-two .board-col-two').append(html);
-			var elm = $('#'+selector);
-			var c = TR.gameInstance.get_coin_instance($(html));
+			var c, elm;
+			elm = $('#'+selector);
+			c = TR.gameInstance.get_coin_instance($(html));
 			elm.css({
 				position:'relative',
 				float: 'left',
 				marginLeft: (c.index *8) + 'px'
-			})
-			
+			});
 
 			$(elm).click(function(){
 				$(this).remove();
-				var c = TR.gameInstance.get_coin_instance($(this));
-				c.appendToBox(c.html)
-			})
-		}
+				c.appendToBox(c.html);
+			});
+		};
 
 		this.init = function(){
 			this.setValue(this.coinType);
 			this.setHtml(this.coinType);
-		}
+		};
 
-		this.init()
+		this.init();
 	},
 
 	Board: function(game){
 		this.game = game;
 		this.templates={
-			boardArea : function(){ return $('<div id="board-area"/>')},
-			boardRowOne: function(){ return $('<div class="board-row-one"/>')},
-			boardRowTwo : function(){ return $('<div class="board-row-two"/>')},
-			boardRowThree : function(){ return $('<div class="board-row-three"/>')},
-			boardColOne : function(){ return $('<div class="board-col-one"/>')},
-			boardColTwo : function(){ return $('<div class="board-col-two"/>')},
-			qBox :function(){ return $('<div id="quarter-box"/>')},
-			dBox :function(){ return $('<div id="dime-box"/>')},
-			nBox :function(){ return $('<div id="nickel-box"/>')},
-			pBox :function(){ return $('<div id="penny-box"/>')},
-			roundBox :function(){ return $('<div id="round-box"/>')}
-		}
+			boardArea : function(){ return $('<div id="board-area"/>');},
+			boardRowOne: function(){ return $('<div class="board-row-one"/>');},
+			boardRowTwo : function(){ return $('<div class="board-row-two"/>');},
+			boardRowThree : function(){ return $('<div class="board-row-three"/>');},
+			boardColOne : function(){ return $('<div class="board-col-one"/>');},
+			boardColTwo : function(){ return $('<div class="board-col-two"/>');},
+			qBox :function(){ return $('<div id="quarter-box"/>');},
+			dBox :function(){ return $('<div id="dime-box"/>');},
+			nBox :function(){ return $('<div id="nickel-box"/>');},
+			pBox :function(){ return $('<div id="penny-box"/>');},
+			roundBox :function(){ return $('<div id="round-box"/>');}
+		};
 		
 		this.setBoard = function(selector){
 
 			this.templates.boardParent= $(selector);
-			var t = this.templates;
-			
-			//	just going to set a bunch of global stuff
-			// for accessibility
+			var t = this.templates, ba, bro, brtw, 
+				brth, brcolOneA, brcolOneB, brcolOneC, 
+				brcolTwoA, brcolTwoB, brcolTwoC, 
+				qBox, dBox, nBox, pBox, rBox;
+
 			ba = new t.boardArea();
 			bro = new t.boardRowOne();
 			brtw = new t.boardRowTwo();
@@ -122,25 +122,22 @@ TR = {
 
 			//show the current round
 			this.showRound();
-		}
+		};
 		
 		this.addChangeArea = function(){
 			var changeArea= new TR.ChangeArea();
 			TR.gameInstance.changeArea = changeArea;	
-		}
+		};
 
 		this.showRound = function(changeArea){
-				var g = TR.gameInstance;
-				var text = g.roundText[g.round];
+				var g = TR.gameInstance, text = g.roundText[g.round];
 				$('#round-box').empty();
 				$('#round-box').text(text);
 
 				if(changeArea){
-					changeArea.showChangeText()
+					changeArea.showChangeText();
 				}
-
-			}
-		
+			};
 	},
 	ChangeArea: function(){
 		this.template = $('<div id="change-area"><div class="change-header">\
@@ -149,23 +146,22 @@ TR = {
 			1: '$0.87',
 			2: '$1.33',
 			'header': 'Make This Amount of Change:'
-		}
+		};
 		this.appendToGameBoard = function(){
 
 			$('.board-row-one .board-col-two').append(this.template);
 			this.showChangeText();
-		}
+		};
 		this.showChangeText = function(){
-						var t = this.template;
-			var round = TR.gameInstance.round;
+			var t = this.template, round = TR.gameInstance.round;
 			t.children('.change-header').empty()
-				.append(this.templateText['header']);
+				.append(this.templateText.header);
 			t.children('.num-display').empty()
 				.append(this.templateText[round]);
-		}
+		};
 		this.init = function(){
 			this.appendToGameBoard();
-		}
+		};
 		this.init();
 	},
 	Game: function(){
@@ -177,7 +173,7 @@ TR = {
 		this.roundAnswer = {
 			1: 0.87,
 			2: 1.33
-		}
+		};
 		// make a reference 
 		TR.gameInstance = this;
 		
@@ -189,41 +185,63 @@ TR = {
 			dime: 5,
 			nickel: 5,
 			penny: 5
-		}
+		};
 
 		this.gameBoard = new TR.Board(this);
 		// make coins
 		this.makeCoins = function(){
+			var i, c;
 			$.each(this.coinSetup, function(key, value){
 				for(i=0;i<value;i++){
-					var c = new TR.Coin(key, i);
+					c = new TR.Coin(key, i);
 					TR.gameInstance.coins[c.selector]=c;
 				}
-			})
-		}
+			});
+		};
 		this.get_coin_instance = function(elm){
 			var id = elm.attr('id');
 			return TR.gameInstance.coins[id];
-		}
+		};
 		this.calculateChange = function(){
 			var coins = this.coins;
 			coins.active = [];
 			coins.changeCount = 0;
 			$.each(coins, function(key, value){
-				if(value.status == 'active'){
+				if(value.status === 'active'){
 					coins.active.push(this);
 					coins.changeCount += this.value;
 				}
-			})
-			return coins.changeCount;
-		}
+			});
+			return Math.round(coins.changeCount * 100) / 100;
+		};
+		this.calculateRound = function(){
+			var change = this.calculateChange(), answer = this.roundAnswer[this.round];
+			if(change === answer ){
+				alert('you got it!');
+			}else{
+				alert('nope, try again');
+				this.round = 2;
+				this.updateRound();
+			}
+		};
+
+		this.updateRound = function(){
+			var g = TR.gameInstance;
+			$('.coin').remove();
+			g.makeCoins();
+			g.changeArea.showChangeText();
+			g.gameBoard.showRound();
+
+		};
+
 		this.init = function(){
 			this.gameBoard.setBoard('body');
 			this.makeCoins();
-		}
+		};
 		this.init()
 	}
 }
+
 jQuery(document).ready(function(){
 	(function($) {
 		g = new TR.Game();
