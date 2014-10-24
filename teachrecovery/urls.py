@@ -41,7 +41,6 @@ urlpatterns = patterns(
     logout_page,
     admin_logout_page,
     auth_urls,
-    
     (r'^registration/', include('registration.backends.default.urls')),
     url(r'^$', views.index, name="index"),
     (r'^admin/', include(admin.site.urls)),
