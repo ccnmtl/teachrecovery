@@ -52,6 +52,7 @@ TR = {
 
 			$(elm).click(function(){
 				$(this).remove();
+				c.status = "inactive";
 				c.appendToBox(c.html);
 			});
 		};
@@ -77,7 +78,13 @@ TR = {
 			dBox :function(){ return $('<div id="dime-box"/>');},
 			nBox :function(){ return $('<div id="nickel-box"/>');},
 			pBox :function(){ return $('<div id="penny-box"/>');},
-			roundBox :function(){ return $('<div id="round-box"/>');}
+			roundBox :function(){ return $('<div id="round-box"/>');},
+			calcBox :function(){ 
+				var a = $('<div id="calc-box"/>');
+				var b = $('<button value="button">Count My Change</button>');
+				a.append(b);
+				return a;
+			}
 		};
 		
 		this.setBoard = function(selector){
@@ -103,6 +110,7 @@ TR = {
 			nBox = new t.nBox();
 			pBox = new t.pBox();
 			rBox = new t.roundBox();
+			cBox = new t.calcBox();
 
 			t.boardParent.append( ba);
 			ba.append( bro );
@@ -116,12 +124,18 @@ TR = {
 			brtw.append(brcolTwoB );
 			brth.append(brcolOneC);
 			brth.append(brcolTwoC );
+			brcolTwoC.append(cBox);
 
 			//now that board is set add change area
 			this.addChangeArea();
 
 			//show the current round
 			this.showRound();
+
+			//assign click handler to calcBox
+			cBox.click(function(){
+				game.calculateRound();
+			})
 		};
 		
 		this.addChangeArea = function(){
@@ -165,10 +179,11 @@ TR = {
 		this.init();
 	},
 	Game: function(){
+		this.status = "incomplete";
 		this.round = 1;
 		this.roundText = {
-			1: "Round 1 of 1",
-			2: "Round 1 of 2"
+			1: "Round 1 of 2",
+			2: "Round 2 of 2"
 		};
 		this.roundAnswer = {
 			1: 0.87,
@@ -216,13 +231,12 @@ TR = {
 		};
 		this.calculateRound = function(){
 			var change = this.calculateChange(), answer = this.roundAnswer[this.round];
-			if(change === answer ){
-				alert('you got it!');
+			if(change === answer || this.round === 2){
+				this.status = "complete";
 			}else{
-				alert('nope, try again');
 				this.round = 2;
-				this.updateRound();
 			}
+			this.alertBox();
 		};
 
 		this.updateRound = function(){
@@ -233,6 +247,31 @@ TR = {
 			g.gameBoard.showRound();
 
 		};
+
+		this.alertBox = function(){
+			var boxTemplate, boxBtn, status;
+			status = TR.gameInstance.status;
+
+			boxTemplate = $('<div id="alert-box"></div>');
+			boxBtn = {
+				'incomplete': $('<button type="button">Try Again</button/>'),
+				'complete': $('<button type="button">Continue</button/>')
+			}
+			boxBtn.incomplete.click(function(){
+				var g = TR.gameInstance;
+				g.updateRound();
+				boxTemplate.remove();
+			})
+			boxBtn.complete.click(function(){
+				var g = TR.gameInstance;
+				alert('need to rig up section.complete');
+				boxTemplate.remove();
+			})
+			window.b= boxBtn;
+			console.log(boxBtn);
+			boxTemplate.append(boxBtn[status]);
+			$('body').append(boxTemplate);
+		}
 
 		this.init = function(){
 			this.gameBoard.setBoard('body');
