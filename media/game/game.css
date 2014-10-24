@@ -1,0 +1,78 @@
+.coin{
+	position: absolute;
+	cursor: pointer;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+  	border: 1px solid#7E7E7E;
+  	background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+  	background-image: -webkit-radial-gradient(45px 45px, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+  	background-image: radial-gradient(45px 45px 45deg, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+}
+#quarter-box, #dime-box, #nickel-box, #penny-box{
+	width: 100px;
+	height: 100px;
+	background: #232323;
+}
+.quarter{
+	width: 60px;
+	height:60px;
+	
+}
+.quarter .val{
+	margin: 19px;
+}
+
+.dime{
+	width: 24px;
+	height:24px;
+}
+.dime .val{
+	margin: 10px;
+}
+
+.nickel{
+	width: 50px;
+	height:50px;
+}
+.nickel .val{
+	margin: 15px;
+}
+
+.penny{
+	width: 30px;
+	height:30px;
+}
+.penny .val{
+	margin: 19px;
+}
+.board-row-one{
+	background: #efefef;
+	height: 100px;
+}
+.board-col-one{
+	min-height: 1px;
+	width: 150px;
+	float: left;
+}
+.board-row-two{
+	background: #bbb;
+	height: 400px;
+}
+.board-col-two{
+	width: 761px;
+	float: left;
+}
+.board-row-three{
+	clear: left;
+	background: #ddd;
+	height: 100px;
+}
+#change-area{
+	height: 100px;
+	background: #adadad;
+}
+#change-area div{
+	float: left;
+	margin: 0 0 0 10px;
+}
