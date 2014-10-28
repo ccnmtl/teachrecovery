@@ -136,6 +136,7 @@ PAGEBLOCKS = ['pageblocks.TextBlock',
               'pageblocks.PullQuoteBlock',
               'pageblocks.ImageBlock',
               'pageblocks.ImagePullQuoteBlock',
+              'main.CoinGame',
               'quizblock.Quiz',
               'quizblock_random.QuizRandom',
               ]

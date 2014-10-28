@@ -1,0 +1,16 @@
+<div class="pageblock-coin-game">
+{% load markup %}
+{% if page_status == 'complete' %}
+Page is complete
+{% else %}
+Page is NOT complete
+{% endif %}
+
+{% if request.user.is_anonymous %}
+  <p class="warning">You must be logged in to view this content</p>
+{% else %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}game/game.css">
+<script src="{{STATIC_URL}}game/game.js"></script>
+
+{% endif %}
+</div>

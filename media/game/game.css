@@ -15,36 +15,36 @@
 	background: #232323;
 }
 .quarter{
-	width: 60px;
-	height:60px;
+	width: 75px;
+	height:75px;
 	
 }
 .quarter .val{
-	margin: 19px;
+	margin: 28px;
 }
 
 .dime{
-	width: 24px;
-	height:24px;
+	width: 40px;
+	height:40px;
 }
 .dime .val{
 	margin: 10px;
 }
 
 .nickel{
-	width: 50px;
-	height:50px;
+	width: 60px;
+	height:60px;
 }
 .nickel .val{
-	margin: 15px;
+	margin: 20px 0 0 22px
 }
 
 .penny{
-	width: 30px;
-	height:30px;
+	width: 45px;
+	height:45px;
 }
 .penny .val{
-	margin: 19px;
+	margin: 13px 0 0 16px;
 }
 .board-row-one{
 	background: #efefef;
@@ -75,4 +75,18 @@
 #change-area div{
 	float: left;
 	margin: 0 0 0 10px;
+}
+#alert-box{
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	z-index: 1000000000;
+	top: 100px;
+	margin: 0 0 0 300px;
+}
+#alert-box.incomplete{
+	background: #FFE5E5;
+}
+#alert-box.complete, #alert-box.default{
+	background: #DDFFD5;
 }

@@ -288,7 +288,7 @@ TR = {
 		};
 
 		this.init = function(){
-			this.gameBoard.setBoard('body');
+			this.gameBoard.setBoard('.pageblock-coin-game');
 			this.makeCoins();
 		};
 		this.init()

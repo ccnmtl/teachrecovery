@@ -6,7 +6,7 @@ from pagetree.generic.views import PageView, EditView
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from pagetree.models import UserPageVisit, Hierarchy
-
+from teachrecovery.main.models import CoinGame
 from teachrecovery.main.models import UserModule
 from django.http.response import HttpResponseNotFound
 

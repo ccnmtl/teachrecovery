@@ -7,6 +7,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 
 
+class EditCoinGameView(DetailView):
+    model = QuizRandom
+
 class EditQuizRandomView(DetailView):
     model = QuizRandom
 
