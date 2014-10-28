@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.contenttypes import generic
 from django import forms
 from django.contrib.auth.models import User
-from pagetree.models import Section, PageBlock, Hierarchy
+from pagetree.models import Section, PageBlock
 
 
 class UserModule(models.Model):
@@ -18,25 +18,26 @@ class UserModule(models.Model):
 
 
 class CoinGame(models.Model):
-	display_name = "Coin Game"
-	pageblocks = generic.GenericRelation(PageBlock)
-	template_file = "coin_game/coin_game.html"
+    display_name = "Coin Game"
+    pageblocks = generic.GenericRelation(PageBlock)
+    template_file = "coin_game/coin_game.html"
 
-	def pageblock(self):
-		return self.pageblocks.all()[0]
+    def pageblock(self):
+        return self.pageblocks.all()[0]
 
-	@classmethod
-	def create(self, request):
-		return CoinGame.objects.create()
+        @classmethod
+        def create(self, request):
+            return CoinGame.objects.create()
 
-	@classmethod
-	def add_form(self):
-		class AddForm(forms.Form):
-			display_name = self.display_name
-		return AddForm()
+        @classmethod
+        def add_form(self):
+            class AddForm(forms.Form):
+                display_name = self.display_name
+            return AddForm()
 
-	def edit_form(self):
-		class EditForm(forms.Form):
-			display_name = forms.CharField(widget=forms.widgets.Textarea(),
-	                                      default=self.display_name)
-		return EditForm()
+        def edit_form(self):
+            class EditForm(forms.Form):
+                display_name = forms.CharField(
+                    widget=forms.widgets.Textarea(),
+                    default=self.display_name)
+            return EditForm
