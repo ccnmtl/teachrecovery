@@ -76,11 +76,12 @@
               <b>{{ request.user.username }}</b>
             {% endif %}
 
-           {% if instructor_link %}
-               <a href="{{section.get_instructor_url}}" class="btn btn-default">Responses</a></li>
-           {% endif %}
+           
 
 {% if request.user.is_superuser %}
+          {% if instructor_link %}
+               <a href="{{section.get_instructor_url}}" class="btn btn-default">Responses</a></li>
+           {% endif %}
           {% block edit-or-view-page %}   
             <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
           {% endblock %}

@@ -81,7 +81,7 @@ TR = {
 			roundBox :function(){ return $('<div id="round-box"/>');},
 			calcBox :function(){ 
 				var a = $('<div id="calc-box"/>');
-				var b = $('<button value="button">Count My Change</button>');
+				var b = $('<div class="button btn-primary" id="count-button">Count My Change</div>');
 				a.append(b);
 				return a;
 			}
@@ -178,8 +178,13 @@ TR = {
 		};
 		this.init();
 	},
-	Game: function(){
+	Game: function(selector){
+		if(selector == null){
+			console.log('we need a selector for the game to show up in!')
+			return;
+		}
 		this.status = "incomplete";
+		this.selector = selector;
 		this.round = 1;
 		this.roundText = {
 			1: "Round 1 of 2",
@@ -273,32 +278,38 @@ TR = {
 			})
 			boxBtn.complete.click(function(){
 				var g = TR.gameInstance;
-				alert('need to rig up section.complete');
+				var submit = $('#submit'); 
+				if(submit.length < 1){
+					var href =$('.next').children('a').attr('href');
+					window.location = href;
+				}
 				boxTemplate.remove();
 			})
 			boxBtn.default.click(function(){
 				var g = TR.gameInstance;
-				alert('need to rig up section.complete');
+				var submit = $('#submit'); 
+				if(submit.length < 1){
+					var href =$('.next').children('a').attr('href');
+					window.location = href;
+				}
 				boxTemplate.remove();
 			})
 			$('#calc-box').hide();
 			boxTemplate.append(boxText[status])
 			boxTemplate.append(boxBtn[status]);
-			$('body').append(boxTemplate);
+			$(this.selector).append(boxTemplate);
 		};
-
-		this.init = function(){
-			this.gameBoard.setBoard('.pageblock-coin-game');
+		this.init = function(selector){
+			this.gameBoard.setBoard(selector);
 			this.makeCoins();
 		};
-		this.init()
+		this.init(selector)
 	}
 }
 
 jQuery(document).ready(function(){
 	(function($) {
-		g = new TR.Game();
-
+		g = new TR.Game('.pageblock-coin-game');
 	})(jQuery);
 })
 
