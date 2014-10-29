@@ -171,19 +171,32 @@
 #count-button:hover{
 	background-color: #faebae;
 }
+.alert-text{
+	border-radius: 10px;
+	width: 80%;
+	margin: 100px auto 10px auto;
+	height: 200px; 
+}
+.complete .alert-text{
+	background: #66cc66;
+}
+.incomplete .alert-text, .default .alert-text{
+	background: #FF9C90;
+}
 #alert-box{
+	background: url('../img/tr-bg2.png');
 	position: absolute;
-	width: 500px;
-	height: 500px;
+	width: 100%;
+	height: 100%;
 	z-index: 1000000000;
-	top: 25%;
-	margin: 0 0 0 25%;
+	margin: 0%;
+	top: 0;
 }
 #alert-box.incomplete{
-	background: #FFE5E5;
+	background: url('../img/tr-bg2.png');
 }
 #alert-box.complete, #alert-box.default{
-	background: #DDFFD5;
+	background: url('../img/tr-bg2.png');
 }
 #submit{
 	display: none;

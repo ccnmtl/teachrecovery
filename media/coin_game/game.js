@@ -278,9 +278,9 @@ TR = {
 
 			boxTemplate = $('<div id="alert-box" class="'+status+'"></div>');
 			boxText = {
-				'incomplete': $('<p>Sorry</p><p>Try again!</p>'), 
-				'complete': $('<p>Correct!</p><p>Nice work! Let\'s move on.</p>'),
-				'default': $('<p>Sorry, still incorect.</p><p>Let\'s move on anyway.</p>')
+				'incomplete': $('<div class="alert-text"><p>Sorry</p><p>Try again!</p></div>'), 
+				'complete': $('<div class="alert-text"><p>Correct!</p><p>Nice work! Let\'s move on.</p></div>'),
+				'default': $('<div class="alert-text"><p>Sorry, still incorect.</p><p>Let\'s move on anyway.</p></div>')
 			}
 			boxBtn = {
 				'incomplete': $('<button type="button">Try Again</button/>'),
