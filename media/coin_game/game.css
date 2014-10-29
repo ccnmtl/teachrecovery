@@ -1,0 +1,190 @@
+.coin{
+	position: absolute;
+	cursor: pointer;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+  	border: 1px solid#7E7E7E;
+  	background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+  	background-image: -webkit-radial-gradient(45px 45px, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+  	background-image: radial-gradient(45px 45px 45deg, circle cover, rgb(140, 140, 140), rgb(202, 199, 195));
+}
+
+#quarter-box, #dime-box, #nickel-box, #penny-box{
+	width: 100px;
+	height: 100px;
+	margin: 0 0 0 48px;
+}
+#quarter-box{
+	margin: 20px 0 0 48px;
+}
+.handle {
+	display: none;
+	z-index: 9999;
+}
+
+.quarter{
+	width: 75px;
+	height:75px;
+	
+}
+.quarter .val{
+	margin: 28px;
+}
+.quarter .handle{
+	background: #000;
+	color: #fff;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+	position: absolute;
+	margin: 0px 0 0 55px;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 0px 0 10px 0;
+	line-height: 19px;
+}
+
+.dime{
+	width: 40px;
+	height:40px;
+}
+.dime .val{
+	margin: 10px;
+}
+.dime .handle{
+	background: #000;
+	color: #fff;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+	position: absolute;
+	margin: -7px 0 0 25px;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 0px 0 10px 0;
+	line-height: 19px;
+}
+.nickel{
+	width: 60px;
+	height:60px;
+}
+.nickel .val{
+	margin: 19px 0 0 8px;
+}
+.nickel .handle{
+	background: #000;
+	color: #fff;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+	position: absolute;
+	margin: -7px 0 0 40px;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 0px 0 10px 0;
+	line-height: 19px;
+}
+
+.penny{
+	width: 45px;
+	height:45px;
+}
+.penny .val{
+	margin: 11px 0 0 7px;
+}
+.penny .handle{
+	background: #000;
+	color: #fff;
+	border-radius: 50%;
+	-webkit-border-radius: 50%; 
+  	-moz-border-radius: 50%;
+	position: absolute;
+	margin: -7px 0 0 32px;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 0px 0 10px 0;
+	line-height: 19px;
+}
+#round-box{
+	background: #fbdf65;
+	height: 70px;
+	padding: 20px;
+	font-weight: bold;
+}
+#board-area{
+	background: #449cff;
+}
+.board-col-one{
+	width: 20%;
+	float: left;
+	background: #69afff;
+}
+.board-row-one, .board-row-two, .board-row-three{
+	clear: both;
+}
+
+.board-col-two{
+	width: 80%;
+	float: left;
+}
+.board-col-two .coin{
+	margin: 20px 0 0 0;	
+}
+.board-row-three{
+}
+.change-header{
+	margin: 20px 0 0 30px;
+}
+.num-display{
+	margin: 18px 0 0 2px;
+	background: #fff;
+	padding: 2px;
+}
+#change-area{
+	height: 70px;
+	background: #acd3ff;
+}
+#change-area div{
+	float: left;
+}
+#calc-box{
+	margin: -40px 0 0 0;
+	width: 125%;
+}
+#count-button{
+	display: inline-block;
+	padding: 5px 14px;
+	background-color: #fade6e;
+	border: none;
+	border-radius: 3px;
+	font-size: .875em;
+	color: #333;
+	margin: -22px auto 0 auto;
+	cursor: pointer;
+	font-weight: bold;
+}
+#count-button:hover{
+	background-color: #faebae;
+}
+#alert-box{
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	z-index: 1000000000;
+	top: 25%;
+	margin: 0 0 0 25%;
+}
+#alert-box.incomplete{
+	background: #FFE5E5;
+}
+#alert-box.complete, #alert-box.default{
+	background: #DDFFD5;
+}
+#submit{
+	display: none;
+}

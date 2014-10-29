@@ -13,10 +13,10 @@ TR = {
 
 		this.selector = coinType + '-' + index;
 		this.coinTemplate  = {
-				quarter: '<div id="'+ this.selector +'" class="coin quarter"><div class="val">25&cent;</div></div>',
-				dime: '<div id="'+ this.selector +'" class="coin dime"><div class="val">10&cent;</div></div>',
-				nickel: '<div id="'+ this.selector +'" class="coin nickel"><div class="val">5&cent;</div></div>',
-				penny: '<div id="'+ this.selector +'" class="coin penny"><div class="val">1&cent;</div></div>'
+				quarter: '<div id="'+ this.selector +'" class="coin quarter"><div class="handle">+</div><div class="val">25&cent;</div></div>',
+				dime: '<div id="'+ this.selector +'" class="coin dime"><div class="handle">+</div><div class="val">10&cent;</div></div>',
+				nickel: '<div id="'+ this.selector +'" class="coin nickel"><div class="handle">+</div><div class="val">5&cent;</div></div>',
+				penny: '<div id="'+ this.selector +'" class="coin penny"><div class="handle">+</div><div class="val">1&cent;</div></div>'
 		};
 
 		this.setValue = function(coinType){
@@ -30,11 +30,22 @@ TR = {
 			$('#'+this.coinType + '-box').append(html);
 			$('#'+this.selector).css({
 				marginLeft: (this.index * 5) + 'px'
-			});
+			}).children('.handle').text('+');
+
+			var cssSelector = '#'+this.coinType + '-box .handle';
+			$(cssSelector).css({display:'none'})
+			$(cssSelector+':last').css({
+				display:'block'})
 			$('#'+this.selector).click(function(){
 				var c = TR.gameInstance.get_coin_instance($(this));
+				var cssSelector = '#'+c.coinType + '-box .handle';
 				$(this).remove();
 				c.appendToGameBoard(c.html, c.selector);
+				$('#'+c.selector + ' .handle').css({
+				display:'block'})
+				$(cssSelector).css({display:'none'})
+				$(cssSelector+':last').css({
+					display:'block'})
 				c.status = 'active';
 			});
 		};
@@ -48,11 +59,17 @@ TR = {
 				position:'relative',
 				float: 'left',
 				marginLeft: (c.index *8) + 'px'
-			});
+			}).children('.handle').text('-');
 
 			$(elm).click(function(){
 				$(this).remove();
 				c.status = "inactive";
+				
+				var cssSelector = '#'+c.coinType + '-box .handle';
+				$(cssSelector).css({display:'none'})
+				$(cssSelector+':last').css({
+				display:'block'})
+
 				c.appendToBox(c.html);
 			});
 		};
@@ -282,7 +299,10 @@ TR = {
 				if(submit.length < 1){
 					var href =$('.next').children('a').attr('href');
 					window.location = href;
+				}else{
+					submit.trigger('click');
 				}
+
 				boxTemplate.remove();
 			})
 			boxBtn.default.click(function(){
@@ -291,6 +311,8 @@ TR = {
 				if(submit.length < 1){
 					var href =$('.next').children('a').attr('href');
 					window.location = href;
+				}else{
+					submit.trigger('click');
 				}
 				boxTemplate.remove();
 			})
