@@ -252,13 +252,17 @@ TR = {
 			return Math.round(coins.changeCount * 100) / 100;
 		};
 		this.calculateRound = function(){
-			var change = this.calculateChange(), answer = this.roundAnswer[this.round];
+			var change = this.calculateChange(), answer = this.roundAnswer[this.round],
+			submit = $('#submit');
 			if(change === answer){
 				this.status = "complete";
-			}else if(this.round === 2){
+			}
+
+			if(this.round === 2 && change !== answer){
 				this.status = "default";
+				this.round ++;
 			}else{
-				this.round = 2;
+				this.round ++;
 			}
 			this.alertBox();
 		};
@@ -278,9 +282,9 @@ TR = {
 
 			boxTemplate = $('<div id="alert-box" class="'+status+'"></div>');
 			boxText = {
-				'incomplete': $('<div class="alert-text"><p>Sorry</p><p>Try again!</p></div>'), 
+				'incomplete': $('<div class="alert-text"><p>Sorry</p><p>Sorry, let\'s go to round 2 and try again!</p></div>'), 
 				'complete': $('<div class="alert-text"><p>Correct!</p><p>Nice work! Let\'s move on.</p></div>'),
-				'default': $('<div class="alert-text"><p>Sorry, still incorect.</p><p>Let\'s move on anyway.</p></div>')
+				'default': $('<div class="alert-text"><p>Sorry, incorect.</p><p>Let\'s move on anyway.</p></div>')
 			}
 			boxBtn = {
 				'incomplete': $('<button type="button">Try Again</button/>'),
@@ -291,31 +295,45 @@ TR = {
 				var g = TR.gameInstance;
 				g.updateRound();
 				boxTemplate.remove();
+				//var submit = $('#submit');
+				//submit.trigger('click');
 				$('#calc-box').show();
 			})
 			boxBtn.complete.click(function(){
 				var g = TR.gameInstance;
-				var submit = $('#submit'); 
-				if(submit.length < 1){
-					var href =$('.next').children('a').attr('href');
-					window.location = href;
-				}else{
-					submit.trigger('click');
-				}
-
+				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
+				if(g.round>2 && g.status !=="incomplete" ){
+					console.log(submit)
+					if(submit.length < 2){
+						submit.trigger('click');
+					}else{
+						window.location = submit;
+					}
+				}	
+				g.updateRound();
 				boxTemplate.remove();
+				$('#calc-box').show();
+				
 			})
 			boxBtn.default.click(function(){
 				var g = TR.gameInstance;
-				var submit = $('#submit'); 
-				if(submit.length < 1){
-					var href =$('.next').children('a').attr('href');
-					window.location = href;
-				}else{
-					submit.trigger('click');
+				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
+
+				if(g.round>2 && g.status !=="incomplete" ){
+					console.log(submit)
+					if(submit.length < 2){
+						submit.trigger('click');
+					}else{
+						window.location = submit;
+					}
 				}
+				g.updateRound();
 				boxTemplate.remove();
+				
+				//submit.trigger('click');
 			})
+			
+				
 			$('#calc-box').hide();
 			boxTemplate.append(boxText[status])
 			boxTemplate.append(boxBtn[status]);
