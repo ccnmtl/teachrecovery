@@ -1,6 +1,7 @@
 <div class="pageblock-coin-game">
 {% load markup %}
 {% if page_status == 'complete' %}
+
 {% else %}
 {% endif %}
 
@@ -9,6 +10,14 @@
 {% else %}
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}coin_game/game.css">
 <script src="{{STATIC_URL}}coin_game/game.js"></script>
+<script>
+jQuery(document).ready(function(){
+	(function($) {
+		var round = '{{request.GET.r}}';
+		g = new TR.Game('.pageblock-coin-game', round);
 
+	})(jQuery);
+})
+</script>
 {% endif %}
 </div>

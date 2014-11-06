@@ -195,14 +195,14 @@ TR = {
 		};
 		this.init();
 	},
-	Game: function(selector){
+	Game: function(selector, round){
 		if(selector == null){
 			console.log('we need a selector for the game to show up in!')
 			return;
 		}
 		this.status = "incomplete";
 		this.selector = selector;
-		this.round = 1;
+		this.round = round ===""? 1:round;
 		this.roundText = {
 			1: "Round 1 of 2",
 			2: "Round 2 of 2"
@@ -235,6 +235,7 @@ TR = {
 				}
 			});
 		};
+		
 		this.get_coin_instance = function(elm){
 			var id = elm.attr('id');
 			return TR.gameInstance.coins[id];
@@ -254,16 +255,26 @@ TR = {
 		this.calculateRound = function(){
 			var change = this.calculateChange(), answer = this.roundAnswer[this.round],
 			submit = $('#submit');
-			if(change === answer){
+			if(change === answer && this.round ==2){
+				
 				this.status = "complete";
+
+
+			}else if(change === answer){
+				$.post();
+				var winHref = window.location.href+'?r=2';
+				this.status = "complete";
+				window.location = winHref;
 			}
 
 			if(this.round === 2 && change !== answer){
 				this.status = "default";
-				this.round ++;
-			}else{
-				this.round ++;
 			}
+
+			this.round ++;
+			if(this.round === 3 && change !== answer){
+				this.status = 'default';
+			}		
 			this.alertBox();
 		};
 
@@ -295,8 +306,6 @@ TR = {
 				var g = TR.gameInstance;
 				g.updateRound();
 				boxTemplate.remove();
-				//var submit = $('#submit');
-				//submit.trigger('click');
 				$('#calc-box').show();
 			})
 			boxBtn.complete.click(function(){
@@ -347,9 +356,5 @@ TR = {
 	}
 }
 
-jQuery(document).ready(function(){
-	(function($) {
-		g = new TR.Game('.pageblock-coin-game');
-	})(jQuery);
-})
+
 
