@@ -1,5 +1,15 @@
 var TR;
 TR = {
+	getURLParameter: function(sParam){
+		var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    for (var i = 0; i < sURLVariables.length; i++){
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam){
+	            return sParameterName[1];
+	        }
+	    }
+	},
     Coin: function (coinType, index){
 		this.coinType = coinType;
 		this.index = index;
@@ -197,7 +207,9 @@ TR = {
 	},
 	Game: function(selector, round){
 		if(selector == null){
-			console.log('we need a selector for the game to show up in!')
+			if(console){
+				console.log('we need a selector for the game to show up in!')
+			}
 			return;
 		}
 		this.status = "incomplete";
@@ -255,26 +267,19 @@ TR = {
 		this.calculateRound = function(){
 			var change = this.calculateChange(), answer = this.roundAnswer[this.round],
 			submit = $('#submit');
+			
 			if(change === answer && this.round ==2){
-				
 				this.status = "complete";
-
-
 			}else if(change === answer){
 				$.post();
-				var winHref = window.location.href+'?r=2';
 				this.status = "complete";
-				window.location = winHref;
 			}
 
-			if(this.round === 2 && change !== answer){
+			if(this.round >= 2 && change !== answer){
 				this.status = "default";
 			}
 
 			this.round ++;
-			if(this.round === 3 && change !== answer){
-				this.status = 'default';
-			}		
 			this.alertBox();
 		};
 
@@ -312,14 +317,17 @@ TR = {
 				var g = TR.gameInstance;
 				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
 				if(g.round>2 && g.status !=="incomplete" ){
-					console.log(submit)
 					if(submit.length < 2){
 						submit.trigger('click');
 					}else{
 						window.location = submit;
 					}
-				}	
+				}
 				g.updateRound();
+				if (TR.getURLParameter('r') == undefined && g.round == 2){
+					var winHref = window.location.href+'?r=2';
+					window.location = winHref;
+				}
 				boxTemplate.remove();
 				$('#calc-box').show();
 				
@@ -329,17 +337,15 @@ TR = {
 				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
 
 				if(g.round>2 && g.status !=="incomplete" ){
-					console.log(submit)
 					if(submit.length < 2){
 						submit.trigger('click');
 					}else{
 						window.location = submit;
 					}
 				}
+				
 				g.updateRound();
 				boxTemplate.remove();
-				
-				//submit.trigger('click');
 			})
 			
 				
