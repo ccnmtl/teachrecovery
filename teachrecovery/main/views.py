@@ -101,7 +101,7 @@ class TeachRecoveryEditView(LoggedInMixinSuperuser,
 @login_required
 def pages_save_edit(request, hierarchy_name, path):
     # do auth on the request if you need the user to be logged in
-    # or only want some particular users to be able to get here
+    # or only want some particular users to be able to get here.
     return generic_edit_page(request, path, hierarchy=hierarchy_name)
 
 
