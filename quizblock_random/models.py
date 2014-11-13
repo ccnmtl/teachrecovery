@@ -1,16 +1,10 @@
-from datetime import datetime
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils.encoding import smart_str
-from pagetree.models import PageBlock, Section
-from pagetree.reports import ReportableInterface, ReportColumnInterface
-from quizblock.models import *
+from pagetree.models import Section
+from quizblock.models import Quiz, Question, Submission
 from random import randint
-from django.http import HttpResponse
 
 
 class QuizRandom(Quiz):
@@ -18,7 +12,6 @@ class QuizRandom(Quiz):
     template_file = "quizblock_random/quizblock_random.html"
     quiz_name = models.CharField(max_length=50)
     quiz_type = models.TextField(blank=True)
-
 
     def get_random_question(self, section, quiz, user):
         question_set = self.question_set.all()
@@ -28,18 +21,20 @@ class QuizRandom(Quiz):
             for question in question_set:
                 try:
                     current_question = QuestionUserLock.objects.filter(
-                        quiz_id=question.quiz.id).get(question_current = True, user_id = user.id)
+                        quiz_id=question.quiz.id
+                    ).get(
+                        question_current=True,
+                        user_id=user.id)
                     qid = current_question.question_id
-                    question  = Question.objects.get(id=qid)
+                    question = Question.objects.get(id=qid)
                     return question
-                    
+
                 except QuestionUserLock.DoesNotExist:
                     question = question_set[rand_int]
                     self.set_question_userlock(section, question, user)
                     return question
         else:
             return
-    
 
     def set_question_userlock(self, section, question, user):
         qul = QuestionUserLock.create(section, question, user)
@@ -47,12 +42,9 @@ class QuizRandom(Quiz):
         qul.question_used = False
         qul.save()
 
-
     def get_random_question_set(self, section, block, question, user):
-        question_set = QuestionUserLock.objects.filter(section_id = section.id)
+        question_set = QuestionUserLock.objects.filter(section_id=section.id)
         return question_set
-        
-
 
     def pageblock(self):
         return self.pageblocks.all()[0]
@@ -60,15 +52,12 @@ class QuizRandom(Quiz):
     def quiz(self):
         return self.quiz.all()[0]
 
-
     def clear_user_submissions(self, user):
         self.unset_question_userlock(user)
         Submission.objects.filter(user=user, quiz=self).delete()
 
-
     def unset_question_userlock(self, user):
         QuestionUserLock.objects.filter(user=user, quiz=self).delete()
-
 
     def edit(self, vals, files):
         self.quiz_type = vals.get('quiz_type', '')
@@ -78,23 +67,23 @@ class QuizRandom(Quiz):
         self.show_submit_state = vals.get('show_submit_state', False)
         self.save()
 
-
     def edit_form(self):
         class EditForm(forms.Form):
             quiz_type = forms.CharField(widget=forms.widgets.Textarea(),
-                                          initial=self.quiz_type)
+                                        initial=self.quiz_type)
             description = forms.CharField(widget=forms.widgets.Textarea(),
                                           initial=self.description)
             rhetorical = forms.BooleanField(initial=self.rhetorical)
             allow_redo = forms.BooleanField(initial=self.allow_redo)
             show_submit_state = forms.BooleanField(
                 initial=self.show_submit_state)
-            alt_text = ("<a href=\"" + reverse("edit-quiz-random", args=[self.id])
-                        + "\">manage questions/answers</a>")
+            alt_text = (
+                "<a href=\"" + reverse("edit-quiz-random", args=[self.id])
+                + "\">manage questions/answers</a>")
         return EditForm()
 
     def get_question(self):
-        return 
+        return
 
     @classmethod
     def add_form(self):
@@ -109,7 +98,7 @@ class QuizRandom(Quiz):
     @classmethod
     def create(self, request):
         return QuizRandom.objects.create(
-            quiz_type =request.POST.get('quiz_type', ''),
+            quiz_type=request.POST.get('quiz_type', ''),
             description=request.POST.get('description', ''),
             rhetorical=request.POST.get('rhetorical', ''),
             allow_redo=request.POST.get('allow_redo', ''),
@@ -124,25 +113,24 @@ class QuestionUserLock(models.Model):
     question_used = models.NullBooleanField(null=True)
     question_current = models.NullBooleanField(null=True)
 
-
     def set_question_user_lock(self, question, user):
         try:
-            current_question = QuestionUserLock.objects.filter(quiz_id=question.quiz.id).get(question_current = True)
+            current_question = QuestionUserLock.objects.filter(
+                quiz_id=question.quiz.id).get(question_current=True)
             qid = current_question.question_id
-            question  = Question.objects.get(id=qid)
+            question = Question.objects.get(id=qid)
             return question
-            
         except QuestionUserLock.DoesNotExist:
-            rand_int = randint(0, set_len-1)
-            q = question_set[rand_int]
-            return q
-
+#            rand_int = randint(0, set_len - 1)
+#            q = question_set[rand_int]
+#            return q
+            return None
 
     @classmethod
     def create(self, section, question, user):
         return QuestionUserLock.objects.create(
-            section_id = section.id,
-            quiz_id = question.quiz.id, 
-            question_id = question.id, 
-            user_id = user.id
+            section_id=section.id,
+            quiz_id=question.quiz.id,
+            question_id=question.id,
+            user_id=user.id
             )

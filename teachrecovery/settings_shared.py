@@ -49,6 +49,7 @@ JENKINS_TASKS = (
 )
 PROJECT_APPS = [
     'teachrecovery.main',
+    'quizblock_random',
 ]
 
 ALLOWED_HOSTS = ['localhost', '.ccnmtl.columbia.edu']

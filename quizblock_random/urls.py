@@ -1,10 +1,4 @@
 from django.conf.urls import patterns
-from quizblock.views import (
-    EditQuizView, DeleteQuestionView, DeleteAnswerView,
-    ReorderAnswersView, ReorderQuestionsView,
-    AddQuestionToQuizView, EditQuestionView,
-    AddAnswerToQuestionView, EditAnswerView
-)
 from .views import (
     EditQuizRandomView,
     AddQuestionToQuizRandomView,
@@ -16,13 +10,16 @@ from .views import (
 )
 urlpatterns = patterns(
     'quizblock_random.views',
-    (r'^edit_quiz/(?P<pk>\d+)/$', EditQuizRandomView.as_view(), {}, 'edit-quiz-random'),
-    (r'^edit_quiz/(?P<pk>\d+)/add_question/$', AddQuestionToQuizRandomView.as_view(),
+    (r'^edit_quiz/(?P<pk>\d+)/$', EditQuizRandomView.as_view(),
+     {}, 'edit-quiz-random'),
+    (r'^edit_quiz/(?P<pk>\d+)/add_question/$',
+     AddQuestionToQuizRandomView.as_view(),
      {}, 'add-question-to-quiz-random'),
     (r'^edit_question/(?P<pk>\d+)/$', EditQuestionRandomView.as_view(), {},
      'edit-question-random'),
     (r'^edit_question/(?P<pk>\d+)/add_answer/$',
-     AddAnswerToQuestionRandomView.as_view(), {}, 'add-answer-to-question-random'),
+     AddAnswerToQuestionRandomView.as_view(), {},
+     'add-answer-to-question-random'),
     (r'^delete_question/(?P<pk>\d+)/$', DeleteQuestionRandomView.as_view(), {},
      'delete-question-random'),
     (r'^delete_answer/(?P<pk>\d+)/$', DeleteAnswerRandomView.as_view(),

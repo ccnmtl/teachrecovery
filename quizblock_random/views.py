@@ -1,10 +1,12 @@
-from models import Quiz, Question, Answer, QuizRandom
+from models import Quiz, Question, QuizRandom
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
+from quizblock.models import Answer
+
 
 class EditQuizRandomView(DetailView):
     model = QuizRandom
@@ -63,7 +65,8 @@ class AddQuestionToQuizRandomView(View):
             question = form.save(commit=False)
             question.quiz = quiz
             question.save()
-        return HttpResponseRedirect(reverse("edit-quiz-random", args=[quiz.id]))
+        return HttpResponseRedirect(
+            reverse("edit-quiz-random", args=[quiz.id]))
 
 
 class EditQuestionRandomView(View):
