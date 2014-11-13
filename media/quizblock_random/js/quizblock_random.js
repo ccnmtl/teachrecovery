@@ -1,6 +1,5 @@
 // create a js file to capture how we want to display stuff after submission
-jQuery(document).ready(function(){
-	window.TR = function(){
+	var TR = function(){
 		this.calculate_score = function(){
 			var answer_vals = this.get_answers_vals();
 			var total_answers = answer_vals.correct + answer_vals.wrong;
@@ -74,8 +73,8 @@ jQuery(document).ready(function(){
 		};
 	};
 
-
-	window.tr = new window.TR();
-	window.tr.show_feedback(window.tr);
+jQuery(document).ready(function(){
+	var tr = new TR();
+	tr.show_feedback(tr);
 
 });
