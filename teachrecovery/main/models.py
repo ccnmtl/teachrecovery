@@ -42,7 +42,7 @@ class CoinGame(models.Model):
         class EditForm(forms.Form):
             display_name = forms.CharField(
                 widget=forms.widgets.Textarea(),
-                default=self.display_name)
+                initial=self.display_name)
         return EditForm
 
     def edit(self, vals, files):
