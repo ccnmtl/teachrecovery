@@ -2,7 +2,7 @@ MANAGE=./manage.py
 APP=teachrecovery
 FLAKE8=./ve/bin/flake8
 
-jenkins: ./ve/bin/python validate test flake8
+jenkins: ./ve/bin/python validate flake8 jshint test
 
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
@@ -12,6 +12,12 @@ test: ./ve/bin/python
 
 flake8: ./ve/bin/python
 	$(FLAKE8) $(APP) --max-complexity=10 --exclude=migrations
+
+jshint: node_modules/jshint/bin/jshint
+	./node_modules/jshint/bin/jshint media/coin_game/ media/quizblock_random/
+
+node_modules/jshint/bin/jshint:
+	npm install jshint --prefix .
 
 runserver: ./ve/bin/python validate
 	$(MANAGE) runserver

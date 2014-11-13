@@ -43,19 +43,19 @@ TR = {
 			}).children('.handle').text('+');
 
 			var cssSelector = '#'+this.coinType + '-box .handle';
-			$(cssSelector).css({display:'none'})
+			$(cssSelector).css({display:'none'});
 			$(cssSelector+':last').css({
-				display:'block'})
+				display:'block'});
 			$('#'+this.selector).click(function(){
 				var c = TR.gameInstance.get_coin_instance($(this));
 				var cssSelector = '#'+c.coinType + '-box .handle';
 				$(this).remove();
 				c.appendToGameBoard(c.html, c.selector);
 				$('#'+c.selector + ' .handle').css({
-				display:'block'})
-				$(cssSelector).css({display:'none'})
+				display:'block'});
+				$(cssSelector).css({display:'none'});
 				$(cssSelector+':last').css({
-					display:'block'})
+					display:'block'});
 				c.status = 'active';
 			});
 		};
@@ -76,9 +76,9 @@ TR = {
 				c.status = "inactive";
 				
 				var cssSelector = '#'+c.coinType + '-box .handle';
-				$(cssSelector).css({display:'none'})
+				$(cssSelector).css({display:'none'});
 				$(cssSelector+':last').css({
-				display:'block'})
+				display:'block'});
 
 				c.appendToBox(c.html);
 			});
@@ -120,7 +120,7 @@ TR = {
 			var t = this.templates, ba, bro, brtw, 
 				brth, brcolOneA, brcolOneB, brcolOneC, 
 				brcolTwoA, brcolTwoB, brcolTwoC, 
-				qBox, dBox, nBox, pBox, rBox;
+				qBox, dBox, nBox, pBox, rBox, cBox;
 
 			ba = new t.boardArea();
 			bro = new t.boardRowOne();
@@ -162,7 +162,7 @@ TR = {
 			//assign click handler to calcBox
 			cBox.click(function(){
 				game.calculateRound();
-			})
+			});
 		};
 		
 		this.addChangeArea = function(){
@@ -181,8 +181,8 @@ TR = {
 			};
 	},
 	ChangeArea: function(){
-		this.template = $('<div id="change-area"><div class="change-header">\
-			</div><div class="num-display"></div></div>');
+		this.template = $("<div id=\"change-area\"><div class=\"change-header\">" +
+			"</div><div class=\"num-display\"></div></div>");
 		this.templateText = {
 			1: '$0.87',
 			2: '$1.33',
@@ -206,9 +206,9 @@ TR = {
 		this.init();
 	},
 	Game: function(selector, round){
-		if(selector == null){
+		if(selector === null){
 			if(console){
-				console.log('we need a selector for the game to show up in!')
+				console.log('we need a selector for the game to show up in!');
 			}
 			return;
 		}
@@ -297,22 +297,22 @@ TR = {
 			status = TR.gameInstance.status;
 
 			boxTemplate = $('<div id="alert-box" class="'+status+'"></div>');
-			boxText = {
+			var boxText = {
 				'incomplete': $('<div class="alert-text"><p>Sorry</p><p>Sorry, let\'s go to round 2 and try again!</p></div>'), 
 				'complete': $('<div class="alert-text"><p>Correct!</p><p>Nice work! Let\'s move on.</p></div>'),
 				'default': $('<div class="alert-text"><p>Sorry, incorect.</p><p>Let\'s move on anyway.</p></div>')
-			}
+			};
 			boxBtn = {
 				'incomplete': $('<button type="button">Try Again</button/>'),
 				'complete': $('<button type="button">Continue</button/>'),
 				'default': $('<button type="button">Continue</button/>')
-			}
+			};
 			boxBtn.incomplete.click(function(){
 				var g = TR.gameInstance;
 				g.updateRound();
 				boxTemplate.remove();
 				$('#calc-box').show();
-			})
+			});
 			boxBtn.complete.click(function(){
 				var g = TR.gameInstance;
 				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
@@ -324,14 +324,14 @@ TR = {
 					}
 				}
 				g.updateRound();
-				if (TR.getURLParameter('r') == undefined && g.round == 2){
+				if (TR.getURLParameter('r') === undefined && g.round === 2){
 					var winHref = window.location.href+'?r=2';
 					window.location = winHref;
 				}
 				boxTemplate.remove();
 				$('#calc-box').show();
 				
-			})
+			});
 			boxBtn.default.click(function(){
 				var g = TR.gameInstance;
 				var submit = $('#submit').length>0 ? $('#submit') : $('.next a').attr('href');
@@ -346,11 +346,11 @@ TR = {
 				
 				g.updateRound();
 				boxTemplate.remove();
-			})
+			});
 			
 				
 			$('#calc-box').hide();
-			boxTemplate.append(boxText[status])
+			boxTemplate.append(boxText[status]);
 			boxTemplate.append(boxBtn[status]);
 			$(this.selector).append(boxTemplate);
 		};
@@ -358,9 +358,9 @@ TR = {
 			this.gameBoard.setBoard(selector);
 			this.makeCoins();
 		};
-		this.init(selector)
+		this.init(selector);
 	}
-}
+};
 
 
 
