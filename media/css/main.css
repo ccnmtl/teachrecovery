@@ -204,6 +204,7 @@ h5 {
 #content > .pageblock > p {
   min-height: 100%;
   text-align: left;
+  margin: 1em 0 2em 0;
 }
 
 .imgcenter {
