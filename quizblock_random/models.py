@@ -121,9 +121,6 @@ class QuestionUserLock(models.Model):
             question = Question.objects.get(id=qid)
             return question
         except QuestionUserLock.DoesNotExist:
-#            rand_int = randint(0, set_len - 1)
-#            q = question_set[rand_int]
-#            return q
             return None
 
     @classmethod
