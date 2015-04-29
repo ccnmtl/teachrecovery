@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if not request.user.is_anonymous %}
 <div class="jumbotron">
-	<p>Welcome,</p>
-	<p><a href="/pages/course-one/course-1/">Course 1</a></p>
-{% endif %}
+{% if not request.user.is_anonymous and user_modules|length %}
+	<p>Welcome, please select a course below.</p>
+    <ul>
+    
+        {% for um in user_modules %}
+            {% if um.0.is_allowed %}
+            <li>
+             <a class="module-title-index" href="{{um.0.section.get_first_child.get_absolute_url}}">{{um.1}}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+    <ul>
+    {% else %}
+    <p>We're sorry. For some reason you do not have access to any courses. Please contact the site administrator for help.</p>
+    {% endif %}
+</div>
+{% endblock %}
 
+{% block anon-content %}
+<div class="jumbotron">
+    <p>Welcome. Please login using the form to access your available courses.</p>
 </div>
 {% endblock %}

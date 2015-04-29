@@ -42,7 +42,7 @@ urlpatterns = patterns(
     admin_logout_page,
     auth_urls,
     (r'^registration/', include('registration.backends.default.urls')),
-    url(r'^$', views.index, name="index"),
+    (r'^$', views.IndexView.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
