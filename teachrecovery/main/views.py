@@ -1,13 +1,14 @@
-from annoying.decorators import render_to
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
+from django.views.generic.base import TemplateView
 from pagetree.generic.views import PageView, EditView
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from pagetree.models import UserPageVisit, Hierarchy
 from teachrecovery.main.models import UserModule
 from django.http.response import HttpResponseNotFound
+from django.shortcuts import render
 
 
 class LoggedInMixinSuperuser(object):
@@ -22,9 +23,24 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-@render_to('main/index.html')
-def index(request, *args, **kwargs):
-    return dict()
+class IndexView(TemplateView):
+    template_name = "main/index.html"
+
+    def get(self, request):
+        if not request.user.is_anonymous():
+            ums = UserModule.objects.filter(
+                user=request.user).order_by('section__id')
+            um_info = list()
+            for um in ums:
+                module = um.section.get_first_child()
+                slug = module.slug
+                name = slug.replace('-', ' ')
+                um_info.append([um, name])
+            context = dict(user_modules=um_info)
+            return render(request, self.template_name, context)
+
+        context = dict(user_modules=None)
+        return render(request, self.template_name, context)
 
 
 def has_responses(section):
