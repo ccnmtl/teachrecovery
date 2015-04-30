@@ -28,7 +28,7 @@ class MigrateUMView(TemplateView):
 
     def get(self, request):
         context = dict()
-        if not request.user.is_anonymous(): 
+        if not request.user.is_anonymous():
             ums = UserModule.objects.all()
             for um in ums:
                 umh = um.section.hierarchy
