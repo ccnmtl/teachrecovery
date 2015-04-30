@@ -16,8 +16,8 @@ class UserModule(models.Model):
         return u'%s' % (self.hierarchy.name)
 
     @classmethod
-    def create(self, user, section):
-        um = self(user_id=user.id, section_id=section.id)
+    def create(self, user, hierarchy):
+        um = self(user_id=user.id, hierarchy_id=hierarchy.id)
         return um
 
 

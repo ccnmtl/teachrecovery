@@ -8,8 +8,8 @@ from teachrecovery.main.models import (
 class UserModuleTest(TestCase):
     def test_create(self):
         u = UserFactory()
-        s = ModuleFactory(hname="main", base_url="/")
-        um = UserModule.create(u, s.root)
+        module = ModuleFactory(hname="main", base_url="/")
+        um = UserModule.create(u, module.root.hierarchy)
         self.assertEqual(um.user, u)
 
 
