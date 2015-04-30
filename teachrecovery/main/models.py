@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.contenttypes import generic
 from django import forms
 from django.contrib.auth.models import User
-from pagetree.models import Hierarchy, Section, PageBlock
+from pagetree.models import Hierarchy, PageBlock
 
 
 class UserModule(models.Model):
