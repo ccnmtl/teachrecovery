@@ -3,13 +3,17 @@ from datetime import datetime
 from django.contrib.contenttypes import generic
 from django import forms
 from django.contrib.auth.models import User
-from pagetree.models import Section, PageBlock
+from pagetree.models import Hierarchy, Section, PageBlock
 
+def get_hierarchy_default():
+        if section:
+            return section.id
 
 class UserModule(models.Model):
     display_name = "User Module"
     user = models.ForeignKey(User)
     section = models.ForeignKey(Section)
+    hierarchy = models.ForeignKey(Hierarchy, default=1)
     is_allowed = models.NullBooleanField()
 
     @classmethod
