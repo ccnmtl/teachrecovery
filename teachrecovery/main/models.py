@@ -9,9 +9,11 @@ from pagetree.models import Hierarchy, Section, PageBlock
 class UserModule(models.Model):
     display_name = "User Module"
     user = models.ForeignKey(User)
-    section = models.ForeignKey(Section)
-    hierarchy = models.ForeignKey(Hierarchy, default=1)
+    hierarchy = models.ForeignKey(Hierarchy, default=1, verbose_name="Course")
     is_allowed = models.NullBooleanField()
+
+    def __unicode__(self):
+        return u'%s' % (self.hierarchy.name)
 
     @classmethod
     def create(self, user, section):

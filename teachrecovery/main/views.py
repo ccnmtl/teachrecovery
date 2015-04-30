@@ -23,30 +23,19 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-class MigrateUMView(TemplateView):
-    template_name = "main/index.html"
-
-    def get(self, request):
-        context = dict()
-        if not request.user.is_anonymous(): 
-            ums = UserModule.objects.all()
-            for um in ums:
-                umh = um.section.hierarchy
-                um.hierarchy = umh
-                um.save()
-        return render(request, self.template_name, context)
-
-
 class IndexView(TemplateView):
     template_name = "main/index.html"
 
     def get(self, request):
         if not request.user.is_anonymous():
             ums = UserModule.objects.filter(
-                user=request.user).order_by('section__id')
+                user=request.user).order_by('hierarchy__id')
             um_info = list()
             for um in ums:
-                module = um.section.get_first_child()
+                import pdb
+                pdb.set_trace()
+                root = um.hierarchy.section_set.all().first()
+                module = root.get_first_child()
                 slug = module.slug
                 name = slug.replace('-', ' ')
                 um_info.append([um, name])
@@ -80,7 +69,7 @@ class RestrictedModuleMixin(object):
     def dispatch(self, *args, **kwargs):
         hierarchy = Hierarchy.objects.get(name=self.hierarchy_name)
         um = UserModule.objects.filter(user=self.request.user,
-                                       section=hierarchy.get_root(),
+                                       hierarchy=hierarchy.get_root(),
                                        is_allowed=True)
         if len(um) < 1:
             return HttpResponse("you don't have permission")
