@@ -67,7 +67,7 @@ class RestrictedModuleMixin(object):
     def dispatch(self, *args, **kwargs):
         hierarchy = Hierarchy.objects.get(name=self.hierarchy_name)
         um = UserModule.objects.filter(user=self.request.user,
-                                       hierarchy=hierarchy.get_root(),
+                                       hierarchy=hierarchy,
                                        is_allowed=True)
         if len(um) < 1:
             return HttpResponse("you don't have permission")
