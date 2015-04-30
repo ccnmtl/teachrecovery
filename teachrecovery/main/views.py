@@ -28,13 +28,14 @@ class MigrateUMView(TemplateView):
 
     def get(self, request):
         context = dict()
-        if not request.user.is_anonymous():    
+        if not request.user.is_anonymous(): 
             ums = UserModule.objects.all()
             for um in ums:
                 umh = um.section.hierarchy
                 um.hierarchy = umh
                 um.save()
         return render(request, self.template_name, context)
+
 
 class IndexView(TemplateView):
     template_name = "main/index.html"

@@ -5,9 +5,6 @@ from django import forms
 from django.contrib.auth.models import User
 from pagetree.models import Hierarchy, Section, PageBlock
 
-def get_hierarchy_default():
-        if section:
-            return section.id
 
 class UserModule(models.Model):
     display_name = "User Module"
