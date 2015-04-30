@@ -124,7 +124,7 @@ class RestrictedModuleMixinTest(TestCase):
 
     def test_dispatch_allowed(self):
         m = M(self.u, "main")
-        UserModule.objects.create(user=self.u, section=self.root,
+        UserModule.objects.create(user=self.u, hierarchy=self.root.hierarchy,
                                   is_allowed=True)
         self.assertTrue(m.dispatch())
 

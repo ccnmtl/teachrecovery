@@ -3,19 +3,21 @@ from datetime import datetime
 from django.contrib.contenttypes import generic
 from django import forms
 from django.contrib.auth.models import User
-from pagetree.models import Hierarchy, Section, PageBlock
+from pagetree.models import Hierarchy, PageBlock
 
 
 class UserModule(models.Model):
     display_name = "User Module"
     user = models.ForeignKey(User)
-    section = models.ForeignKey(Section)
-    hierarchy = models.ForeignKey(Hierarchy, default=1)
+    hierarchy = models.ForeignKey(Hierarchy, default=1, verbose_name="Course")
     is_allowed = models.NullBooleanField()
 
+    def __unicode__(self):
+        return u'%s' % (self.hierarchy.name)
+
     @classmethod
-    def create(self, user, section):
-        um = self(user_id=user.id, section_id=section.id)
+    def create(self, user, hierarchy):
+        um = self(user_id=user.id, hierarchy_id=hierarchy.id)
         return um
 
 
