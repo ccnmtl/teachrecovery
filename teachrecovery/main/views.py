@@ -32,8 +32,6 @@ class IndexView(TemplateView):
                 user=request.user).order_by('hierarchy__id')
             um_info = list()
             for um in ums:
-                import pdb
-                pdb.set_trace()
                 root = um.hierarchy.section_set.all().first()
                 module = root.get_first_child()
                 slug = module.slug
