@@ -6,7 +6,7 @@ from pagetree.generic.views import PageView, EditView
 from pagetree.generic.views import generic_edit_page
 from pagetree.generic.views import generic_instructor_page
 from pagetree.models import UserPageVisit, Hierarchy
-from teachrecovery.main.models import UserModule
+from teachrecovery.main.models import UserModule, ResourcePage
 from django.http.response import HttpResponseNotFound
 from django.shortcuts import render
 
@@ -82,6 +82,8 @@ class TeachRecoveryPageView(LoggedInMixin,
     gated = True
 
     def get_extra_context(self, **kwargs):
+        hierarchy = self.section.hierarchy
+        rps = ResourcePage.objects.filter(hierarchy=hierarchy)
         menu = []
         visits = UserPageVisit.objects.filter(user=self.request.user,
                                               status='complete')
@@ -106,7 +108,7 @@ class TeachRecoveryPageView(LoggedInMixin,
                 status = uv.status
             except AttributeError:
                 status = 'incomplete'
-        return {'menu': menu, 'page_status': status}
+        return {'menu': menu, 'page_status': status, 'resource_pages': rps}
 
 
 class TeachRecoveryEditView(LoggedInMixinSuperuser,
