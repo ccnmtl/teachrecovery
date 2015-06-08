@@ -1,6 +1,7 @@
 from django.contrib import admin
 from pagetree.models import Hierarchy
 from teachrecovery.main.models import UserModule
+from teachrecovery.main.models import ResourcePage
 
 
 def hierarchy(obj):
@@ -15,3 +16,4 @@ class UserModuleAdmin(admin.ModelAdmin):
 
 admin.site.register(UserModule, UserModuleAdmin)
 admin.site.register(Hierarchy)
+admin.site.register(ResourcePage)

@@ -4,6 +4,11 @@ from django.contrib.contenttypes import generic
 from django import forms
 from django.contrib.auth.models import User
 from pagetree.models import Hierarchy, PageBlock
+from django.contrib.flatpages.models import FlatPage
+
+
+class ResourcePage(FlatPage):
+    hierarchy = models.ForeignKey(Hierarchy, default=1, verbose_name="Course")
 
 
 class UserModule(models.Model):
