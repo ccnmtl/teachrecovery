@@ -53,7 +53,7 @@
       {% block topnavbarleftitems %}{% endblock %}
     </ul>
 
-<!-- 
+<!--
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search">
@@ -69,20 +69,20 @@
 {% block usernav %}
           {% if request.user.is_anonymous %}
           {% else %}
-          logged in as 
+          logged in as
             {% if request.user.last_name %}
               {{request.user.first_name}} {{request.user.last_name}}
             {% else %}
               <b>{{ request.user.username }}</b>
             {% endif %}
 
-           
+
 
 {% if request.user.is_superuser %}
           {% if instructor_link %}
                <a href="{{section.get_instructor_url}}" class="btn btn-default">Responses</a></li>
            {% endif %}
-          {% block edit-or-view-page %}   
+          {% block edit-or-view-page %}
             <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
           {% endblock %}
           <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
@@ -131,7 +131,7 @@
         <div class="col-md-6">
             {% block anon-content %}{% endblock %}
         </div>
-    
+
     {% block loginbox %}
 
           {% if request.user.is_anonymous and not section%}
@@ -147,12 +147,12 @@
                               <input class="regbutton" type="submit" value="Columbia Log In" />
                           </form>
                       {% endif %}
-                      
+
                       <p class="smalltxt"><a href="http://cuit.columbia.edu/cuit/manage-my-uni" title="Learn more about UNI" target="_blank">What is a UNI?</a></p>
                       <!-- End UNI LOG IN -->
-                      
+
                       <hr class="seperator" />
-                  
+
                   {% if login_form.errors %}
                       <p class="errornote">
                           <span>
@@ -161,7 +161,7 @@
                           Please try again. Note that both username and password are case-sensitive.
                       </p>
                   {% endif %}
-                  
+
                       <p>If you have a guest account...</p>
                       <form id="login-local" name="login_local" method="post" action="/accounts/login/">
                           {% csrf_token %}
@@ -170,15 +170,15 @@
                                   <label for="id_username">Username:</label>
                                   {{ login_form.username }}
                               </div><!-- fieldwrapper -->
-                          
+
                               <div class="fieldwrapper">
                                   <label for="id_password">Password:</label>
                                   {{ login_form.password }}
                               </div><!-- fieldwrapper -->
-                          </div>      
+                          </div>
                           <input class="regbutton" type="button" value="Guest Log In" {% if login_form.errors %}style="display: none"{% endif %}
                               onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                          <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />                        
+                          <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />
                           <input type="hidden" name="next" value="{{ request.get_full_path }}" />
                       </form>
                       <p class="smalltxt"><a href="/registration/register/" title="Create your new project account">Need a new account?</a></p>
@@ -211,7 +211,7 @@
                   <li><a href="http://www.lieberclinic.com/" target="_blank"><img src="{{STATIC_URL}}img/tr_lieber.png" style="margin: 0 0 15px 0;"></a></li>
                   <li><a href="http://ccnmtl.columbia.edu" target="_blank"><img src="{{STATIC_URL}}img/logo_ccnmtl_white.png"></a></li>
               </ul>
-              
+
           </div>
       </div>
   </footer>
