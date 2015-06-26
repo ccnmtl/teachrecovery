@@ -40,22 +40,21 @@
 
 {% block sidenav %}
 <div class="side-menu">
+  <div class="second-nav">
         <!-- ###### Secondary Navigation ###### -->
         {% if module.get_children %}
-        <h3>Sections</h3>
         {% include "pagetree/menu.html" %}
         {% endif %}
-</div>
-<!-- ###### Course Resource Pages ###### -->
-<div id="resource-pages">
-  <div class="pull-left primary-toc">
-      <ul class="side-navigation">
+      </div>
+      <!-- ###### Course Resource Pages ###### -->
+      <ul id="resource-pages">
         {% for page in resource_pages %}
-          <li><a target="_blank" href="{{ page.url }}">{{ page.title }}</a></li>
-        {% endfor %}
+                <li><a target="_blank" href="{{ page.url }}">{{ page.title }}</a></li>
+              {% endfor %}
       </ul>
-  </div>
+
 </div>
+
 {% endblock %}
 
 {% block content %}

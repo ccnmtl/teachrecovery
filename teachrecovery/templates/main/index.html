@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="jumbotron">
+<div>
 {% if not request.user.is_anonymous and user_modules|length %}
-	<p>Welcome, please select a course below.</p>
+	<h1>Welcome, please select a course below.</h1>
     <ul>
-    
+
         {% for um in user_modules %}
             {% if um.0.is_allowed %}
             <li>
-             <a class="module-title-index" href="{{um.0.hierarchy.get_root.get_first_child.get_absolute_url}}">{{um.1}}</a>
+             <a class="module-title-index btn" href="{{um.0.hierarchy.get_root.get_first_child.get_absolute_url}}">{{um.1}}</a>
             </li>
             {% endif %}
         {% endfor %}
