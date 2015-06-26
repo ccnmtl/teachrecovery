@@ -336,7 +336,7 @@ h5 {
 	.btn {
 		background-color: #faebae;
 		font-family: 'Lato', Arial, helvetica, sans-serif;
-		font-size: 1.25em;
+		font-size: .875em;
 	}
 
 	.btn.btn-primary {
@@ -392,28 +392,82 @@ padding: 30px;
 
 	/* Side Menu
 	 ------------------------------------------- */
+
 	.side-menu {
 	  float: left;
 	  display: inline;
-	}
-
-	nav.sub-menu {
-	  padding: 0 20px;
-	}
-
-	.side-menu ul li.menu-3 {
-	  font-size: .875em;
-	  color: #333;
-	  display: inline;
+	  width: 1170px;
+	  margin-left: -9px;
+	  height: 50px;
+	  background-color: #faebae;
+	  margin-top: -24px;
+	    padding: 13px 0 0 25px;
+			margin-bottom: 20px;
 	}
 
 
-	.side-menu ul li:first-child {
+	@media screen and (min-width: 768px) {
+	.side-menu {
+	  max-width: 750px;
+	}
+	}
+
+	@media screen and (min-width: 992px) {
+	.side-menu {
+		max-width: 970px;
+	}
+	}
+
+	@media screen and (min-width: 1200px) {
+	.side-menu {
+		max-width: 1170px;
+	}
+	}
+
+.second-nav {
+  display: inline;
+  float: left;
+  clear: none;
+}
+ul#resource-pages {
+	float: right;
+  display: inline;
+  clear: none;
+}
+#resource-pages a {
+  font-size: 14px;
+  color: #444;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin: 0 10px 0 0;
+}
+#resource-pages a:hover {
+  box-shadow: inset -1px 1px 3px #ccc;
+  text-decoration: none;
+}
+
+#resource-pages a:focus {
+  box-shadow: inset 1px 1px 3px #ccc;
+}
+
+.side-menu ul li.menu-3 {
+  font-size: .875em;
+  display: inline;
+  padding: 0 8px;
+  border-right: dotted 1px #444;
+}
+
+	.second-nav ul li:first-child {
 		display: none;
 	}
 
 	.side-menu ul li a {
-		color: #499eff;
+		color: #444;
+	}
+
+	.side-menu ul li:last-child {
+	  border-right: none;
 	}
 
 	li.menu-3 b {
@@ -427,10 +481,6 @@ padding: 30px;
 	  font-weight: bold;
 	}
 
-	#resource-pages a {
-	  font-size: 14px;
-	  color: #499eff;
-	}
 
 	/* Pager
 	 ------------------------------------------- */
@@ -445,7 +495,7 @@ padding: 30px;
 		background-color: #fade6e;
 		border:none;
 		border-radius: 3px;
-		font-size: 1.25em;
+		font-size: .875em;
 		color: #333;
 	}
 

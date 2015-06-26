@@ -85,9 +85,9 @@
           {% block edit-or-view-page %}
             <a href="{{section.get_edit_url}}" class="btn btn-primary">Edit Page</a>
           {% endblock %}
-          <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
+          <a href="{% url 'impersonate-list' %}" class="btn btn-default">Impersonate</a>
 {% endif %}
-          <a href="/accounts/logout/" class="btn btn-default">logout</a>
+          <a href="/accounts/logout/" class="btn btn-default">Logout</a>
           {% endif %}
 {% endblock %}
        </p>
