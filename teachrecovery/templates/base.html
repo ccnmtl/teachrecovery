@@ -109,10 +109,8 @@
 {% if not request.user.is_anonymous %}
     {% block content-container %}
     <div class="row">
-        <div class="col-md-3">
-            {% block sidenav %}{% endblock %}
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
+					<div class="row">{% block sidenav %}{% endblock %}</div>
             {% block pagetitle %}{% endblock %}
             {% block content %}{% endblock %}
         </div>
