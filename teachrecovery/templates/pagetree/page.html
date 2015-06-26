@@ -46,15 +46,11 @@
         {% endif %}
 </div>
 <!-- ###### Course Resource Pages ###### -->
-<div id="resource-pages">
-  <div class="pull-left primary-toc">
-      <ul class="side-navigation">
-        {% for page in resource_pages %}
+<ul id="resource-pages">
+  {% for page in resource_pages %}
           <li><a target="_blank" href="{{ page.url }}">{{ page.title }}</a></li>
         {% endfor %}
-      </ul>
-  </div>
-</div>
+</ul>
 {% endblock %}
 
 {% block content %}

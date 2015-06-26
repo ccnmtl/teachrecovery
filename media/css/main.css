@@ -392,28 +392,21 @@ padding: 30px;
 
 	/* Side Menu
 	 ------------------------------------------- */
-
 	.side-menu {
-		background-color: #f9f9f9;
-		padding: 1em;
-		float: left;
+	  float: left;
+	  display: inline;
 	}
 
-	.side-menu h3 {
-		margin: 0 0 .5em 10px;
-		text-transform: uppercase;
-		font-size: 1.25em;
-		font-weight: 400;
-		color: #555;
+	nav.sub-menu {
+	  padding: 0 20px;
 	}
 
-	.side-menu ul li {
-		font-size: .875em;
-		color: #333;
-		background: #fff;
-		padding: 10px 15px;
-		border-bottom: dotted 1px #ccc;
+	.side-menu ul li.menu-3 {
+	  font-size: .875em;
+	  color: #333;
+	  display: inline;
 	}
+
 
 	.side-menu ul li:first-child {
 		display: none;
@@ -430,8 +423,14 @@ padding: 30px;
 	li.menu-4 {
 		display: none;
 	}
+	a.primary-menu-3.current {
+	  font-weight: bold;
+	}
 
-
+	#resource-pages a {
+	  font-size: 14px;
+	  color: #499eff;
+	}
 
 	/* Pager
 	 ------------------------------------------- */
