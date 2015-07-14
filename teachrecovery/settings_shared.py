@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'impersonate',
     'registration',
+    'bootstrap3',
     'pagetree',
     'pageblocks',
     'quizblock',
