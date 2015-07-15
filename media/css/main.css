@@ -775,3 +775,7 @@ padding: 30px;
 }
 /* Speciality Styles
  ------------------------------------------- */
+
+.navbar .navbar-header .navbar-brand {
+    height: auto;
+}
