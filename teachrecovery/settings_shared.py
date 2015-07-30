@@ -168,9 +168,9 @@ COMPRESS_ROOT = "media/"
 
 # WIND settings
 
-AUTHENTICATION_BACKENDS = ('djangowind.auth.SAMLAuthBackend',
+AUTHENTICATION_BACKENDS = ('djangowind.auth.CAS2AuthBackend',
                            'django.contrib.auth.backends.ModelBackend', )
-CAS_BASE = "https://cas.columbia.edu/"
+CAS_BASE = "https://teachrecovery.cumc.columbia.edu/"
 WIND_PROFILE_HANDLERS = ['djangowind.auth.CDAPProfileHandler']
 WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
                        'djangowind.auth.StaffMapper',
