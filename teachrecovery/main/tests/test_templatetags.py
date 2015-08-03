@@ -1,6 +1,6 @@
 from django.test import TestCase
 from teachrecovery.main.templatetags.accessible import (
-    submitted, SubmittedNode)
+    submitted, SubmittedNode, is_module, is_from_another_module)
 
 
 class DummyToken(object):
@@ -49,8 +49,18 @@ class DummyRequest(object):
 
 
 class DummySection(object):
+    def __init__(self, children=None, id=None):
+        self.children = children
+        self.id = id
+
     def submitted(self, u):
         return u
+
+    def get_root(self):
+        return self
+
+    def get_children(self):
+        return self.children or []
 
 
 class TestSubmittedNode(TestCase):
@@ -76,3 +86,29 @@ class TestSubmittedNode(TestCase):
                 )
             ),
             "f")
+
+
+class TestIsModule(TestCase):
+    def test_no_modules(self):
+        s = DummySection()
+        self.assertFalse(is_module(s))
+
+    def test_with_modules(self):
+        s1 = DummySection(id=2)
+        s2 = DummySection(id=1)
+        s = DummySection(children=[s1, s2], id=s1.id)
+        self.assertTrue(is_module(s))
+        s = DummySection(children=[s2, s1], id=s1.id)
+        self.assertTrue(is_module(s))
+
+
+class TestIsFromAnotherModule(TestCase):
+    def test_equal(self):
+        s1 = DummySection(id=1)
+        s2 = DummySection(id=1)
+        self.assertFalse(is_from_another_module(s1, s2))
+
+    def test_unequal(self):
+        s1 = DummySection(id=1)
+        s2 = DummySection(id=2)
+        self.assertTrue(is_from_another_module(s1, s2))

@@ -12,6 +12,12 @@ class UserModuleTest(TestCase):
         um = UserModule.create(u, module.root.hierarchy)
         self.assertEqual(um.user, u)
 
+    def test_unicode(self):
+        u = UserFactory()
+        module = ModuleFactory(hname="main", base_url="/")
+        um = UserModule.create(u, module.root.hierarchy)
+        self.assertEqual(str(um), "main")
+
 
 class CoinGameTest(TestCase):
     def setUp(self):

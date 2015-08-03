@@ -44,13 +44,6 @@ class IndexView(TemplateView):
         return render(request, self.template_name, context)
 
 
-def has_responses(section):
-    quizzes = [p.block() for p in section.pageblock_set.all()
-               if hasattr(p.block(), 'needs_submit')
-               and p.block().needs_submit()]
-    return quizzes != []
-
-
 class DynamicHierarchyMixin(object):
     def dispatch(self, *args, **kwargs):
         name = kwargs.pop('hierarchy_name', None)

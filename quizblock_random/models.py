@@ -47,7 +47,7 @@ class QuizRandom(Quiz):
         return question_set
 
     def pageblock(self):
-        return self.pageblocks.all()[0]
+        return self.pageblocks.all().first()
 
     def quiz(self):
         return self.quiz.all()[0]

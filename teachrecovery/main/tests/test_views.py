@@ -79,6 +79,10 @@ class PagetreeViewTestsLoggedIn(TestCase):
         r = self.c.get("/pages/main/instructor/section-1/")
         self.assertEqual(r.status_code, 200)
 
+    def test_index(self):
+        r = self.c.get("/")
+        self.assertEqual(r.status_code, 200)
+
 
 class DynamicHierarchyMixinTest(TestCase):
     def test_dispatch(self):
@@ -142,7 +146,7 @@ class TeachRecoveryPageViewTest(TestCase):
             })
         self.u = User.objects.create(username="testuser", is_superuser=True)
 
-    def test_get_extra_content(self):
+    def test_get_extra_context(self):
         trpv = TeachRecoveryPageView()
         trpv.request = DummyRequest(self.u)
         trpv.root = self.root
