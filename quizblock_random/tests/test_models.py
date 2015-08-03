@@ -2,7 +2,8 @@ from django.test import TestCase
 from quizblock_random.models import QuizRandom, Submission, QuestionUserLock
 from django.contrib.auth.models import User
 from .factories import (
-    Dummy, QuestionUserLockFactory, CustomPagetreeModuleFactory)
+    Dummy, QuestionUserLockFactory, CustomPagetreeModuleFactory,
+    QuestionFactory, UserFactory, QuizRandomFactory)
 
 
 class FakeReq(object):
@@ -168,3 +169,38 @@ class TestQuestionUserLock(TestCase):
         qul.save()
         self.assertIsNotNone(
             qul.set_question_user_lock(qul.question, None))
+
+    def test_quiz_set_question_userlock(self):
+        s = CustomPagetreeModuleFactory().root
+        question = QuestionFactory()
+        q = question.quiz
+        u = UserFactory()
+        q.set_question_userlock(s, question, u)
+
+        r = q.get_random_question_set(s, None, None, None)
+        self.assertTrue(len(r) > 0)
+
+        q.unset_question_userlock(u)
+        r = q.get_random_question_set(s, None, None, None)
+        self.assertEqual(len(r), 0)
+
+    def test_get_random_question_empty(self):
+        q = QuizRandomFactory()
+        self.assertIsNone(q.get_random_question(None, None, None))
+
+    def test_get_random_question_no_userlock(self):
+        s = CustomPagetreeModuleFactory().root
+        question = QuestionFactory()
+        q = question.quiz
+        u = UserFactory()
+        r = q.get_random_question(s, q, u)
+        self.assertEqual(r, question)
+
+    def test_get_random_question_with_userlock(self):
+        s = CustomPagetreeModuleFactory().root
+        question = QuestionFactory()
+        q = question.quiz
+        u = UserFactory()
+        q.set_question_userlock(s, question, u)
+        r = q.get_random_question(s, q, u)
+        self.assertEqual(r, question)
