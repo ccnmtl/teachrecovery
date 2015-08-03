@@ -1,6 +1,8 @@
 from django.test import TestCase
-from quizblock_random.models import QuizRandom, Submission
+from quizblock_random.models import QuizRandom, Submission, QuestionUserLock
 from django.contrib.auth.models import User
+from .factories import (
+    Dummy, QuestionUserLockFactory, CustomPagetreeModuleFactory)
 
 
 class FakeReq(object):
@@ -146,3 +148,23 @@ class SubmissionTest(TestCase):
         s = Submission.objects.create(quiz=quiz, user=user)
         self.assertTrue(
             str(s).startswith("quiz %d submission by testuser" % quiz.id))
+
+
+class TestQuestionUserLock(TestCase):
+    def test_create(self):
+        s = Dummy()
+        q = Dummy()
+        q.quiz = Dummy()
+        u = Dummy()
+        qul = QuestionUserLock.create(s, q, u)
+        self.assertIsNotNone(qul)
+
+    def test_set_question_user_lock(self):
+        s = CustomPagetreeModuleFactory()
+        qul = QuestionUserLockFactory(section=s.root)
+        self.assertIsNone(
+            qul.set_question_user_lock(qul.question, None))
+        qul.quiz = qul.question.quiz
+        qul.save()
+        self.assertIsNotNone(
+            qul.set_question_user_lock(qul.question, None))
