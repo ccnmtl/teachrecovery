@@ -169,8 +169,9 @@ Raven.setUserContext({
                   <div class="content">
                       {% if CAS_BASE %}
                           <form method="get" action="{{ CAS_BASE }}cas/login">
-                              {% csrf_token %}
-                              <input type="hidden" name="destination" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next={{ next }}" />
+                            {% csrf_token %}
+                              <input type="hidden" name="gateway" value="1" />
+                              <input type="hidden" name="service" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next=/" />
                               <p>If you have a Columbia University Network ID (UNI)...</p>
                               <input class="regbutton" type="submit" value="Columbia Log In" />
                           </form>
