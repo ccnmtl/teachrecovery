@@ -63,7 +63,7 @@ class RestrictedModuleMixin(object):
         um = UserModule.objects.filter(user=self.request.user,
                                        hierarchy=hierarchy,
                                        is_allowed=True)
-        if len(um) < 1:
+        if not um.exists():
             return HttpResponse("you don't have permission")
         return super(RestrictedModuleMixin, self).dispatch(*args, **kwargs)
 
