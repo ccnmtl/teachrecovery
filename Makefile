@@ -2,7 +2,7 @@ MANAGE=./manage.py
 APP=teachrecovery
 FLAKE8=./ve/bin/flake8
 
-jenkins: ./ve/bin/python validate flake8 jshint test
+jenkins: ./ve/bin/python validate flake8 jshint jscs test
 
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
@@ -15,6 +15,12 @@ flake8: ./ve/bin/python
 
 jshint: node_modules/jshint/bin/jshint
 	./node_modules/jshint/bin/jshint media/coin_game/ media/quizblock_random/
+
+jscs: node_modules/jscs/bin/jscs
+	./node_modules/jscs/bin/jscs media/coin_game/ media/quizblock_random --config=./jscsrc
+
+node_modules/jscs/bin/jscs:
+	npm install jscs --prefix .
 
 node_modules/jshint/bin/jshint:
 	npm install jshint --prefix .
