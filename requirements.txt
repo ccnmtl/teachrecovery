@@ -32,7 +32,7 @@ factory_boy==2.4.1
 python-ldap==2.4.19
 sqlparse==0.1.14
 
-djangowind==0.13.3
+djangowind==0.14.0
 sorl==3.1
 django-appconf==1.0.1
 django-compressor==1.5
