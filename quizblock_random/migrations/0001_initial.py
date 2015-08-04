@@ -1,40 +1,59 @@
+# flake8: noqa
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+from django.conf import settings
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'QuizRandom'
-        db.create_table(u'quizblock_random_quizrandom', (
-            (u'quiz_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['quizblock.Quiz'], unique=True, primary_key=True)),
-            ('quiz_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-        ))
-        db.send_create_signal(u'quizblock_random', ['QuizRandom'])
+    dependencies = [
+        ('quizblock', '__first__'),
+        ('pagetree', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'QuizRandom'
-        db.delete_table(u'quizblock_random_quizrandom')
-
-
-    models = {
-        u'quizblock.quiz': {
-            'Meta': {'object_name': 'Quiz'},
-            'allow_redo': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'rhetorical': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'show_submit_state': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
-        },
-        u'quizblock_random.quizrandom': {
-            'Meta': {'object_name': 'QuizRandom', '_ormbases': [u'quizblock.Quiz']},
-            'quiz_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            u'quiz_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['quizblock.Quiz']", 'unique': 'True', 'primary_key': 'True'})
-        }
-    }
-
-    complete_apps = ['quizblock_random']
+    operations = [
+        migrations.CreateModel(
+            name='QuestionUserLock',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('question_used', models.NullBooleanField()),
+                ('question_current', models.NullBooleanField()),
+                ('question', models.ForeignKey(to='quizblock.Question')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='QuizRandom',
+            fields=[
+                ('quiz_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='quizblock.Quiz')),
+                ('quiz_name', models.CharField(max_length=50)),
+                ('quiz_type', models.TextField(blank=True)),
+            ],
+            options={
+            },
+            bases=('quizblock.quiz',),
+        ),
+        migrations.AddField(
+            model_name='questionuserlock',
+            name='quiz',
+            field=models.ForeignKey(to='quizblock_random.QuizRandom'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='questionuserlock',
+            name='section',
+            field=models.ForeignKey(to='pagetree.Section'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='questionuserlock',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            preserve_default=True,
+        ),
+    ]
