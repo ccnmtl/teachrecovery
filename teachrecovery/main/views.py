@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
@@ -92,7 +93,8 @@ class TeachRecoveryPageView(LoggedInMixin,
                 'slug': section.slug,
                 'disabled': not(previous_unlocked or section.id in visit_ids)
             }
-            if section.depth == 3 and section.get_children():
+            if (section.depth == settings.TOGGLE_DEPTH
+                    and section.get_children()):
                 item['toggle'] = True
             menu.append(item)
             previous_unlocked = unlocked
