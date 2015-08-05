@@ -9,7 +9,7 @@ from pagetree.generic.views import generic_instructor_page
 from pagetree.models import UserPageVisit, Hierarchy
 from teachrecovery.main.models import UserModule, ResourcePage
 from django.http.response import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 
 class LoggedInMixinSuperuser(object):
@@ -53,13 +53,14 @@ class DynamicHierarchyMixin(object):
             return HttpResponseNotFound(msg)
         else:
             self.hierarchy_name = name
-            self.hierarchy_base = Hierarchy.objects.get(name=name).base_url
+            self.hierarchy_base = get_object_or_404(
+                Hierarchy, name=name).base_url
         return super(DynamicHierarchyMixin, self).dispatch(*args, **kwargs)
 
 
 class RestrictedModuleMixin(object):
     def dispatch(self, *args, **kwargs):
-        hierarchy = Hierarchy.objects.get(name=self.hierarchy_name)
+        hierarchy = get_object_or_404(Hierarchy, name=self.hierarchy_name)
         um = UserModule.objects.filter(user=self.request.user,
                                        hierarchy=hierarchy,
                                        is_allowed=True)
