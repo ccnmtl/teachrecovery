@@ -33,7 +33,7 @@
        height: 500
    };
   </script>
-
+{% if not debug %}
 <script src="//cdn.ravenjs.com/1.1.18/jquery,native/raven.min.js"></script>
 <script>
 Raven.config('https://5f35a4dd2146482984b524ff2bfea4d1@sentry.ccnmtl.columbia.edu/42', {
@@ -51,7 +51,7 @@ Raven.setUserContext({
 });
 {% endif %}
 </script>
-
+{% endif %}
   
 	{% block feeds %}{% endblock %}
 </head>
