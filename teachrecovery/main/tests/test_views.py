@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 from pagetree.helpers import get_hierarchy
 from django.contrib.auth.models import User
+from django.http import Http404
 from teachrecovery.main.views import (
     DynamicHierarchyMixin, RestrictedModuleMixin,
     TeachRecoveryPageView,
@@ -83,6 +84,10 @@ class PagetreeViewTestsLoggedIn(TestCase):
         r = self.c.get("/")
         self.assertEqual(r.status_code, 200)
 
+    def test_invalid_hierarchy(self):
+        r = self.c.get("/pages/invalid/test/")
+        self.assertEqual(r.status_code, 404)
+
 
 class DynamicHierarchyMixinTest(TestCase):
     def test_dispatch(self):
@@ -131,6 +136,11 @@ class RestrictedModuleMixinTest(TestCase):
         UserModule.objects.create(user=self.u, hierarchy=self.root.hierarchy,
                                   is_allowed=True)
         self.assertTrue(m.dispatch())
+
+    def test_invalid_hierarchy(self):
+        m = M(self.u, "invalid")
+        with self.assertRaises(Http404):
+            m.dispatch()
 
 
 class TeachRecoveryPageViewTest(TestCase):
