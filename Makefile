@@ -11,13 +11,13 @@ test: ./ve/bin/python
 	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
 flake8: ./ve/bin/python
-	$(FLAKE8) $(APP) quizblock_random --max-complexity=10 --exclude=migrations
+	$(FLAKE8) $(APP) teachrecovery --max-complexity=10 --exclude=migrations
 
 jshint: node_modules/jshint/bin/jshint
-	./node_modules/jshint/bin/jshint media/coin_game/ media/quizblock_random/
+	./node_modules/jshint/bin/jshint media/coin_game/
 
 jscs: node_modules/jscs/bin/jscs
-	./node_modules/jscs/bin/jscs media/coin_game/ media/quizblock_random --config=./jscsrc
+	./node_modules/jscs/bin/jscs media/coin_game/ --config=./jscsrc
 
 node_modules/jscs/bin/jscs:
 	npm install jscs --prefix .
