@@ -41,7 +41,6 @@ JENKINS_TASKS = (
 )
 PROJECT_APPS = [
     'teachrecovery.main',
-    'quizblock_random',
 ]
 
 ALLOWED_HOSTS = ['localhost', '.ccnmtl.columbia.edu']
@@ -120,7 +119,7 @@ INSTALLED_APPS = [
     'quizblock',
     'gunicorn',
     'teachrecovery.main',
-    'quizblock_random'
+    'quizblock_random',
 ]
 
 PAGEBLOCKS = ['pageblocks.TextBlock',
