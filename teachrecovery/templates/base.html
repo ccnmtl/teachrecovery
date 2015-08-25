@@ -170,7 +170,6 @@ Raven.setUserContext({
                       {% if CAS_BASE %}
                           <form method="get" action="{{ CAS_BASE }}cas/login">
                             {% csrf_token %}
-                              <input type="hidden" name="gateway" value="true" />
                               <input type="hidden" name="service" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next=/" />
                               <p>[Need different verbiage here]</p>
                               <input class="regbutton" type="submit"
