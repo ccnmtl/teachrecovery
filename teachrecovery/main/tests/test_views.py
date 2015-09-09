@@ -17,7 +17,7 @@ class BasicTest(TestCase):
     def test_root(self):
         response = self.c.get("/")
         self.assertEquals(response.status_code, 200)
-        self.assertContains(response, 'Columbia Log In')
+        self.assertContains(response, 'CAS Login')
 
     def test_smoketest(self):
         response = self.c.get("/smoketest/")

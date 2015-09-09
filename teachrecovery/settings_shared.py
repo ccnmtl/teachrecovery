@@ -170,13 +170,14 @@ COMPRESS_ROOT = "media/"
 
 # WIND settings
 
-AUTHENTICATION_BACKENDS = ('djangowind.auth.SAMLAuthBackend',
+AUTHENTICATION_BACKENDS = ('djangowind.auth.CAS2AuthBackend',
                            'django.contrib.auth.backends.ModelBackend', )
-CAS_BASE = "https://cas.columbia.edu/"
-WIND_PROFILE_HANDLERS = ['djangowind.auth.CDAPProfileHandler']
-WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
-                       'djangowind.auth.StaffMapper',
-                       'djangowind.auth.SuperuserMapper']
+CAS_BASE = "https://teachrecovery.cumc.columbia.edu/"
+CAS_TICKETID_FIELD_NAME = 'ticket'
+CAS_DEFAULT_NEXT = '/'
+
+WIND_PROFILE_HANDLERS = []
+WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper']
 WIND_STAFF_MAPPER_GROUPS = ['tlc.cunix.local:columbia.edu']
 WIND_SUPERUSER_MAPPER_GROUPS = [
     'anp8', 'jb2410', 'zm4', 'cld2156',
