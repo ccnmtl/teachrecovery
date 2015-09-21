@@ -94,8 +94,8 @@ class TeachRecoveryPageView(LoggedInMixin,
                 'slug': section.slug,
                 'disabled': not(previous_unlocked or section.id in visit_ids)
             }
-            if (section.depth == settings.TOGGLE_DEPTH
-                    and section.get_children()):
+            if (section.depth == settings.TOGGLE_DEPTH and
+                    section.get_children()):
                 item['toggle'] = True
             menu.append(item)
             previous_unlocked = unlocked
