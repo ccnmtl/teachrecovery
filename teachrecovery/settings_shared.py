@@ -177,7 +177,7 @@ CAS_TICKETID_FIELD_NAME = 'ticket'
 CAS_DEFAULT_NEXT = '/'
 
 WIND_PROFILE_HANDLERS = []
-WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper']
+WIND_AFFIL_HANDLERS = ['teachrecovery.main.course_mapper.CourseMapper']
 WIND_STAFF_MAPPER_GROUPS = ['tlc.cunix.local:columbia.edu']
 WIND_SUPERUSER_MAPPER_GROUPS = [
     'anp8', 'jb2410', 'zm4', 'cld2156',
